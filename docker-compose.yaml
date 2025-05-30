@@ -14,3 +14,12 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - WDS_SOCKET_HOST=localhost
       - WDS_SOCKET_PORT=8000
+  api:
+    container_name: "api"
+    build:
+      context: ./api
+    volumes:
+      - ./api:/api
+      - /api/node_modules
+    ports:
+      - "3000:3000"
