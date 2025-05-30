@@ -4,12 +4,14 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import Test from './pages/test/Test';
 import "./palette/colors.css";
+import Home from './pages/home/Home';
 
 function App() {
   return(
       <BrowserRouter>
           <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Amatic+SC" />
           <Routes>
+            <Route path='/' element={<Home />}/>
             <Route path='/test' element={<Test />}/>
           </Routes>
       </BrowserRouter>
