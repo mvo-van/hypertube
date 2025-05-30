@@ -1,0 +1,68 @@
+.button {
+    height: 40px;
+    text-align: center;
+    min-width: 220px;
+    font-size: 1.6em;
+    text-transform: uppercase;
+}
+
+/* Blue */
+.button__blue__regular {
+    background-color: var(--color-blue);
+    color: var(--color-dark-gray);
+}
+
+/* red */
+.button__red__regular {
+    background-color: var(--color-red);
+    color: var(--color-dark-gray);
+}
+
+/* yellow */
+.button__yellow__regular {
+    background-color: var(--color-yellow);
+    color: var(--color-dark-gray);
+}
+
+.button__validation {
+    background-color: var(--color-dark-2);
+    color: var(--color-dark-6);
+}
+
+.button__action-regular {
+    background-color: var(--color-light-2);
+    color: var(--color-light-5);
+}
+
+.button__action-danger {
+    background-color: var(--color-dark-2);
+    color: var(--color-dark-6);
+}
+
+@media (hover: hover) {
+    .button:hover {
+        transition-duration: .15s;
+        transform: translateY(-5px);
+        cursor: pointer;
+    }
+
+    .button:active {
+        transform: scale(100%);
+    }
+
+    .button__regular:hover {
+        box-shadow: var(--color-light-2) 0 1px 30px;
+    }
+
+    .button__validation:hover {
+        box-shadow: var(--color-dark-2) 0 1px 30px;
+    }
+
+    .button__action-regular:hover {
+        box-shadow: var(--color-light-2) 0 1px 30px;
+    }
+
+    .button__action-danger:hover {
+        box-shadow: var(--color-dark-2) 0 1px 30px;
+    }
+}
