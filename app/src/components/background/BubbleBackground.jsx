@@ -96,7 +96,7 @@ function BubbleBackground({ children }) {
     return () => {
       window.removeEventListener("resize", resize);
     };
-  }, [children]);
+  }, [1]);
 
   return (
     <div className={style.bubble}>
