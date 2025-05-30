@@ -1,4 +1,4 @@
-import style from "./Test.module.css"
+import style from "./Signup.module.css"
 // import HomeBackground from "../../components/home/HomeBackground";
 import GenericPage from "../page/GenericPage";
 import MulticoText from "../../components/Text/MulticoText"
@@ -8,7 +8,7 @@ import Form from "../../components/form/Form";
 import Input from "../../components/input/Input";
 
 
-function Test() {
+function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confPassword, setConfPassword] = useState("");
@@ -128,4 +128,4 @@ function Test() {
     );
 }
 
-export default Test;
+export default Signup;

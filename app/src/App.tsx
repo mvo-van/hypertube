@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import Test from './pages/test/Test';
 import "./palette/colors.css";
 import Home from './pages/home/Home';
+import Login from './pages/login/Login';
+import Signup from './pages/signup/Signup';
 
 function App() {
   return(
@@ -12,6 +14,8 @@ function App() {
           <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Amatic+SC" />
           <Routes>
             <Route path='/' element={<Home />}/>
+            <Route path='/login' element={<Login />}/>
+            <Route path='/signup' element={<Signup/>}/>
             <Route path='/test' element={<Test />}/>
           </Routes>
       </BrowserRouter>
