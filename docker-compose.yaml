@@ -5,8 +5,6 @@ services:
     container_name: "app"
     build:
       context: ./app
-    depends_on:
-      - api
     volumes:
       - ./app:/app
       - /app/node_modules
@@ -16,6 +14,9 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - WDS_SOCKET_HOST=localhost
       - WDS_SOCKET_PORT=8000
+    depends_on:
+      api:
+        condition: service_healthy
     networks:
       - front
   api:
@@ -35,6 +36,12 @@ services:
       - POSTGRES_DATABASE=${POSTGRES_DATABASE}
       - OMDB_API_KEY=${OMDB_API_KEY}
       - TMDB_API_KEY=${TMDB_API_KEY}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     depends_on:
       - db
     networks:
