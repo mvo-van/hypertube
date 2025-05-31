@@ -5,9 +5,57 @@
     align-items: center;
     width: 258.33px;
     height: 425px;
-    color: var(--color-blue-to-yellow-1);
     /* gap: 10px; */
     padding: 20px; 
+    padding-bottom: 1px; 
+}
+
+.movieIcon__color_0{
+    color: var(--color-blue);
+}
+
+.movieIcon__color_1{
+    color: var(--color-blue-to-yellow-1);
+}
+
+.movieIcon__color_2{
+    color: var(--color-blue-to-yellow-2);
+}
+
+.movieIcon__color_3{
+    color: var(--color-blue-to-yellow-3);
+}
+
+.movieIcon__color_4{
+    color: var(--color-yellow);
+}
+
+.movieIcon__color_5{
+    color: var(--color-yellow-to-red-1);
+}
+
+.movieIcon__color_6{
+    color: var(--color-yellow-to-red-2);
+}
+
+.movieIcon__color_7{
+    color: var(--color-yellow-to-red-3);
+}
+
+.movieIcon__color_8{
+    color: var(--color-red);
+}
+
+.movieIcon__color_9{
+    color: var(--color-red-to-blue-1);
+}
+
+.movieIcon__color_10{
+    color: var(--color-red-to-blue-2);
+}
+
+.movieIcon__color_11{
+    color: var(--color-red-to-blue-3);
 }
 
 .poster{
@@ -16,10 +64,13 @@
 }
 
 .movieName{
+    align-items: center;
+    display: flex;
     font-size: 30px;
     text-align: center;
     line-height:1em;
     text-overflow: ellipsis;
+    justify-content: center;
     /* margin: 10px; */
     height: 60px;
     width: 100%;
@@ -47,6 +98,55 @@
     align-items: center; */
     /* top: 0px;
     right: 0px; */
+}
+
+
+.see__color_0{
+    background-color: var(--color-blue);
+}
+
+.see__color_1{
+    background-color: var(--color-blue-to-yellow-1);
+}
+
+.see__color_2{
+    background-color: var(--color-blue-to-yellow-2);
+}
+
+.see__color_3{
+    background-color: var(--color-blue-to-yellow-3);
+}
+
+.see__color_4{
+    background-color: var(--color-yellow);
+}
+
+.see__color_5{
+    background-color: var(--color-yellow-to-red-1);
+}
+
+.see__color_6{
+    background-color: var(--color-yellow-to-red-2);
+}
+
+.see__color_7{
+    background-color: var(--color-yellow-to-red-3);
+}
+
+.see__color_8{
+    background-color: var(--color-red);
+}
+
+.see__color_9{
+    background-color: var(--color-red-to-blue-1);
+}
+
+.see__color_10{
+    background-color: var(--color-red-to-blue-2);
+}
+
+.see__color_11{
+    background-color: var(--color-red-to-blue-3);
 }
 
 .seeIcon{
