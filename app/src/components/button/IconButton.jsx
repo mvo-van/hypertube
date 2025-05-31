@@ -1,28 +1,17 @@
-import { useTheme } from "../../../hooks/use-theme";
-import Icon from "../icons/Icon";
 import styles from "./IconButton.module.css";
 
 function IconButton({ 
     label, 
-    variant,
-    iconColor, 
-    onClick = () => {}, 
-    className, 
-    ...props 
+    color, 
+    onClick = () => {},
+    src
 }) 
 {
-    const theme = useTheme();
-    const iconFill = styles[`button__icon__${theme}`];
-    const classes = `${styles['button']} ${styles[`button-color__${theme}`]} ${className}`;
-
+    console.log(src)
     return (
-        <button className={classes}>
-            <Icon
-                variant="error"
-                className={`${styles['button__icon']} ${iconFill}`}
-                iconColor={iconColor}
-            />
-            <span className={styles[`button__label__${theme}`]}>{label}</span>
+        <button className={styles.iconButton} onClick={onClick}>
+            <img src={src} className={styles.imgButton} alt="me"/>
+            <span className={`${styles[`color__${color}`]} ${styles.text}`}>{label}</span>
         </button>
     );
 }

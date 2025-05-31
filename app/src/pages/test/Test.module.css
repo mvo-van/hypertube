@@ -1,22 +1,12 @@
-.home {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100vw;
-    height: 100vh;
-    justify-content: center;
+
+.bigDiv{
+    position: relative;
     align-items: center;
-    background-color: var(--color-dark-gray);
+    align-self: center;
+
+    height: 1000px;
+    width: 100%;
+    background-color: var(--color-blue-to-yellow-1);
+    overflow:scroll;
 }
 
-.button-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    
-    background-color: var(--color-medium-gray);
-    border-radius: 10px;
-    padding: 10px; 
-}

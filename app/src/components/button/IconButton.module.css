@@ -1,62 +1,42 @@
-.button {
+.iconButton{
     display: flex;
+    width: max-content;
+    height: max-content;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 2px;
+    margin-bottom: 2px;
 
-    font-size: calc(var(--label-font-size) - 3px);
-    height: 60px;
-    width: 60px;
-    border-radius: var(--border-radius);
-    line-height: 16px;
+    background-color: rgba(0,0,0,0);
 }
 
-/* Button color */
-.button-color__light,
-.button-color__blind {
-    background-color: var(--color-light-4);
+.imgButton{
+  height: 50px;
 }
 
-.button-color__dark {
-    background-color: var(--color-dark-10);
+.text{
+    font-size: 20px;
 }
 
-.button__icon {
-    width: 38px;
-    height: 38px;
+.color__blue{
+    color: var(--color-blue);
 }
 
-/* Button icon color */
-.button__icon__light > path {
-    fill: var(--color-light-8);
+.color__blue_to_yellow_2{
+    color: var(--color-blue-to-yellow-2);
 }
 
-.button__icon__blind > path {
-    fill: var(--color-blind-8);
+.color__yellow{
+    color: var(--color-yellow);
 }
 
-.button__icon__dark > path {
-    fill: var(--color-dark-8);
+.color__yellow_to_red_2{
+    color: var(--color-yellow-to-red-2);
 }
 
-/* Button label color */
-.button__label__light,
-.button__label__blind {
-    color: black;
-}
-
-.button__label__dark {
-    color: white;
-}
-
-@media only screen and (min-width: 400px) {
-    .button:hover {
-        transform: scale(1.02);
-        transition-duration: 100ms;
-    }
-
-    .button:active {
-        transform: scale(1);
-        transition-duration: 100ms;
-    }
+.color__red{
+    color: var(--color-red);
 }
