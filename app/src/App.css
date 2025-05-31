@@ -1,38 +1,32 @@
-.App {
-  text-align: center;
+/* Global app variable */
+:root {
+  --input-font-size: 1.2rem;
+  --label-font-size: calc(var(--input-font-size) + 0.1rem);
+  --input-height: calc(var(--input-font-size) + 0.9rem);
+  --header-padded-size: 11%;
+  --border-radius: 10px;
+  --profile-h2-size: calc(var(--label-font-size) + 0.8rem);
+  --profile-h3-size: calc(var(--label-font-size) + 0.4rem);
+  --profile-h4-size: calc(var(--label-font-size));
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 100;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h1 { font-family: "Amatic SC"; font-size: 24px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px; } h3 { font-family: "Amatic SC"; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 15.4px; } p { font-family: "Amatic SC"; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px; } blockquote { font-family: "Amatic SC"; font-size: 21px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 30px; } pre { font-family: "Amatic SC"; font-size: 13px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 18.5714px; }
+
+.background {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-dark-gray);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Global Styles */
+.round {
+  border-radius: var(--border-radius);
 }

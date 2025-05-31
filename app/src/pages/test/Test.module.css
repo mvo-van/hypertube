@@ -1,0 +1,12 @@
+
+.bigDiv{
+    position: relative;
+    align-items: center;
+    align-self: center;
+
+    height: 1000px;
+    width: 100%;
+    background-color: var(--color-blue-to-yellow-1);
+    overflow:scroll;
+}
+

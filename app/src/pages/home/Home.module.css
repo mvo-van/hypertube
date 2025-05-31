@@ -1,0 +1,23 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-dark-gray);
+}
+
+.button-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.titre {
+    font-size: 100px;
+}
