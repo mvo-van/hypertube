@@ -1,12 +1,21 @@
 
-.bigDiv{
+.feed{
+    min-height: 100%;
+    background-color: var(--color-dark-gray);
+    z-index: 1;
     position: relative;
-    align-items: center;
-    align-self: center;
+    justify-content: center;
+    /* align-items: center;
+    align-self: center;  */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* position: relative;
+
 
     height: 1000px;
     width: 100%;
     background-color: var(--color-blue-to-yellow-1);
-    overflow:scroll;
+    overflow:scroll; */
 }
 
