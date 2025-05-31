@@ -6,7 +6,6 @@ function getVariantStyle(color, variant) {
 
 function Button({ onClick, type, variant, className, disabled = false, children, color="blue"}){
     const classes = `${style.button} ${getVariantStyle(color, variant)} round ${className}`;
-    // console.log(color)
     if (!onClick) {
         onClick = () => {};
     }
