@@ -7,7 +7,6 @@ function IconButton({
     src
 }) 
 {
-    console.log(src)
     return (
         <button className={styles.iconButton} onClick={onClick}>
             <img src={src} className={styles.imgButton} alt="me"/>
