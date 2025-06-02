@@ -10,3 +10,32 @@
     flex-wrap: wrap;
 }
 
+.filter{
+    width: 100%;
+    z-index: 1;
+    position: relative;
+    background-color: var(--color-dark-gray);
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
+.size_box{
+    width: 360px;
+    /* background-color: aqua; */
+}
+
+.boxTrueFalse{
+    width: 100%;
+    /* display: flex;
+    flex-direction: row; */
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-end;
+    flex-grow:2;
+    gap:5px;
+}
