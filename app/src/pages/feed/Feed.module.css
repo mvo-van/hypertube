@@ -39,3 +39,8 @@
     flex-grow:2;
     gap:5px;
 }
+
+.ralisationTitle {
+    font-size: var(--label-font-size);
+    color: var(--color-yellow-to-red-2);
+}
