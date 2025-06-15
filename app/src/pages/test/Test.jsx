@@ -34,6 +34,7 @@ function Test() {
     return (
         <GenericPage>
                 <Header />
+                <input type="range" min={0} max={100} step={1}></input>
                 <div className={style.feed}>
                     {movies.map((movie, index) => <MovieIcon key={movie.name + movie.id} movie={movie} color={index%12}/>)}
                 </div>
