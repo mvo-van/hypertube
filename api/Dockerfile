@@ -2,7 +2,7 @@ FROM node:22.16.0-slim
 
 WORKDIR /api
 
-RUN apt update ; apt upgrade -y ; apt install -y curl
+RUN apt update ; apt upgrade -y ; apt install -y curl procps
 
 COPY package*.json ./
 RUN npm install
