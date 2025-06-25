@@ -23,6 +23,7 @@ services:
     container_name: "api"
     build:
       context: ./api
+    restart: always
     volumes:
       - ./api:/api
       - /api/node_modules
