@@ -67,3 +67,7 @@
 .input__input__red_to_blue_3 {
     background-color: var(--color-red-to-blue-3);
 }
+
+.input__input__gray {
+    background-color: var(--color-medium-gray);
+}

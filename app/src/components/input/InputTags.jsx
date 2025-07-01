@@ -26,10 +26,6 @@ export default function InputTags(label="test", id=0, color='blue', value) {
             renderInput={(params) => (
             <TextField 
                 {...params}
-
-                // variant="filled"
-                // label="freeSolo"
-                // placeholder="Favorites"
             />
             )}
         />
