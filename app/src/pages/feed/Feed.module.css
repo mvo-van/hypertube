@@ -44,3 +44,13 @@
     font-size: var(--label-font-size);
     color: var(--color-yellow-to-red-2);
 }
+
+.genreTitle{
+    font-size: var(--label-font-size);
+    color: var(--color-blue-to-yellow-3);
+}
+
+.casteTitle{
+    font-size: var(--label-font-size);
+    color: var(--color-yellow-to-red-1);
+}

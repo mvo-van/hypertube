@@ -49,3 +49,7 @@
 .label__red_to_blue_3 {
     color: var(--color-red-to-blue-3);
 }
+
+.label__gray {
+    color: var(--color-light-gray);
+}

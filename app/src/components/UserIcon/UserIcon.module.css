@@ -1,0 +1,122 @@
+.userIcon{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 258.33px;
+    height: 375px;
+    /* gap: 10px; */
+    margin: 20px; 
+    padding-bottom: 1px; 
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+}
+
+.userIcon__color_0{
+    color: var(--color-blue);
+    background-color: var(--color-blue-t);
+}
+
+.userIcon__color_1{
+    color: var(--color-blue-to-yellow-1);
+    background-color: var(--color-blue-to-yellow-1-t);
+
+}
+
+.userIcon__color_2{
+    color: var(--color-blue-to-yellow-2);
+    background-color: var(--color-blue-to-yellow-2-t);
+
+}
+
+.userIcon__color_3{
+    color: var(--color-blue-to-yellow-3);
+    background-color: var(--color-blue-to-yellow-3-t);
+
+}
+
+.userIcon__color_4{
+    color: var(--color-yellow);
+    background-color: var(--color-yellow-t);
+
+}
+
+.userIcon__color_5{
+    color: var(--color-yellow-to-red-1);
+    background-color: var(--color-yellow-to-red-1-t);
+
+}
+
+.userIcon__color_6{
+    color: var(--color-yellow-to-red-2);
+    background-color: var(--color-yellow-to-red-2-t);
+
+}
+
+.userIcon__color_7{
+    color: var(--color-yellow-to-red-3);
+    background-color: var(--color-yellow-to-red-3-t);
+
+}
+
+.userIcon__color_8{
+    color: var(--color-red);
+    background-color: var(--color-red-t);
+
+}
+
+.userIcon__color_9{
+    color: var(--color-red-to-blue-1);
+    background-color: var(--color-red-to-blue-1-t);
+
+}
+
+.userIcon__color_10{
+    color: var(--color-red-to-blue-2);
+    background-color: var(--color-red-to-blue-2-t);
+
+}
+
+.userIcon__color_11{
+    color: var(--color-red-to-blue-3);
+    background-color: var(--color-red-to-blue-3-t);
+
+}
+
+.imgUser{
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    display: block;
+    width: 200px;
+    height: 200px;
+    background: #E6E7ED;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    background-position:50% 50%;
+    background-repeat:no-repeat;
+    margin-bottom: 20px;
+}
+
+.userName{
+    align-items: center;
+    display: flex;
+    font-size: 30px;
+    text-align: center;
+    line-height:1em;
+    text-overflow: ellipsis;
+    justify-content: center;
+    /* margin: 10px; */
+    height: 60px;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 200px; /* à modifier selon vos besoins */
+    overflow: hidden;
+    text-overflow: clip ellipsis; 
+}
+
+.divInfo{
+    padding-top: 20%;
+}

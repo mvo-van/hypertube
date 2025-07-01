@@ -1,0 +1,28 @@
+
+.feed{
+    height: 100%;
+    background-color: var(--color-dark-gray);
+    z-index: 1;
+    position: relative;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.filter{
+    width: 100%;
+    z-index: 1;
+    position: relative;
+    background-color: var(--color-dark-gray);
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
+.size_box{
+    width: 360px;
+    /* background-color: aqua; */
+}

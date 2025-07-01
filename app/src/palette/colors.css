@@ -11,6 +11,18 @@
     --color-red-to-blue-1 : #CF8A96;
     --color-red-to-blue-2 : #B29CB2;
     --color-red-to-blue-3 : #95AECF;
+    --color-blue-t : rgba(120,191,235,0.2);
+    --color-blue-to-yellow-1-t : rgba(149,202,207,0.2);
+    --color-blue-to-yellow-2-t : rgba(178,212,178,0.2);
+    --color-blue-to-yellow-3-t : rgba(207,223,149,0.2);
+    --color-yellow-t : rgba(235,233,120,0.2);
+    --color-yellow-to-red-1-t : rgba(235,205,121,0.2);
+    --color-yellow-to-red-2-t : rgba(235,177,121,0.2);
+    --color-yellow-to-red-3-t : rgba(235,149,121,0.2);
+    --color-red-t : rgba(235,120,121,0.2);
+    --color-red-to-blue-1-t : rgba(207,138,150,0.2);
+    --color-red-to-blue-2-t : rgba(178,156,178,0.2);
+    --color-red-to-blue-3-t : rgba(149,174,207,0.2);
     --color-light-gray : #9F9F9F;
     --color-medium-gray : #666666;
     --color-dark-gray : #424242;

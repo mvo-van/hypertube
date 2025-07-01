@@ -8,6 +8,7 @@ import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 import Feed from './pages/feed/Feed';
+import Users from './pages/users/Users';
 
 function App() {
   return(
@@ -18,6 +19,7 @@ function App() {
             <Route path='/login' element={<Login />}/>
             <Route path='/signup' element={<Signup/>}/>
             <Route path='/feed' element={<Feed />}/>
+            <Route path='/users' element={<Users />}/>
             <Route path='/test' element={<Test />}/>
           </Routes>
       </BrowserRouter>

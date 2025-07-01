@@ -70,7 +70,7 @@ function Feed() {
                 <div className={style.filter}>
                     <Form label="recherche" color="red" direction="row"> 
                         <div className={style.size_box}>
-                            <Input label="Titre" color="blue"/>
+                            <Input label="Utilisateur" color="blue"/>
                         </div>
                         <div className={style.size_box}>
                             <div className={style.boxTrueFalse}>
@@ -85,13 +85,19 @@ function Feed() {
                             </div>
                         </div>
                         <div className={style.size_box}>
-                            <Input label="Genre" color="blue_to_yellow_3"/>
+                            <div className={style.genreTitle}>
+                                Genre
+                            </div>
+                            <InputTags label="Genre" color="blue_to_yellow_3"/>
                         </div>
                         <div className={style.size_box}>
                             <InputRange double={true} label="Année de sortie" color="yellow" min={1900} max={2025} value={range} onChange={handleChangeRange}/>
                         </div>
                         <div className={style.size_box}>
-                            <Input label="Caste" color="yellow_to_red_1"/>
+                            <div className={style.casteTitle}>
+                                Caste
+                            </div>
+                            <InputTags label="Caste" color="yellow_to_red_1"/>
                         </div>
                         <div className={style.size_box}>
                             <div className={style.ralisationTitle}>
