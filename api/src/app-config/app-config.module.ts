@@ -15,6 +15,7 @@ import * as Joi from 'joi';
         POSTGRES_DATABASE: Joi.string().required(),
         OMDB_API_KEY: Joi.string().required(),
         TMDB_API_KEY: Joi.string().required(),
+        BCRYPT_SALT_ROUNDS: Joi.number().required(),
       }),
     }),
   ],
