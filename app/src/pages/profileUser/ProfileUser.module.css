@@ -1,0 +1,13 @@
+
+.user{
+    min-height: 100%;
+    min-width: 100%;
+    background-color: var(--color-dark-gray);
+    z-index: 1;
+    position: relative;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
