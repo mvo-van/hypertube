@@ -1,0 +1,119 @@
+.userIcon{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: max-content;
+    height: max-content;
+    margin: 20px; 
+    padding-bottom: 1px; 
+    border-width: 1px;
+    border-radius: 10px;
+}
+
+.userIcon__color_0{
+    color: var(--color-blue);
+}
+
+.userIcon__color_1{
+    color: var(--color-blue-to-yellow-1);
+
+}
+
+.userIcon__color_2{
+    color: var(--color-blue-to-yellow-2);
+
+}
+
+.userIcon__color_3{
+    color: var(--color-blue-to-yellow-3);
+
+}
+
+.userIcon__color_4{
+    color: var(--color-yellow);
+
+}
+
+.userIcon__color_5{
+    color: var(--color-yellow-to-red-1);
+
+}
+
+.userIcon__color_6{
+    color: var(--color-yellow-to-red-2);
+
+}
+
+.userIcon__color_7{
+    color: var(--color-yellow-to-red-3);
+
+}
+
+.userIcon__color_8{
+    color: var(--color-red);
+
+}
+
+.userIcon__color_9{
+    color: var(--color-red-to-blue-1);
+
+}
+
+.userIcon__color_10{
+    color: var(--color-red-to-blue-2);
+
+}
+
+.userIcon__color_11{
+    color: var(--color-red-to-blue-3);
+
+}
+
+.imgUser{
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 2px;
+    display: block;
+    width: 300px;
+    height: 300px;
+    background: #E6E7ED;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    background-position:50% 50%;
+    background-repeat:no-repeat;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+
+.divAllInfo{
+    padding-top: 20%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-bottom: 80%;
+}
+
+.pseudo{
+    font-size: 100px;
+    font-weight: bold;
+    height: 100px;
+    vertical-align: middle;
+
+}
+
+.infos{
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.divInfos{
+    
+}
+
+.subDivInfo{
+    padding-left: 25px;
+}
