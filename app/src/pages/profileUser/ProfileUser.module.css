@@ -7,7 +7,59 @@
     position: relative;
     justify-content: center;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
 }
 
+.line{
+    height: 10px;
+    width: 80%;
+    border-radius: 10px;
+}
+
+.line_color_1 {
+    background-color: var(--color-blue-t7);
+}
+
+.line_color_2 {
+    background-color: var(--color-blue-to-yellow-1-t7);
+}
+
+.line_color_3 {
+    background-color: var(--color-blue-to-yellow-2-t7);
+}
+
+.line_color_4 {
+    background-color: var(--color-blue-to-yellow-3-t7);
+}
+
+.line_color_5 {
+    background-color: var(--color-yellow-t7);
+}
+
+.line_color_6 {
+    background-color: var(--color-yellow-to-red-1-t7);
+}
+
+.line_color_7 {
+    background-color: var(--color-yellow-to-red-2-t7);
+}
+
+.line_color_8 {
+    background-color: var(--color-yellow-to-red-3-t7);
+}
+
+.line_color_9 {
+    background-color: var(--color-red-t7);
+}
+
+.line_color_10 {
+    background-color: var(--color-red-to-blue-1-t7);
+}
+
+.line_color_11 {
+    background-color: var(--color-red-to-blue-2-t7);
+}
+
+.line_color_0 {
+    background-color: var(--color-red-to-blue-3-t7);
+}
