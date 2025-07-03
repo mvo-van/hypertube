@@ -14,9 +14,8 @@ export class UsersService {
       private userRepository: Repository<User>,
       private readonly utilsService: UtilsService,
   ) {}
-  async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const user = this.userRepository.create(createUserDto)
-    console.info(`[SERVICE] Creating user: ${user}`);
 
     user.password = await this.utilsService.hashPassword(user.password);
     return await this.userRepository.save(user);
