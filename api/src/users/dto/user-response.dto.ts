@@ -5,7 +5,7 @@ import {User} from "../entities/user.entity";
 @Exclude()
 export class UserResponseDto {
     @Expose()
-    pseudo: string;
+    username: string;
 
     @Expose()
     first_name: string;

@@ -7,7 +7,7 @@ export class User {
   id: number;
 
   @Column({ type: 'varchar', length: 20, unique: true, nullable: false })
-  pseudo: string;
+  username: string;
 
   @Column({ type: 'varchar', length: 20, nullable: false })
   first_name: string;

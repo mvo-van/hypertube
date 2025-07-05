@@ -3,15 +3,15 @@ import {
     MAX_LENGTH_FIRST_NAME,
     MAX_LENGTH_LAST_NAME,
     MAX_LENGTH_PASSWORD, MAX_LENGTH_PICTURE_URL,
-    MAX_LENGTH_PSEUDO, MIN_LENGTH_FIRST_NAME, MIN_LENGTH_LAST_NAME, MIN_LENGTH_PASSWORD, MIN_LENGTH_PSEUDO
+    MAX_LENGTH_USERNAME, MIN_LENGTH_FIRST_NAME, MIN_LENGTH_LAST_NAME, MIN_LENGTH_PASSWORD, MIN_LENGTH_USERNAME
 } from "../constants";
 import {Lang} from "../../lang/lang";
 
 export class CreateUserDto {
     @IsString()
-    @MaxLength(MAX_LENGTH_PSEUDO)
-    @MinLength(MIN_LENGTH_PSEUDO)
-    pseudo: string;
+    @MaxLength(MAX_LENGTH_USERNAME)
+    @MinLength(MIN_LENGTH_USERNAME)
+    username: string;
 
     @IsString()
     @MaxLength(MAX_LENGTH_FIRST_NAME)
