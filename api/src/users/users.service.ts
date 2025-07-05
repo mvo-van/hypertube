@@ -21,19 +21,23 @@ export class UsersService {
     return await this.userRepository.save(user);
   }
 
+  async findOneByUsername(username: string): Promise<User | null> {
+    return await this.userRepository.findOneBy({ username: username });
+  }
+
   findAll() {
-    return `This action returns all users`;
+    throw new Error("Not implemented");
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    throw new Error("Not implemented");
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    throw new Error("Not implemented");
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    throw new Error("Not implemented");
   }
 }
