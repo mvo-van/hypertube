@@ -4,11 +4,11 @@ import { useNavigate } from "react-router";
 
 
 function UserIcon({ user, color=0 }) {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-    const onClickHandlerUser = () => {
-            navigate(`/user/${user.id}`);
-       }
+  const onClickHandlerUser = () => {
+    navigate(`/user/${user.id}`);
+  }
     
   console.log(user)
   return (
