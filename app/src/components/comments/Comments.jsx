@@ -3,11 +3,11 @@ import { useNavigate } from "react-router";
 
 
 function Comments({ comments, color=0 }) {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-    const onClickHandlerUser = () => {
-            navigate(`/movie/${comments.movieId}`);
-       }
+  const onClickHandlerUser = () => {
+    navigate(`/movie/${comments.movieId}`);
+  }
     
   console.log(comments)
   return (

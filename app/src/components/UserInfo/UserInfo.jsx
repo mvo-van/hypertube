@@ -4,11 +4,11 @@ import { useNavigate } from "react-router";
 
 
 function UserInfo({ user={} }) {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-    const onClickHandlerUser = () => {
-            navigate(`/user/${user.id}`);
-       }
+  const onClickHandlerUser = () => {
+    navigate(`/user/${user.id}`);
+  }
     
   console.log(user)
   return (
