@@ -16,6 +16,7 @@ import * as Joi from 'joi';
         OMDB_API_KEY: Joi.string().required(),
         TMDB_API_KEY: Joi.string().required(),
         BCRYPT_SALT_ROUNDS: Joi.number().required(),
+        JWT_SECRET: Joi.string().token().required(),
       }),
     }),
   ],
