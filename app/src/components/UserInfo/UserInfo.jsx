@@ -3,7 +3,7 @@ import imageSee from "../../assets/images/see.png"
 import { useNavigate } from "react-router";
 
 
-function UserInfo({ user={} }) {
+function UserInfo({ user={}, me=false}) {
   const navigate = useNavigate()
 
   const onClickHandlerUser = () => {
@@ -22,6 +22,7 @@ function UserInfo({ user={} }) {
             <div className={style.infos}>Nom : {user.lastName}</div>
             <div className={style.infos}> Films vu : {user.moviesNumber}</div>
             <div className={style.infos}>Episodes vu : {user.seriesNumber}</div>
+            {me && <div></div>}
           </div>
 
         </div>

@@ -8,6 +8,8 @@
     height: max-content;
     gap: 10px;
     letter-spacing: 2px;
+    /* flex-wrap: wrap; */
+    align-content: stretch;
 }
 
 .divComment__color_0{
@@ -92,6 +94,7 @@
 }
 
 .divMessage{
+    /* min-width: 200px; */
     height: min-content;
     padding-bottom: 1px; 
     border-style: solid;
