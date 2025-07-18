@@ -18,7 +18,7 @@ export class UsersService {
     const user = this.userRepository.create(createUserDto);
 
     user.password = await this.utilsService.hashPassword(user.password);
-    return await this.userRepository.save(user);
+    return await this.userRepository.save(user); //TODO gerer le cas conflit username 
   }
 
   async findOneByUsername(username: string): Promise<User | null> {
@@ -29,8 +29,11 @@ export class UsersService {
     throw new Error('Not implemented');
   }
 
-  findOne(id: number) {
-    throw new Error('Not implemented');
+  async findOne(id: number): Promise<User | null> {
+    return await this.userRepository.findOneBy({
+      id: id,
+      is_active: true
+    });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
