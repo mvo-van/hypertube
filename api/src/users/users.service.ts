@@ -25,8 +25,19 @@ export class UsersService {
     return await this.userRepository.findOneBy({ username: username });
   }
 
-  findAll() {
-    throw new Error('Not implemented');
+  async findAll() {
+    return await this.userRepository.find({
+      select: {
+          username: true,
+          profile_picture_url: true,
+          id: true,
+          first_name:true,
+          last_name:true,
+      },
+      where: {
+        is_active: true
+      },
+    });
   }
 
   async findOne(id: number): Promise<User | null> {

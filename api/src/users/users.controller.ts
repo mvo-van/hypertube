@@ -29,6 +29,7 @@ export class UsersController {
     return new UserResponseDto(createdUser);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.usersService.findAll();
