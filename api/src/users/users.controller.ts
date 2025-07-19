@@ -29,13 +29,11 @@ export class UsersController {
     return new UserResponseDto(createdUser);
   }
 
-  @Public()
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
-  @Public()
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const user = await this.usersService.findOne(+id);
