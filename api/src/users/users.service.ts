@@ -47,11 +47,11 @@ export class UsersService {
     });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    throw new Error('Not implemented');
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    return await this.userRepository.update(id, updateUserDto);
   }
 
-  remove(id: number) {
-    throw new Error('Not implemented');
+  async remove(id: number) {
+    return await this.userRepository.delete(id);
   }
 }
