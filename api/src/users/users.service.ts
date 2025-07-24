@@ -18,26 +18,40 @@ export class UsersService {
     const user = this.userRepository.create(createUserDto);
 
     user.password = await this.utilsService.hashPassword(user.password);
-    return await this.userRepository.save(user);
+    return await this.userRepository.save(user); //TODO gerer le cas conflit username 
   }
 
   async findOneByUsername(username: string): Promise<User | null> {
     return await this.userRepository.findOneBy({ username: username });
   }
 
-  findAll() {
-    throw new Error('Not implemented');
+  async findAll() {
+    return await this.userRepository.find({
+      select: {
+          username: true,
+          profile_picture_url: true,
+          id: true,
+          first_name:true,
+          last_name:true,
+      },
+      where: {
+        is_active: true
+      },
+    });
   }
 
-  findOne(id: number) {
-    throw new Error('Not implemented');
+  async findOne(id: number): Promise<User | null> {
+    return await this.userRepository.findOneBy({
+      id: id,
+      is_active: true
+    });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    throw new Error('Not implemented');
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    return await this.userRepository.update(id, updateUserDto);
   }
 
-  remove(id: number) {
-    throw new Error('Not implemented');
+  async remove(id: number) {
+    return await this.userRepository.delete(id);
   }
 }
