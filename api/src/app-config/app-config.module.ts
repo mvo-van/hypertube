@@ -17,6 +17,8 @@ import * as Joi from 'joi';
         TMDB_API_KEY: Joi.string().required(),
         BCRYPT_SALT_ROUNDS: Joi.number().required(),
         JWT_SECRET: Joi.string().token().required(),
+        GOOGLE_CLIENT_ID: Joi.string().required(),
+        GOOGLE_CLIENT_SECRET: Joi.string().required(),
       }),
     }),
   ],
