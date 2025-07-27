@@ -112,6 +112,7 @@ function Feed() {
         </Form>
       </div>
       <HorizontalScrollMovies movies={movies} label="Top 10 - Films les plus populaires"/>
+      <HorizontalScrollMovies movies={movies} label="Top 10 - Series les plus populaires"/>
 
     </GenericPage>
   );
