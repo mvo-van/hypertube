@@ -1,0 +1,21 @@
+.divHorizontalScroll{
+  background-color: #252526;
+  padding-left: 64px;
+  padding-right: 64px;
+  width: auto;
+}
+
+.label{
+  font-weight: bold;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.horizontalScroll{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  overflow-x: scroll;
+  scrollbar-width: none;
+}

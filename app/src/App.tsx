@@ -15,6 +15,7 @@ function App() {
   return(
     <BrowserRouter>
       <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Amatic+SC" />
+      <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css2?family=Basic&display=swap" />
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/login' element={<Login />}/>
