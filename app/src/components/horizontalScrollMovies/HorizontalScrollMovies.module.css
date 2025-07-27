@@ -3,6 +3,7 @@
   padding-left: 64px;
   padding-right: 64px;
   width: auto;
+  padding-top: 10px;
 }
 
 .label{
@@ -17,5 +18,7 @@
   flex-wrap: nowrap;
   width: 100%;
   overflow-x: scroll;
-  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-color: #1f1f1f #252526;
 }
