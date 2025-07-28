@@ -8,6 +8,7 @@
   --profile-h2-size: calc(var(--label-font-size) + 0.8rem);
   --profile-h3-size: calc(var(--label-font-size) + 0.4rem);
   --profile-h4-size: calc(var(--label-font-size));
+  background-color: #252526;
 }
 
 

@@ -9,8 +9,7 @@ function UserInfo({ user={}, me=false}) {
   const onClickHandlerUser = () => {
     navigate(`/user/${user.id}`);
   }
-    
-  console.log(user)
+
   return (
     <div className={`${style.userInfo} ${style[`userIcon__color_${user.id%12}`]}`} onClick={onClickHandlerUser}>
       <div className={style.divAllInfo}>

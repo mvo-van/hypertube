@@ -1,20 +1,35 @@
+.styleBox{
+    display: flex;
+    width: 100%;
+    height: max-content;
+    min-height: 100%;
+    background-color: #252526;
+    flex-direction: column;
+    padding-top: 64px;
+    align-items: center;
+}
+
 
 .feed{
-    height: 100%;
-    background-color: var(--color-dark-gray);
+    height: max-content;
+    max-width: 932px;
     z-index: 1;
     position: relative;
     justify-content: center;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    gap:42px 92px;
+    /* justify-content: space-between; */
+    /* gap:92px; */
+    /* grid-template-columns: 92px; */
+    /* row-gap: 92px; */
 }
 
 .filter{
     width: 100%;
     z-index: 1;
     position: relative;
-    background-color: var(--color-dark-gray);
     display: flex;
     justify-content: space-around;
     flex-direction: row;
@@ -23,6 +38,34 @@
 }
 
 .size_box{
-    width: 360px;
+    width: 100%;
+    padding-bottom: 33px;
+    padding-top: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     /* background-color: aqua; */
+}
+
+
+
+.search{
+    width: 230px;
+    height: 27px;
+    border-radius: 10px;
+    background-color: #454545;
+    color: #ffffff;
+    font-family: "basic";
+    padding-left: 10px;
+}
+
+.searchIcon{
+    padding-left: 5px;
+    font-size:31px;
+    color: #454545;
+}
+
+.divNoRes{
+    color: #ffffff;
+    font-size: larger;
 }

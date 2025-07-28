@@ -18,7 +18,5 @@
   flex-wrap: nowrap;
   width: 100%;
   overflow-x: scroll;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
   scrollbar-color: #1f1f1f #252526;
 }
