@@ -2,7 +2,6 @@
     display: flex;
     width: 100%;
     height: max-content;
-    min-height: 100%;
     background-color: #252526;
     flex-direction: column;
     padding-top: 64px;
