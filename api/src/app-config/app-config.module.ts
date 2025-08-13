@@ -5,8 +5,8 @@ import * as Joi from 'joi';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      ignoreEnvFile: true,
       isGlobal: true,
+      envFilePath: '../.env',
       validationSchema: Joi.object({
         POSTGRES_HOST: Joi.string().hostname().required(),
         POSTGRES_PORT: Joi.number().port().required(),

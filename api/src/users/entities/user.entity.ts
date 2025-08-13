@@ -3,7 +3,7 @@ import { Lang } from '../../lang/lang';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ type: 'varchar', length: 20, unique: true, nullable: false })
