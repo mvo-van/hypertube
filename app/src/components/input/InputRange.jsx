@@ -19,7 +19,7 @@ const InputRange = React.forwardRef(({
   step=1,
   onChange = () => {},
   onBlur = () => {},
-  color = "blue"
+  color = "lighter_gray"
 }, ref) => {
   // const { theme } = useContext(AppContext);
   const onChangeHandler = (event) => {
@@ -27,6 +27,7 @@ const InputRange = React.forwardRef(({
   }
 
   const inputColor = styles[`input__${color}`];
+  const valueInputColor = styles[`valueInput__${color}`];
   const name = label.replace(/ /g, "_");
   const id = `input-${name}`;
 
@@ -37,7 +38,7 @@ const InputRange = React.forwardRef(({
     return (
       <div className={styles.input}>
         <Label label={label} htmlFor={id} className={styles["input__label"]} color={color}/>
-        <input 
+        <Slider 
           id = {id}
           className={`${styles["input"]} ${inputColor} round`}
           name={name}
@@ -45,10 +46,11 @@ const InputRange = React.forwardRef(({
           min={min}
           max={max}
           value={value}
-          step={step}
+          step={5}
+          sx={{ color: "#f0f0f0", opacity: "0.7" }}
           onChange={onChangeHandler}
         />
-        <div className={styles[`valueInput__${color}`]}>{value} / 100</div>
+        <div className={`${styles["valueInput"]} ${valueInputColor}`}>{value}/{max}</div>
       </div>
     );
   }
@@ -66,10 +68,10 @@ const InputRange = React.forwardRef(({
           disableSwap
           min={min}
           max={max}
-          sx={{ color: "#EBE978", opacity: "0.7" }}
+          sx={{ color: "#f0f0f0", opacity: "0.7" }}
           step={1}
         />
-        <div className={styles[`valueInput__${color}`]}>{value[0]}-{value[1]}</div>
+        <div className={`${styles["valueInput"]} ${valueInputColor}`}>{value[0]}-{value[1]}</div>
       </div>
     );
   }

@@ -10,7 +10,7 @@ const Input = React.forwardRef(({
   onChange = () => {},
   onBlur = () => {},
   placeholder,
-  color = "blue"
+  color = "lighter_gray"
 }, ref) => {
   // const { theme } = useContext(AppContext);
   const onChangeHandler = (event) => {

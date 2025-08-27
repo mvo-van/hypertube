@@ -11,12 +11,11 @@
 
 .input__input {
     padding: 0 15px;
-    font-size: var(--input-font-size);
+    font-size: 16px;
     height: var(--input-height);
     opacity: 0.7;
     color: var(--color-dark-gray);
-    font-family:'AmstelvarAlpha';
-
+    font-family:'Basic';
 }
 
 /* Input colors */
@@ -70,4 +69,8 @@
 
 .input__input__gray {
     background-color: var(--color-medium-gray);
+}
+
+.input__input__lighter_gray {
+    background-color: var(--color-lighter-gray);
 }
