@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsEnum,
+  IsOptional,
   IsString,
   IsStrongPassword,
   MaxLength,
@@ -18,6 +19,7 @@ import {
   MIN_LENGTH_USERNAME,
 } from '../constants';
 import { Lang } from '../../lang/lang';
+import { AuthStrategy } from 'src/auth/auth.provider';
 
 export class CreateUserDto {
   @IsString()
@@ -46,12 +48,18 @@ export class CreateUserDto {
     minNumbers: 1,
   })
   @MaxLength(MAX_LENGTH_PASSWORD)
-  password: string;
+  @IsOptional()
+  password?: string;
 
   @IsString()
   @MaxLength(MAX_LENGTH_PICTURE_URL)
   profile_picture_url: string;
 
   @IsEnum(Lang)
-  language: Lang;
+  @IsOptional()
+  language?: Lang;
+
+  @IsOptional()
+  @IsEnum(AuthStrategy)
+  auth_strategy?: AuthStrategy = AuthStrategy.GOOGLE;
 }

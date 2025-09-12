@@ -12,4 +12,14 @@ export class UtilsService {
 
     return hash(password, salt);
   }
+
+  makeUsername(firstName: string, lastName: string): string {
+    const maxLastNameLength: number = 7;
+
+    const lastNameUsername = lastName.slice(
+      0,
+      Math.min(maxLastNameLength, lastName.length),
+    );
+    return `${firstName[0]}${lastNameUsername}`;
+  }
 }

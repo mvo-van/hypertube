@@ -6,6 +6,7 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UtilsService } from '../utils/utils.service';
+import { AuthStrategy } from 'src/auth/auth.provider';
 
 @Injectable()
 export class UsersService {
@@ -17,25 +18,34 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const user = this.userRepository.create(createUserDto);
 
-    user.password = await this.utilsService.hashPassword(user.password);
-    return await this.userRepository.save(user); //TODO gerer le cas conflit username 
+    if (user.password != null) {
+      user.password = await this.utilsService.hashPassword(user.password);
+    }
+    return await this.userRepository.save(user); //TODO gerer le cas conflit username
   }
 
   async findOneByUsername(username: string): Promise<User | null> {
     return await this.userRepository.findOneBy({ username: username });
   }
 
+  async findOneByAuthProvider(email: string, authProvider: AuthStrategy) {
+    return await this.userRepository.findOneBy({
+      email: email,
+      auth_strategy: authProvider,
+    });
+  }
+
   async findAll() {
     return await this.userRepository.find({
       select: {
-          username: true,
-          profile_picture_url: true,
-          id: true,
-          first_name:true,
-          last_name:true,
+        username: true,
+        profile_picture_url: true,
+        id: true,
+        first_name: true,
+        last_name: true,
       },
       where: {
-        is_active: true
+        is_active: true,
       },
     });
   }
@@ -43,7 +53,7 @@ export class UsersService {
   async findOne(id: number): Promise<User | null> {
     return await this.userRepository.findOneBy({
       id: id,
-      is_active: true
+      is_active: true,
     });
   }
 
