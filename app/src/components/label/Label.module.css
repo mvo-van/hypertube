@@ -1,6 +1,11 @@
 .label {
     font-size: 16px;
     font-family: 'Basic';
+    text-transform: uppercase;
+}
+
+.label__white {
+    color: #E2FEFF;
 }
 
 .label__blue {

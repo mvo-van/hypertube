@@ -14,12 +14,28 @@
     justify-content: center;
     align-items: center;
     display: flex;
-    
-    background-color: var(--color-medium-gray);
+    max-width: 457px;
+    /* background-color: var(--color-medium-gray); */
     border-radius: 10px;
     padding: 10px; 
 }
 
 .titre{
     font-size: 100px;
+}
+
+.line {
+    color:  #9F9F9F;
+    background-color: #9F9F9F;
+    border-color:  #9F9F9F;
+    height: 1px;
+    width: 80%;
+    border: 0;
+    border-radius: 5px;
+}
+
+.titreOmni{
+    padding-top: 20px;
+    color: var(--color-red);
+    font-size: 30px;
 }

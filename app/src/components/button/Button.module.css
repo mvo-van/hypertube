@@ -1,15 +1,17 @@
 .button {
     height: 40px;
     text-align: center;
-    min-width: 220px;
+    min-width: 176px;
     font-size: 1.6em;
+    border-radius: 15px;
     text-transform: uppercase;
+    font-weight: bold;
 }
 
 /* Blue */
 .button__blue__regular {
-    background-color: var(--color-blue);
-    color: var(--color-dark-gray);
+    background-color: #78BFEB;
+    color: black;
 }
 
 /* red */
@@ -20,20 +22,18 @@
 
 /* yellow */
 .button__yellow__regular {
-    background-color: var(--color-yellow);
-    color: var(--color-dark-gray);
+    background-color: #EBE978;
+    color: black;
 }
 
 .button__yellow__validation {
-    background-color: var(--color-yellow);
-    color: var(--color-dark-gray);
-    opacity: 0.7;
+    background-color: #C0BF83;
+    color: black;
 }
 
 .button__blue__validation {
-    background-color: var(--color-blue);
-    color: var(--color-dark-gray);
-    opacity: 0.7;
+    background-color: #71A6C7;
+    color: black;
 }
 
 .button__red__validation {

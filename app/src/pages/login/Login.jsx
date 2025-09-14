@@ -9,14 +9,14 @@ import Input from "../../components/input/Input";
 
 
 function Login() {
-  const [email, setEmail] = useState("");
+  const [pseudo, setPseudo] = useState("");
   const [password, setPassword] = useState("");
 
-  const onMailHandler = (value) => {
-    setEmail(value);
+  const onPseudoHandler = (value) => {
+    setPseudo(value);
   }
     
-  const onMailValidate = (value) => {
+  const onPseudoValidate = (value) => {
   }
 
   const onPasswordHandler = (value) => {
@@ -39,13 +39,13 @@ function Login() {
         <MulticoText className={style["titre"]} text="Connection"/>
         <div className={style["button-box"]}>
 
-          <Form className="login-form" onSubmit={onSubmitHandler} label="valider" color="yellow">
+          <Form className="login-form" onSubmit={onSubmitHandler} label="Connexion" color="blue">
             <Input
-              label="mail"
-              type="email"
-              value={email}
-              onChange={onMailHandler}
-              onBlur={onMailValidate}
+              label="pseudo"
+              type="string"
+              value={pseudo}
+              onChange={onPseudoHandler}
+              onBlur={onPseudoValidate}
               color="blue"
             />
                             
@@ -55,7 +55,7 @@ function Login() {
               value={password}
               onChange={onPasswordHandler}
               onBlur={onPassWordValidate}
-              color="blue_to_yellow_2"
+              color="blue"
             />
             <a href="#" onClick={() => sendOtp()} className={style.pwdlink}>
                                 Mot de Passe oublié
