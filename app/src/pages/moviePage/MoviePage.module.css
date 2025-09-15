@@ -31,14 +31,6 @@
 
 }
 
-.line{
-    height: 3px;
-    background-color: #78BFEB;
-    width: 80%;
-    border-radius: 10px;
-    margin-bottom: 25px;
-    z-index: 1;
-}
 
 .line_color_1 {
     background-color: var(--color-blue-t7);
