@@ -141,7 +141,7 @@
 
 .line{
     margin-left: 15%;
-    height: 1%;
+    height: 1px;
     background-color: #454545;
     width: 70%;
     border-radius: 10px;
