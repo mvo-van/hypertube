@@ -1,0 +1,123 @@
+.movieInfo{
+    color: #78BFEB;
+    margin-top: 70px;
+    margin-bottom: 50px;
+}
+
+.userIcon{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: max-content;
+    height: max-content;
+    padding-bottom: 1px; 
+    border-width: 1px;
+    border-radius: 10px;
+}
+
+.banner{
+    position: fixed;
+    left: 0%;
+    width: 100vw;
+    filter: brightness(50%);
+}
+
+.imgBanner{
+    filter:blur(4px);
+    width: 100vw;
+    background-attachment: scroll;
+}
+
+.bio{
+    word-wrap:break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    font-family: "Basic";
+    font-size: 24px;
+    color: white;
+    width: calc(100vw - 400px);
+    /* min-width: calc(100vw - 400px); */
+    /* min-width: calc(100vw - 400px); */
+    min-width: 100%;
+    padding-bottom: 50px;
+
+    /* width: 100%; */
+    /* width: 100%; */
+}
+
+
+.imgMovie{
+    display: block;
+    width: 295px;
+    height: 400px;
+    border-radius: 10px;
+    /* margin-bottom: 20px;
+    margin-top: 20px; */
+}
+
+
+.divAllInfo{
+    /* margin-top: 10%; */
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* margin-bottom: 5%; */
+    padding-top: 70px;
+}
+
+.movieName{
+    font-size: 36px;
+    /* font-weight: bold; */
+    /* height: 150px; */
+    padding-bottom: 10px;
+    vertical-align: middle;
+    font-family: "Basic";
+
+}
+
+.infos{
+    font-family: "Basic";
+    font-size: 20px;
+    color: white;
+    padding-bottom: 25px;
+    /* font-weight: bold; */
+}
+
+.infosDiv{
+    margin-left: 30px;
+}
+
+.subDivInfo{
+    /* padding-left: 25px;
+    margin-top: 5px; */
+}
+
+.divTime{
+    font-size: 20px;
+    color: #BFBFBF;
+    font-family: "Basic";
+    padding-bottom: 50px;
+}
+
+.titleInfos{
+    font-size: 20px;
+    color: #BFBFBF;
+    font-family: "Basic";
+    /* padding-right: 10%; */
+    /* width: 100px; */
+    /* margin-right: 5em; */
+}
+
+.textInfos{
+    font-size: 20px;
+    color: white;
+    font-family: "Basic";
+    /* margin-left: 5em; */
+}
+
+.seasonDiv{
+    padding-bottom: 5px;
+}

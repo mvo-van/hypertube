@@ -1,0 +1,89 @@
+
+.movieBox{
+    min-height: 100%;
+    width: 100%;
+    background-color: var(--color-dark-gray);
+    /* background-color: transparent; */
+    z-index: 1;
+    position: relative;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.banner{
+    background-attachment: fixed;
+    background-repeat:round;
+    /* filter: blur(8px);
+    -webkit-filter: blur(8px); */
+
+    /* Full height */
+    height: 100vh;
+    width: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* z-index: 2; */
+
+}
+
+.line{
+    height: 3px;
+    background-color: #78BFEB;
+    width: 80%;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    z-index: 1;
+}
+
+.line_color_1 {
+    background-color: var(--color-blue-t7);
+}
+
+.line_color_2 {
+    background-color: var(--color-blue-to-yellow-1-t7);
+}
+
+.line_color_3 {
+    background-color: var(--color-blue-to-yellow-2-t7);
+}
+
+.line_color_4 {
+    background-color: var(--color-blue-to-yellow-3-t7);
+}
+
+.line_color_5 {
+    background-color: var(--color-yellow-t7);
+}
+
+.line_color_6 {
+    background-color: var(--color-yellow-to-red-1-t7);
+}
+
+.line_color_7 {
+    background-color: var(--color-yellow-to-red-2-t7);
+}
+
+.line_color_8 {
+    background-color: var(--color-yellow-to-red-3-t7);
+}
+
+.line_color_9 {
+    background-color: var(--color-red-t7);
+}
+
+.line_color_10 {
+    background-color: var(--color-red-to-blue-1-t7);
+}
+
+.line_color_11 {
+    background-color: var(--color-red-to-blue-2-t7);
+}
+
+.line_color_0 {
+    background-color: var(--color-red-to-blue-3-t7);
+}

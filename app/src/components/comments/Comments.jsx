@@ -8,7 +8,8 @@ function Comments({ comments, color=0, movieIcon=true }) {
   console.log(comments)
   return (
     <div className={style.Allcomments}>
-      {comments.length && <div className={`${style.title} ${style[`title__color_${color}`]}`}>Commantaires :</div>}
+      <div className={`${style.line}`}/>
+      {comments.length && <div className={`${style.title}`}>Commantaires</div>}
       {comments.map((comment, index) => <CommentDiv key={comment.commentId} comment={comment} color={(color+index)%12} movieIcon={movieIcon}/>)}
     </div>
   );

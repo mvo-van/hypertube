@@ -21,8 +21,5 @@
 .titre {
     font-size: 96px;
     /* font-weight: bold; */
-    background: #2BFAFA;
-    background: linear-gradient(to right, #2BFAFA 0%, #FDEE00 50%, #E73E01 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+
 }
