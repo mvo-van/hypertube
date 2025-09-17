@@ -28,4 +28,18 @@ export class AuthController {
   googleAuthRedirect(@Request() req) {
     return this.authService.googleLogin(req);
   }
+
+  @Public()
+  @Post("forgot-password")
+  forgotPassword(@Request() req) {
+    const email: string = req.user?.email;
+
+    
+  }
+
+  @Public()
+  @Post('reset-password')
+  resetPassword(@Request() req) {
+
+  }
 }

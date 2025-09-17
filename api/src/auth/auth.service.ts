@@ -66,4 +66,15 @@ export class AuthService {
       access_token: this.jwtService.sign(payload)
     };
   }
+
+  async forgotPassword(email: string) {
+    // Errors:
+    //  - user doesn't exists
+    //  - problem while sending OTP email
+
+    // 1. Generate OTP code
+    // 2. Store OTP code
+    // 3. Send OTP to user email
+    
+  }
 }
