@@ -8,7 +8,7 @@ import MovieInfo from "../../components/movieInfo/MovieInfo";
 
 function MoviePage() {
   const {id} = useParams();
-
+  const [message, setMessage] = useState("")
   const [movie, setMovie] = useState(
     {"id":1,"name":"lilo & stitch", "bio":"L’histoire touchante et drôle d’une petite fille hawaïenne solitaire et d’un extra-terrestre fugitif qui l’aide à renouer le lien avec sa famille.","type":"movie","firstName":"george","lastName":"sanderson", "poster":"https://animatedviews.com/wp-content/uploads/2024/11/024D334C-ED06-44EE-8028-0676083424BD.jpeg","banner":"https://leclaireur.fnac.com/wp-content/uploads/2025/05/stitch-disney-1256x826.jpg", "moviesNumber":120, "seriesNumber":40}
   );
@@ -24,6 +24,20 @@ function MoviePage() {
       width: "600px",
       height: "600px",
     };
+
+  const onMessageSubmit = (e) => {
+    // TODO ajouter appel au back
+    e.preventDefault();
+    if (message.trim()){
+      setMessage("")
+      setComments(comments.concat({"userId":1,"userName":"Eithan", "imgUser":"https://cinefilms-planet.fr/wp-content/uploads/2010/04/bob-razowski-personnage-monstres-academy-02-1-1536x864.jpg", "commentId":6, "message":message}))
+    }
+  }
+
+  const onMessageHeandler = (e) => {
+    setMessage(e.target.value)
+  }
+
   return (
     <GenericPage>
       <Header />
@@ -32,7 +46,7 @@ function MoviePage() {
         <div className={style.movieBox}  >
 
           <MovieInfo movie={movie}/>
-          <Comments comments={comments} color={movie.id%12} movieIcon={false}/>
+          <Comments comments={comments} color={movie.id%12} movieIcon={false} message={message} onMessageHeandler={onMessageHeandler} onMessageSubmit={onMessageSubmit}/>
         </div>
       </div>
     </GenericPage>
