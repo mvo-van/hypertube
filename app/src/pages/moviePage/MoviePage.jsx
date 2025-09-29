@@ -41,8 +41,7 @@ function MoviePage() {
   return (
     <GenericPage>
       <Header />
-      <div className={style.banner} style ={{ backgroundImage: `url(${movie.banner})` }}>
-
+      <div className={style.banner} >
         <div className={style.movieBox}  >
 
           <MovieInfo movie={movie}/>

@@ -19,13 +19,16 @@
 .banner{
     position: fixed;
     left: 0%;
-    width: 100vw;
+    min-width: 100%;
+    height: 100vh;
     filter: brightness(50%);
 }
 
 .imgBanner{
     filter:blur(4px);
-    width: 100vw;
+    /* width: 100vw; */
+    min-width: 100vw;
+    height: 100vh;
     background-attachment: scroll;
 }
 
@@ -39,6 +42,7 @@
     width: calc(100vw - 400px);
     /* min-width: calc(100vw - 400px); */
     /* min-width: calc(100vw - 400px); */
+    max-width: 100%;
     min-width: 100%;
     padding-bottom: 50px;
 
@@ -83,11 +87,14 @@
     font-size: 20px;
     color: white;
     padding-bottom: 25px;
+    text-wrap: wrap;
+    width: auto;
     /* font-weight: bold; */
 }
 
 .infosDiv{
     margin-left: 30px;
+    max-width: 1000px;
 }
 
 .subDivInfo{
