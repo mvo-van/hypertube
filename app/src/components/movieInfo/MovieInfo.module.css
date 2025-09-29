@@ -26,7 +26,6 @@
 
 .imgBanner{
     filter:blur(4px);
-    /* width: 100vw; */
     min-width: 100vw;
     height: 100vh;
     background-attachment: scroll;
@@ -127,4 +126,12 @@
 
 .seasonDiv{
     padding-bottom: 5px;
+}
+
+.firstLine{
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap-reverse;
 }

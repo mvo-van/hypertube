@@ -10,7 +10,7 @@ function MoviePage() {
   const {id} = useParams();
   const [message, setMessage] = useState("")
   const [movie, setMovie] = useState(
-    {"id":1,"name":"lilo & stitch", "bio":"L’histoire touchante et drôle d’une petite fille hawaïenne solitaire et d’un extra-terrestre fugitif qui l’aide à renouer le lien avec sa famille.","type":"movie","firstName":"george","lastName":"sanderson", "poster":"https://animatedviews.com/wp-content/uploads/2024/11/024D334C-ED06-44EE-8028-0676083424BD.jpeg","banner":"https://leclaireur.fnac.com/wp-content/uploads/2025/05/stitch-disney-1256x826.jpg", "moviesNumber":120, "seriesNumber":40}
+    {"see":true,"download":false,"like":false,"id":1,"name":"lilo & stitch", "bio":"L’histoire touchante et drôle d’une petite fille hawaïenne solitaire et d’un extra-terrestre fugitif qui l’aide à renouer le lien avec sa famille.","type":"movie","firstName":"george","lastName":"sanderson", "poster":"https://animatedviews.com/wp-content/uploads/2024/11/024D334C-ED06-44EE-8028-0676083424BD.jpeg","banner":"https://leclaireur.fnac.com/wp-content/uploads/2025/05/stitch-disney-1256x826.jpg", "moviesNumber":120, "seriesNumber":40}
   );
   const [comments, setComments] = useState([
     {"userId":1,"userName":"Eithaaaan","imgUser":"https://cinefilms-planet.fr/wp-content/uploads/2010/04/bob-razowski-personnage-monstres-academy-02-1-1536x864.jpg","commentId":1, "message":"L'agglomération antique de Montaigu-la-Brisette est une agglomération secondaire gallo-romaine des trois premiers siècles de notre ère située sur le territoire de la commune moderne de Montaigu-la-Brisette, dans le département français de la Manche, en région Normandie."},

@@ -1,0 +1,21 @@
+.iconButton{
+    background-color: transparent;
+    color: #CFCFCF;
+}
+
+.divIconMovie{
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+    width: min-content;
+    align-items: flex-start;
+    padding-bottom: 10px;
+}
+
+.true{
+    color: #009DFF;
+}
+
+.iconeSize{
+    height: 35px;
+}
