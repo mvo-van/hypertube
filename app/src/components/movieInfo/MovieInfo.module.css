@@ -102,10 +102,12 @@
 }
 
 .divTime{
+    display: flex;
     font-size: 20px;
     color: #BFBFBF;
     font-family: "Basic";
     padding-bottom: 50px;
+    align-items: center;
 }
 
 .titleInfos{
@@ -126,6 +128,8 @@
 
 .seasonDiv{
     padding-bottom: 5px;
+    color: white;
+    font-family: "Basic";
 }
 
 .firstLine{

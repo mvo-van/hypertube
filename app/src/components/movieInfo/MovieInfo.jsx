@@ -3,6 +3,7 @@ import imageSee from "../../assets/images/see.png"
 import { useNavigate } from "react-router";
 import IconMovie from "../iconMovie/IconMovie";
 import { useState } from "react";
+import StarIcon from '@mui/icons-material/Star';
 
 
 function MovieInfo({ movie={}}) {
@@ -39,11 +40,11 @@ function MovieInfo({ movie={}}) {
             <div className={style.movieName}>{movie.name}</div>
             <IconMovie type={movie.type} see={see} download={download} like={like} onClickStart={onClickStart} onClickSee={onClickSee} onClickDownload={onClickDownload} onClickLike={onClickLike}/>
           </div>
-          {movie.type == "episode" && <div className={style.seasonDiv}>Saison 1 episode 1</div>}
-          {movie.type == "season" && <div className={style.seasonDiv}>Saison 1</div>}
-          {(movie.type == "episode" || movie.type == "movie") && <div className={style.divTime}>2022 1h48m 4/5</div>}
-          {(movie.type == "serie") && <div className={style.divTime}>2022- 2 saison 8,7/10</div>}
-          {(movie.type == "season") && <div className={style.divTime}>2022 9 épisodes 8,5/10</div>}
+          {movie.type == "episode" && <div className={style.seasonDiv}>Saison {movie.season} Episode {movie.episode}</div>}
+          {movie.type == "season" && <div className={style.seasonDiv}>Saison {movie.season}</div>}
+          {(movie.type == "episode" || movie.type == "movie") && <div className={style.divTime}>{movie.date} {movie.time}m {movie.note}/10<StarIcon sx={{fontSize:21}}/></div>}
+          {(movie.type == "serie") && <div className={style.divTime}>{movie.dateStart}-{movie.dateEnd} {movie.nbrseasons} saison {movie.note}/10<StarIcon sx={{fontSize:21}}/></div>}
+          {(movie.type == "season") && <div className={style.divTime}>{movie.date} {movie.nbrEpisodes} épisodes {movie.note}/10<StarIcon sx={{fontSize:21}}/></div>}
           <div className={style.bio}>{movie.bio}</div>
 
           <div className={style.subDivInfo}>
