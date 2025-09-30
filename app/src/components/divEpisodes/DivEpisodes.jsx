@@ -8,7 +8,7 @@ function DivEpisodes({ episodes = []}) {
       {episodes.length && <div className={`${style.title}`}>Episodes</div>}
       <div className={style.divSeasons}>
 
-        {episodes.length && episodes.map((episode, index) => <Episode key={episode.id} episode={episode}/>)}
+        {episodes.length && episodes.map((episode, index) => <Episode key={index} episode={episode}/>)}
       </div>
     </div>
   );
