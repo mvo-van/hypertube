@@ -45,7 +45,7 @@ function MovieInfo({ movie={}}) {
           {(movie.type == "episode" || movie.type == "movie") && <div className={style.divTime}>{movie.date} {movie.time}m {movie.note}/10<StarIcon sx={{fontSize:21}}/></div>}
           {(movie.type == "serie") && <div className={style.divTime}>{movie.dateStart}-{movie.dateEnd} {movie.nbrseasons} saison {movie.note}/10<StarIcon sx={{fontSize:21}}/></div>}
           {(movie.type == "season") && <div className={style.divTime}>{movie.date} {movie.nbrEpisodes} épisodes {movie.note}/10<StarIcon sx={{fontSize:21}}/></div>}
-          <div className={style.bio}>{movie.bio}</div>
+          <div className={style.bio}>{movie.synopsis}</div>
 
           <div className={style.subDivInfo}>
             <pre className={style.infos}><span className={style.titleInfos}>Genre             </span>Aventure, Comédie, Famille, Science Fiction</pre>
