@@ -37,7 +37,7 @@ function MovieInfo({ movie={}}) {
         <div className={style.infosDiv}>
           <div className={style.firstLine}>
             <div className={style.movieName}>{movie.name}</div>
-            <IconMovie see={see} download={download} like={like} onClickStart={onClickStart} onClickSee={onClickSee} onClickDownload={onClickDownload} onClickLike={onClickLike}/>
+            <IconMovie type={movie.type} see={see} download={download} like={like} onClickStart={onClickStart} onClickSee={onClickSee} onClickDownload={onClickDownload} onClickLike={onClickLike}/>
           </div>
           {movie.type == "episode" && <div className={style.seasonDiv}>Saison 1 episode 1</div>}
           {movie.type == "season" && <div className={style.seasonDiv}>Saison 1</div>}
