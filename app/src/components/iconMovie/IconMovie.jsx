@@ -17,7 +17,7 @@ function IconMovie({ type="movie", download=true, see=true, like=true, onClickSt
       </button>
     }
 
-    {(type == "movie" || type == "episode") && !download &&     
+    {(type == "movie" || type == "episode" || type == "season") && !download &&     
       <button className={style.iconButton} onClick={onClickDownload}>
         <FileDownloadOutlinedIcon className={style.iconeSize} fontSize="large"/>
       </button> 

@@ -24,9 +24,7 @@ function UserInfo({ user={}, me=false}) {
             <div className={style.infos}>Films vus : {user.moviesNumber}</div>
             <div className={style.infos}>Episodes vus : {user.seriesNumber}</div>
           </div>
-
         </div>
-
       </div>
     </div>
   );
