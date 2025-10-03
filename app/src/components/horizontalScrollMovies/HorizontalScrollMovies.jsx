@@ -11,7 +11,7 @@ function HorizontalScrollMovies({ label, movies={}}) {
     <div className={style.divHorizontalScroll}>
       <div className={style.label}>{label}</div>
       <div className={style.horizontalScroll}>
-        {movies.map((movie, index) => <MovieIcon key={movie.name + movie.id} movie={movie} color={index%12}/>)}
+        {movies.map((movie, index) => <MovieIcon key={index} movie={movie} color={index%12}/>)}
       </div>
     </div>
   );

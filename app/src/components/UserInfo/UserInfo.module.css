@@ -1,119 +1,49 @@
-.userIcon{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: max-content;
-    height: max-content;
-    padding-bottom: 1px; 
-    border-width: 1px;
-    border-radius: 10px;
-}
-
-.userIcon__color_0{
-    color: var(--color-blue);
-}
-
-.userIcon__color_1{
-    color: var(--color-blue-to-yellow-1);
-
-}
-
-.userIcon__color_2{
-    color: var(--color-blue-to-yellow-2);
-
-}
-
-.userIcon__color_3{
-    color: var(--color-blue-to-yellow-3);
-
-}
-
-.userIcon__color_4{
-    color: var(--color-yellow);
-
-}
-
-.userIcon__color_5{
-    color: var(--color-yellow-to-red-1);
-
-}
-
-.userIcon__color_6{
-    color: var(--color-yellow-to-red-2);
-
-}
-
-.userIcon__color_7{
-    color: var(--color-yellow-to-red-3);
-
-}
-
-.userIcon__color_8{
-    color: var(--color-red);
-
-}
-
-.userIcon__color_9{
-    color: var(--color-red-to-blue-1);
-
-}
-
-.userIcon__color_10{
-    color: var(--color-red-to-blue-2);
-
-}
-
-.userIcon__color_11{
-    color: var(--color-red-to-blue-3);
-
-}
-
 .imgUser{
     border-radius: 50%;
+    width: 140px;
+    height: 140px;
+    border-width: 2px;
     border-style: solid;
-    border-width: 4px;
-    display: block;
-    width: 400px;
-    height: 400px;
-    background: #E6E7ED;
-    -moz-border-radius: 100%;
-    -webkit-border-radius: 100%;
-    background-position:50% 50%;
-    background-repeat:no-repeat;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    object-fit: cover;
+    color: var(--color-blue);
+    margin-bottom: 10px;
 }
 
 
 .divAllInfo{
-    margin-top: 10%;
+    /* margin-top: 10%; */
     position: relative;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    margin-bottom: 5%;
+    /* margin-bottom: 5%; */
+    margin-top: 100px;
+    color: white;
 }
 
 .pseudo{
-    font-size: 150px;
-    font-weight: bold;
-    height: 150px;
-    vertical-align: middle;
-
-}
-
-.infos{
-    font-size: 50px;
-    font-weight: bold;
-}
-
-.infosDiv{
-    margin-left: 30px;
+    font-size: 36px;
+    height: 36px;
+    font-family: 'Basic';
 }
 
 .subDivInfo{
-    padding-left: 25px;
-    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.infos{
+
+    font-size: 24px;
+    font-family: 'Basic';
+}
+
+.infosDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
 }

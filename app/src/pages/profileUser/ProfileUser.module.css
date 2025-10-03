@@ -2,7 +2,7 @@
 .user{
     min-height: 100%;
     width: 100%;
-    background-color: var(--color-dark-gray);
+    background-color: #252526;
     z-index: 1;
     position: relative;
     justify-content: center;
@@ -63,4 +63,9 @@
 
 .line_color_0 {
     background-color: var(--color-red-to-blue-3-t7);
+}
+
+.watchlist{
+    max-width: 1000px;
+    width: 100%;
 }
