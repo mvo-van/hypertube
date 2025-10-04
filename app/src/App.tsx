@@ -11,6 +11,7 @@ import Feed from "./pages/feed/Feed";
 import Users from "./pages/users/Users";
 import ProfileUser from "./pages/profileUser/ProfileUser";
 import MoviePage from "./pages/moviePage/MoviePage";
+import Settings from "./pages/settings/Settings";
 
 function App() {
   return(
@@ -25,6 +26,7 @@ function App() {
         <Route path='/users' element={<Users />}/>
         <Route path='/user/:id' element={<ProfileUser />}/>
         <Route path='/movie/:id' element={<MoviePage />}/>
+        <Route path='/settings' element={<Settings/>}/>
         <Route path='/test' element={<ProfileUser />}/>
       </Routes>
     </BrowserRouter>
