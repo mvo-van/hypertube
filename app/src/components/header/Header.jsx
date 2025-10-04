@@ -22,7 +22,7 @@ function Header({}) {
   }
 
   const onClickHandlerSettings = () => {
-    // TODO
+    navigate(`/settings`);
   }
 
   const onClickHandlerQuit = () => {
