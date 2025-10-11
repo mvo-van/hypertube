@@ -2,7 +2,7 @@ import style from "./ButtonTrueFalse.module.css";
 
 function ButtonTrueFalse({ onClick= () => {}, color="blue", checked=false, label}){
   const get_name_style = () => {
-    console.log(checked)
+    // console.log(checked)
     if (checked===true){
       return (`${checked}_${color}`)
     }

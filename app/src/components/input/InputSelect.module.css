@@ -1,3 +1,7 @@
+.fontbox{
+    font-family: 'Basic';
+}
+
 .input {
     display: flex;
     flex-direction: column;
@@ -8,6 +12,7 @@
 .input__label {
     width: 100%;
 }
+
 .input__label_lighter_gray{
     font-family: 'Basic';
     font-size: 16px;

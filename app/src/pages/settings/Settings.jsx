@@ -128,7 +128,7 @@ function Settings() {
 
             </div>
             <div className={style.line}></div>
-            <div className={style.subTitle}>Connexion</div>
+            <div className={style.subTitle}>Authentification</div>
               <button className={style.buttonConnexion} onClick={onClickChangePwd}>Réinitialiser le mot de passe</button>
             <div className={style.line}></div>
             

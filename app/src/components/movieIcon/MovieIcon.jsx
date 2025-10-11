@@ -10,8 +10,7 @@ function MovieIcon({ movie, color=0 }) {
   const onClickHandlerMovie = () => {
     navigate(`/movie/${movie.id}`);
   }
-    
-  console.log(movie)
+
   return (
     <div className={`${style.movieIcon}`} onClick={onClickHandlerMovie}>
       {movie.see && <div className={`${style.see}`}><RemoveRedEyeOutlined sx={{fontSize:20}}/></div>}
