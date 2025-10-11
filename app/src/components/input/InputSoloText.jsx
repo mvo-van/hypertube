@@ -20,6 +20,17 @@ export default function InputSoloText({label="test", id=0, color="lighter_gray",
         value={value}
         onChange={onChange}
         onBlur={onBlur}
+        slotProps={{
+          paper: {
+            sx: {
+              '& .MuiAutocomplete-listbox': {
+                '& .MuiAutocomplete-option': {
+                  fontFamily: 'Basic',
+                },
+              },
+            },
+          },
+        }}
         renderInput={(params) => (
         
           <TextField 
