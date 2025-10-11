@@ -38,6 +38,9 @@ services:
       - OMDB_API_KEY=${OMDB_API_KEY}
       - TMDB_API_KEY=${TMDB_API_KEY}
       - BCRYPT_SALT_ROUNDS=${BCRYPT_SALT_ROUNDS}
+      - JWT_SECRET=${JWT_SECRET}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 10s
