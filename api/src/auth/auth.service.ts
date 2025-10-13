@@ -20,7 +20,7 @@ export class AuthService {
     const user = await this.usersService.findOneByUsername(username);
 
     if (user && compareSync(pass, user.password)) {
-      const { _, ...result } = user;
+      const { _, ...result } = user as any;
       return result;
     }
     return null;
@@ -54,6 +54,40 @@ export class AuthService {
         email: req.user.email,
         profile_picture_url: req.user.picture,
         auth_strategy: AuthStrategy.GOOGLE
+      };
+
+      user = await this.usersService.create(newUser);
+    }
+    console.log(`User: ${user}`);
+    
+    const payload = { sub: user?.id, username: user?.username };
+
+    return {
+      access_token: this.jwtService.sign(payload)
+    };
+  }
+
+    async fortytwoLogin(req: any): Promise<null | any> {
+    if (!req.user) {
+      throw new BadRequestException('Unauthenticated');
+    }
+    let user = await this.usersService.findOneByAuthProvider(
+      req.user.email,
+      AuthStrategy.FORTYTWO,
+    );
+
+    if (user != null) {
+      // Create user
+      const newUser: CreateUserDto = {
+        username: this.utilsService.makeUsername(
+          req.user.first_name,
+          req.user.last_name,
+        ),
+        first_name: req.user.first_name,
+        last_name: req.user.last_name,
+        email: req.user.email,
+        profile_picture_url: req.user.picture,
+        auth_strategy: AuthStrategy.FORTYTWO
       };
 
       user = await this.usersService.create(newUser);

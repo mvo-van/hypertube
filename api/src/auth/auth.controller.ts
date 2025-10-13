@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { FortytwoAuthGuard } from './guards/fortytwo-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -27,5 +28,18 @@ export class AuthController {
   @Get('google/redirect')
   googleAuthRedirect(@Request() req) {
     return this.authService.googleLogin(req);
+  }
+
+  // ========================= 42 =========================
+  @Public()
+  @UseGuards(FortytwoAuthGuard)
+  @Get('fortytwo')
+  async fortytwoAuth(@Request() req) {}
+
+  @Public()
+  @UseGuards(FortytwoAuthGuard)
+  @Get('fortytwo/redirect')
+  fortytwoAuthRedirect(@Request() req) {
+    return this.authService.fortytwoLogin(req);
   }
 }

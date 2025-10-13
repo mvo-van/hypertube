@@ -7,11 +7,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { GoogleStrategy } from './strategies/google.strategy';
+import { FortytwoStrategy } from './strategies/fortytwo.strategy';
 import { AuthController } from './auth.controller';
 import { UtilsModule } from 'src/utils/utils.module';
 
 @Module({
-  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, FortytwoStrategy],
   imports: [
     UsersModule,
     PassportModule,

@@ -19,6 +19,8 @@ import * as Joi from 'joi';
         JWT_SECRET: Joi.string().token().required(),
         GOOGLE_CLIENT_ID: Joi.string().required(),
         GOOGLE_CLIENT_SECRET: Joi.string().required(),
+        FORTYTWO_UID:Joi.string().required(),
+        FORTYTWO_SECRET:Joi.string().required(),
       }),
     }),
   ],
