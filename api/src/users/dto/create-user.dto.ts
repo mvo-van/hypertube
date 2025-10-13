@@ -61,5 +61,5 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsEnum(AuthStrategy)
-  auth_strategy?: AuthStrategy = AuthStrategy.GOOGLE;
+  auth_strategy?: AuthStrategy;
 }
