@@ -5,6 +5,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { FortytwoAuthGuard } from './guards/fortytwo-auth.guard';
 import { GithubAuthGuard } from './guards/github-auth.guard';
+import { GitlabAuthGuard } from './guards/gitlab-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -55,5 +56,18 @@ export class AuthController {
   @Get('github/callback')
   githubAuthRedirect(@Request() req) {
     return this.authService.githubLogin(req);
+  }
+
+  // ========================= Gitlab =========================
+  @Public()
+  @UseGuards(GitlabAuthGuard)
+  @Get('gitlab')
+  async gitlabAuth(@Request() req) {}
+
+  @Public()
+  @UseGuards(GitlabAuthGuard)
+  @Get('gitlab/callback')
+  gitlabAuthRedirect(@Request() req) {
+    return this.authService.gitlabLogin(req);
   }
 }

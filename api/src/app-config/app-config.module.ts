@@ -23,6 +23,8 @@ import * as Joi from 'joi';
         FORTYTWO_SECRET:Joi.string().required(),
         GITHUB_CLIENT_ID: Joi.string().required(),
         GITHUB_CLIENT_SECRET: Joi.string().required(),
+        GITLAB_CLIENT_ID: Joi.string().required(),
+        GITLAB_CLIENT_SECRET: Joi.string().required(),
         
       }),
     }),

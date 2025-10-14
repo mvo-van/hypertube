@@ -3,4 +3,5 @@ export enum AuthStrategy {
   GOOGLE = 'google',
   FORTYTWO = 'fortytwo',
   GITHUB = 'github',
+  GITLAB = 'gitlab',
 }

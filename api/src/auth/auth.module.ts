@@ -9,11 +9,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { FortytwoStrategy } from './strategies/fortytwo.strategy';
 import { GithubStrategy } from './strategies/github.strategy';
+import { GitlabStrategy } from './strategies/gitlab.strategy';
 import { AuthController } from './auth.controller';
 import { UtilsModule } from 'src/utils/utils.module';
 
 @Module({
-  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, FortytwoStrategy, GithubStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, FortytwoStrategy, GithubStrategy, GitlabStrategy],
   imports: [
     UsersModule,
     PassportModule,
