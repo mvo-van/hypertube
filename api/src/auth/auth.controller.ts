@@ -4,6 +4,7 @@ import { Public } from './decorators/public.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { FortytwoAuthGuard } from './guards/fortytwo-auth.guard';
+import { GithubAuthGuard } from './guards/github-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -41,5 +42,18 @@ export class AuthController {
   @Get('fortytwo/redirect')
   fortytwoAuthRedirect(@Request() req) {
     return this.authService.fortytwoLogin(req);
+  }
+
+  // ========================= Github =========================
+  @Public()
+  @UseGuards(GithubAuthGuard)
+  @Get('github')
+  async githubAuth(@Request() req) {}
+
+  @Public()
+  @UseGuards(GithubAuthGuard)
+  @Get('github/callback')
+  githubAuthRedirect(@Request() req) {
+    return this.authService.githubLogin(req);
   }
 }

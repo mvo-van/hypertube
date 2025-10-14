@@ -37,6 +37,7 @@
     "joi": "^17.13.3",
     "passport": "^0.7.0",
     "passport-42": "^1.2.6",
+    "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",

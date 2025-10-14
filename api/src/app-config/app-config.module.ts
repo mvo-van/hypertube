@@ -21,6 +21,9 @@ import * as Joi from 'joi';
         GOOGLE_CLIENT_SECRET: Joi.string().required(),
         FORTYTWO_UID:Joi.string().required(),
         FORTYTWO_SECRET:Joi.string().required(),
+        GITHUB_CLIENT_ID: Joi.string().required(),
+        GITHUB_CLIENT_SECRET: Joi.string().required(),
+        
       }),
     }),
   ],
