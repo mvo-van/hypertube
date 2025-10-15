@@ -25,7 +25,10 @@ import * as Joi from 'joi';
         GITHUB_CLIENT_SECRET: Joi.string().required(),
         GITLAB_CLIENT_ID: Joi.string().required(),
         GITLAB_CLIENT_SECRET: Joi.string().required(),
-        
+        FB_APP_ID: Joi.string().required(),
+        FB_APP_SECRET: Joi.string().required(),
+        DISCORD_CLIENT_ID: Joi.string().required(),
+        DISCORD_CLIENT_SECRET: Joi.string().required(),
       }),
     }),
   ],

@@ -10,11 +10,13 @@ import { GoogleStrategy } from './strategies/google.strategy';
 import { FortytwoStrategy } from './strategies/fortytwo.strategy';
 import { GithubStrategy } from './strategies/github.strategy';
 import { GitlabStrategy } from './strategies/gitlab.strategy';
+import { FacebookStrategy } from './strategies/facebook.strategy';
+import { DiscordStrategy } from './strategies/discord.strategy';
 import { AuthController } from './auth.controller';
 import { UtilsModule } from 'src/utils/utils.module';
 
 @Module({
-  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, FortytwoStrategy, GithubStrategy, GitlabStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, FortytwoStrategy, GithubStrategy, GitlabStrategy, FacebookStrategy, DiscordStrategy],
   imports: [
     UsersModule,
     PassportModule,

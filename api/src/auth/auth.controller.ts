@@ -6,6 +6,9 @@ import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { FortytwoAuthGuard } from './guards/fortytwo-auth.guard';
 import { GithubAuthGuard } from './guards/github-auth.guard';
 import { GitlabAuthGuard } from './guards/gitlab-auth.guard';
+import { FacebookAuthGuard } from './guards/facebook-auth.guard';
+import { DiscordAuthGuard } from './guards/discord-auth.guard';
+
 
 @Controller('auth')
 export class AuthController {
@@ -69,5 +72,31 @@ export class AuthController {
   @Get('gitlab/callback')
   gitlabAuthRedirect(@Request() req) {
     return this.authService.gitlabLogin(req);
+  }
+
+  // ========================= Facebook =========================
+  @Public()
+  @UseGuards(FacebookAuthGuard)
+  @Get('facebook')
+  async facebookAuth(@Request() req) {}
+
+  @Public()
+  @UseGuards(FacebookAuthGuard)
+  @Get('facebook/callback')
+  facebookAuthRedirect(@Request() req) {
+    return this.authService.facebookLogin(req);
+  }
+  
+// ========================= Discord =========================
+  @Public()
+  @UseGuards(DiscordAuthGuard)
+  @Get('discord')
+  async discordAuth(@Request() req) {}
+
+  @Public()
+  @UseGuards(DiscordAuthGuard)
+  @Get('discord/callback')
+  discordAuthRedirect(@Request() req) {
+    return this.authService.discordLogin(req);
   }
 }

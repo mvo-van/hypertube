@@ -4,4 +4,6 @@ export enum AuthStrategy {
   FORTYTWO = 'fortytwo',
   GITHUB = 'github',
   GITLAB = 'gitlab',
+  FACEBOOK = 'facebook',
+  DISCORD = 'discord',
 }
