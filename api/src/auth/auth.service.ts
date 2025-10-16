@@ -169,40 +169,6 @@ export class AuthService {
     };
   }
 
-  async facebookLogin(req: any): Promise<null | any> {
-    if (!req.user) {
-      throw new BadRequestException('Unauthenticated');
-    }
-    let user = await this.usersService.findOneByAuthProvider(
-      req.user.email,
-      AuthStrategy.FACEBOOK,
-    );
-
-    if (user != null) {
-      // Create user
-      const newUser: CreateUserDto = {
-        username: this.utilsService.makeUsername(
-          req.user.first_name,
-          req.user.last_name,
-        ),
-        first_name: req.user.first_name,
-        last_name: req.user.last_name,
-        email: req.user.email,
-        profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.FACEBOOK
-      };
-
-      user = await this.usersService.create(newUser);
-    }
-    console.log(`User: ${user}`);
-    
-    const payload = { sub: user?.id, username: user?.username };
-
-    return {
-      access_token: this.jwtService.sign(payload)
-    };
-  }
-
   async discordLogin(req: any): Promise<null | any> {
     if (!req.user) {
       throw new BadRequestException('Unauthenticated');
