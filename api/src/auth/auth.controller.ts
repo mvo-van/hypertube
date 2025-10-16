@@ -8,6 +8,7 @@ import { GithubAuthGuard } from './guards/github-auth.guard';
 import { GitlabAuthGuard } from './guards/gitlab-auth.guard';
 import { FacebookAuthGuard } from './guards/facebook-auth.guard';
 import { DiscordAuthGuard } from './guards/discord-auth.guard';
+import { SpotifyAuthGuard } from './guards/spotify-auth.guard';
 
 
 @Controller('auth')
@@ -98,5 +99,18 @@ export class AuthController {
   @Get('discord/callback')
   discordAuthRedirect(@Request() req) {
     return this.authService.discordLogin(req);
+  }
+
+// ========================= Spotify =========================
+  @Public()
+  @UseGuards(SpotifyAuthGuard)
+  @Get('spotify')
+  async spotifyAuth(@Request() req) {}
+
+  @Public()
+  @UseGuards(SpotifyAuthGuard)
+  @Get('spotify/callback')
+  spotifyAuthRedirect(@Request() req) {
+    return this.authService.spotifyLogin(req);
   }
 }

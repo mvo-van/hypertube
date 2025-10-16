@@ -29,6 +29,8 @@ import * as Joi from 'joi';
         FB_APP_SECRET: Joi.string().required(),
         DISCORD_CLIENT_ID: Joi.string().required(),
         DISCORD_CLIENT_SECRET: Joi.string().required(),
+        SPOTIFY_CLIENT_ID: Joi.string().required(),
+        SPOTIFY_CLIENT_SECRET: Joi.string().required(),
       }),
     }),
   ],

@@ -6,4 +6,5 @@ export enum AuthStrategy {
   GITLAB = 'gitlab',
   FACEBOOK = 'facebook',
   DISCORD = 'discord',
+  SPOTIFY = 'spotify'
 }
