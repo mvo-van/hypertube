@@ -33,4 +33,7 @@ export class User {
 
   @Column({ type: 'enum', enum: AuthStrategy, default: AuthStrategy.LOCAL })
   auth_strategy: AuthStrategy;
+
+  @Column({ type: 'varchar', length: 6, nullable: true, default: null })
+  otp_code?: string;
 }

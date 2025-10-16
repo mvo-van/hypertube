@@ -1,12 +1,12 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { compareSync } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { AuthStrategy } from './auth.provider';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UtilsService } from 'src/utils/utils.service';
-import { User } from 'src/users/entities/user.entity';
-import { Lang } from 'src/lang/lang';
+import { error } from 'console';
+import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -65,6 +65,29 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload)
     };
+  }
+
+  async forgotPassword(email: string) {
+    // Errors:
+    //  - user doesn't exists
+    //  - problem while sending OTP email
+
+    // 1. Generate OTP code
+    // 2. Store OTP code
+    // 3. Send OTP to user email
+    const otp = this.utilsService.generateOTP();
+
+
+    const user = await this.usersService.findOneByEmail(email);
+
+    if (!user) {
+      throw new NotFoundException({
+        error: "User not found",
+        message: `User with email '${email}' was not found.`,
+        status: 404
+      });
+    }
+    this.usersService.update(user.id, {otp_code: otp});
   }
 
   async fortytwoLogin(req: any): Promise<null | any> {

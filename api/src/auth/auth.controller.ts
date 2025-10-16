@@ -1,8 +1,9 @@
-import { Controller, Post, UseGuards, Request, Get } from '@nestjs/common';
+import { Controller, Post, UseGuards, Request, Get, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { FortytwoAuthGuard } from './guards/fortytwo-auth.guard';
 import { GithubAuthGuard } from './guards/github-auth.guard';
 import { GitlabAuthGuard } from './guards/gitlab-auth.guard';
@@ -33,6 +34,18 @@ export class AuthController {
   @Get('google/redirect')
   googleAuthRedirect(@Request() req) {
     return this.authService.googleLogin(req);
+  }
+
+  @Public()
+  @Post("forgot-password")
+  forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(forgotPasswordDto.email);
+  }
+
+  @Public()
+  @Post('reset-password')
+  resetPassword(@Request() req) {
+
   }
 
   // ========================= 42 =========================
