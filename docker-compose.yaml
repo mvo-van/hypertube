@@ -51,6 +51,8 @@ services:
       - DISCORD_CLIENT_SECRET=${DISCORD_CLIENT_SECRET}
       - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
       - SPOTIFY_CLIENT_SECRET=${SPOTIFY_CLIENT_SECRET}
+      - MAIL=${MAIL}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 10s

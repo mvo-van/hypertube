@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthStrategy } from './auth.provider';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UtilsService } from 'src/utils/utils.service';
+import nodemailer from 'nodemailer';
 import { error } from 'console';
 import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 
@@ -31,6 +32,53 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  async forgotPassword(email: string) {
+    // Errors:
+    //  - user doesn't exists
+    //  - problem while sending OTP email
+
+    // 1. Generate OTP code
+    // 2. Store OTP code
+    // 3. Send OTP to user email
+    const otp = this.utilsService.generateOTP();
+
+
+    const user = await this.usersService.findOneByEmail(email);
+
+    if (!user) {
+      throw new NotFoundException({
+        error: "User not found",
+        message: `User with email '${email}' was not found.`,
+        status: 404
+      });
+    }
+    console.log()
+    const transporter = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+            user: process.env.MAIL,
+            pass: process.env.MAIL_PASSWORD
+        }
+    });
+    const mailOptions = {
+        from: process.env.MAIL_USERNAME,
+        to: email,
+        subject: "Votre code de reinitialisation de mot de passe",
+        html: `Bonjour, Saisissez ce code pour reinitialiser votre mot de passe ${otp}`
+    };
+
+    console.log(`Sending mail to - ${email}`);
+    transporter.sendMail(mailOptions, (error, info)=> {
+        if (error) {
+            console.log(error);
+        } else {
+          this.usersService.update(user.id, {otp_code: otp});
+          console.log('Email sent: ' + info.response);
+        }
+    });
+
   }
 
   async googleLogin(req: any): Promise<null | any> {
@@ -65,29 +113,6 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload)
     };
-  }
-
-  async forgotPassword(email: string) {
-    // Errors:
-    //  - user doesn't exists
-    //  - problem while sending OTP email
-
-    // 1. Generate OTP code
-    // 2. Store OTP code
-    // 3. Send OTP to user email
-    const otp = this.utilsService.generateOTP();
-
-
-    const user = await this.usersService.findOneByEmail(email);
-
-    if (!user) {
-      throw new NotFoundException({
-        error: "User not found",
-        message: `User with email '${email}' was not found.`,
-        status: 404
-      });
-    }
-    this.usersService.update(user.id, {otp_code: otp});
   }
 
   async fortytwoLogin(req: any): Promise<null | any> {

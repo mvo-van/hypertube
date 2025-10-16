@@ -23,6 +23,18 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
+  @Public()
+  @Post("forgot-password")
+  forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(forgotPasswordDto.email);
+  }
+
+  @Public()
+  @Post('reset-password')
+  resetPassword(@Request() req) {
+    
+  }
+
   // ========================= Google =========================
   @Public()
   @UseGuards(GoogleAuthGuard)
@@ -34,18 +46,6 @@ export class AuthController {
   @Get('google/redirect')
   googleAuthRedirect(@Request() req) {
     return this.authService.googleLogin(req);
-  }
-
-  @Public()
-  @Post("forgot-password")
-  forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
-    return this.authService.forgotPassword(forgotPasswordDto.email);
-  }
-
-  @Public()
-  @Post('reset-password')
-  resetPassword(@Request() req) {
-
   }
 
   // ========================= 42 =========================
