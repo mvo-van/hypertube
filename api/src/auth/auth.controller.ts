@@ -9,6 +9,7 @@ import { GithubAuthGuard } from './guards/github-auth.guard';
 import { GitlabAuthGuard } from './guards/gitlab-auth.guard';
 import { DiscordAuthGuard } from './guards/discord-auth.guard';
 import { SpotifyAuthGuard } from './guards/spotify-auth.guard';
+import { RestPasswordDto } from './dto/reset-password.dto';
 
 
 @Controller('auth')
@@ -30,9 +31,9 @@ export class AuthController {
   }
 
   @Public()
-  @Post('reset-password')
-  resetPassword(@Request() req) {
-    
+  @Post("reset-password")
+  resetPassword(@Body() resetPassword: RestPasswordDto) {
+    return this.authService.restPassword(resetPassword.email, resetPassword.otp, resetPassword.newPassword);
   }
 
   // ========================= Google =========================

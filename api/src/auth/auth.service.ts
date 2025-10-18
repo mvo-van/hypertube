@@ -35,13 +35,7 @@ export class AuthService {
   }
 
   async forgotPassword(email: string) {
-    // Errors:
-    //  - user doesn't exists
-    //  - problem while sending OTP email
 
-    // 1. Generate OTP code
-    // 2. Store OTP code
-    // 3. Send OTP to user email
     const otp = this.utilsService.generateOTP();
 
 
@@ -80,6 +74,20 @@ export class AuthService {
     });
 
   }
+
+  async restPassword(email: string, otp: string, newPassword: string) {
+    const user = await this.usersService.findOneByEmailOtp(email, otp);
+
+    if (!user) {
+      throw new NotFoundException({
+        error: "Unvalide otp",
+        message: `User with email '${email}' and otp '${otp}' was not found.`,
+        status: 404
+      });
+    }
+    this.usersService.update(user.id, {password: await this.utilsService.hashPassword(newPassword)});
+  }
+
 
   async googleLogin(req: any): Promise<null | any> {
     if (!req.user) {
