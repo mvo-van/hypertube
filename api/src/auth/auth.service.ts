@@ -78,14 +78,14 @@ export class AuthService {
   async restPassword(email: string, otp: string, newPassword: string) {
     const user = await this.usersService.findOneByEmailOtp(email, otp);
 
-    if (!user) {
+    if (!user || otp.length != 6) {
       throw new NotFoundException({
         error: "Unvalide otp",
         message: `User with email '${email}' and otp '${otp}' was not found.`,
         status: 404
       });
     }
-    this.usersService.update(user.id, {password: await this.utilsService.hashPassword(newPassword)});
+    this.usersService.update(user.id, {password: await this.utilsService.hashPassword(newPassword), otp_code: ""});
   }
 
 
