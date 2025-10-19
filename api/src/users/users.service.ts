@@ -55,7 +55,7 @@ export class UsersService {
   }
 
   async findOneByEmailOtp(email: string, otp: string) {
-    return await this.userRepository.findOneBy({ email: email, otp_code:otp });
+    return await this.userRepository.findOneBy({ email: email, otp_code: otp });
   }
 
   async findOne(id: number): Promise<User | null> {

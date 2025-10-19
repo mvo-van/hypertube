@@ -11,16 +11,15 @@ async function bootstrap() {
   });
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
-
   const config = new DocumentBuilder()
-    .setTitle("Hypertube API")
-    .setDescription("Routes list")
-    .setVersion("1.0")
+    .setTitle('Hypertube API')
+    .setDescription('Routes list')
+    .setVersion('1.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("docs", app, document);
-  
+  SwaggerModule.setup('docs', app, document);
+
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

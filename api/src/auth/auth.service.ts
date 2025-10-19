@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { compareSync } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
@@ -35,44 +39,41 @@ export class AuthService {
   }
 
   async forgotPassword(email: string) {
-
     const otp = this.utilsService.generateOTP();
-
 
     const user = await this.usersService.findOneByEmail(email);
 
     if (!user) {
       throw new NotFoundException({
-        error: "User not found",
+        error: 'User not found',
         message: `User with email '${email}' was not found.`,
-        status: 404
+        status: 404,
       });
     }
-    console.log()
+    console.log();
     const transporter = nodemailer.createTransport({
-        service: "Gmail",
-        auth: {
-            user: process.env.MAIL,
-            pass: process.env.MAIL_PASSWORD
-        }
+      service: 'Gmail',
+      auth: {
+        user: process.env.MAIL,
+        pass: process.env.MAIL_PASSWORD,
+      },
     });
     const mailOptions = {
-        from: process.env.MAIL_USERNAME,
-        to: email,
-        subject: "Votre code de reinitialisation de mot de passe",
-        html: `Bonjour, Saisissez ce code pour reinitialiser votre mot de passe ${otp}`
+      from: process.env.MAIL_USERNAME,
+      to: email,
+      subject: 'Votre code de reinitialisation de mot de passe',
+      html: `Bonjour, Saisissez ce code pour reinitialiser votre mot de passe ${otp}`,
     };
 
     console.log(`Sending mail to - ${email}`);
-    transporter.sendMail(mailOptions, (error, info)=> {
-        if (error) {
-            console.log(error);
-        } else {
-          this.usersService.update(user.id, {otp_code: otp});
-          console.log('Email sent: ' + info.response);
-        }
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        this.usersService.update(user.id, { otp_code: otp });
+        console.log('Email sent: ' + info.response);
+      }
     });
-
   }
 
   async restPassword(email: string, otp: string, newPassword: string) {
@@ -80,14 +81,16 @@ export class AuthService {
 
     if (!user || otp.length != 6) {
       throw new NotFoundException({
-        error: "Unvalide otp",
+        error: 'Unvalide otp',
         message: `User with email '${email}' and otp '${otp}' was not found.`,
-        status: 404
+        status: 404,
       });
     }
-    this.usersService.update(user.id, {password: await this.utilsService.hashPassword(newPassword), otp_code: ""});
+    this.usersService.update(user.id, {
+      password: await this.utilsService.hashPassword(newPassword),
+      otp_code: '',
+    });
   }
-
 
   async googleLogin(req: any): Promise<null | any> {
     if (!req.user) {
@@ -109,17 +112,17 @@ export class AuthService {
         last_name: req.user.last_name,
         email: req.user.email,
         profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.GOOGLE
+        auth_strategy: AuthStrategy.GOOGLE,
       };
 
       user = await this.usersService.create(newUser);
     }
     console.log(`User: ${user}`);
-    
+
     const payload = { sub: user?.id, username: user?.username };
 
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
 
@@ -143,17 +146,17 @@ export class AuthService {
         last_name: req.user.last_name,
         email: req.user.email,
         profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.FORTYTWO
+        auth_strategy: AuthStrategy.FORTYTWO,
       };
 
       user = await this.usersService.create(newUser);
     }
     console.log(`User: ${user}`);
-    
+
     const payload = { sub: user?.id, username: user?.username };
 
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
 
@@ -177,17 +180,17 @@ export class AuthService {
         last_name: req.user.last_name,
         email: req.user.email,
         profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.GITHUB
+        auth_strategy: AuthStrategy.GITHUB,
       };
 
       user = await this.usersService.create(newUser);
     }
     console.log(`User: ${user}`);
-    
+
     const payload = { sub: user?.id, username: user?.username };
 
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
 
@@ -211,17 +214,17 @@ export class AuthService {
         last_name: req.user.last_name,
         email: req.user.email,
         profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.GITLAB
+        auth_strategy: AuthStrategy.GITLAB,
       };
 
       user = await this.usersService.create(newUser);
     }
     console.log(`User: ${user}`);
-    
+
     const payload = { sub: user?.id, username: user?.username };
 
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
 
@@ -245,17 +248,17 @@ export class AuthService {
         last_name: req.user.last_name,
         email: req.user.email,
         profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.DISCORD
+        auth_strategy: AuthStrategy.DISCORD,
       };
 
       user = await this.usersService.create(newUser);
     }
     console.log(`User: ${user}`);
-    
+
     const payload = { sub: user?.id, username: user?.username };
 
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
   async spotifyLogin(req: any): Promise<null | any> {
@@ -278,17 +281,17 @@ export class AuthService {
         last_name: req.user.last_name,
         email: req.user.email,
         profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.SPOTIFY
+        auth_strategy: AuthStrategy.SPOTIFY,
       };
 
       user = await this.usersService.create(newUser);
     }
     console.log(`User: ${user}`);
-    
+
     const payload = { sub: user?.id, username: user?.username };
 
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
 }

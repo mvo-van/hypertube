@@ -7,13 +7,12 @@ import { VerifyCallback } from 'passport-oauth2';
 
 @Injectable()
 export class SpotifyStrategy extends PassportStrategy(Strategy, 'spotify') {
-  
   constructor(config: ConfigService) {
     super({
       clientID: config.get<string>('SPOTIFY_CLIENT_ID')!,
       clientSecret: config.get<string>('SPOTIFY_CLIENT_SECRET')!,
       callbackURL: 'http://127.0.0.1:3000/auth/spotify/callback',
-      scope: ['user-read-email', 'user-read-private']
+      scope: ['user-read-email', 'user-read-private'],
     });
   }
 
@@ -31,12 +30,11 @@ export class SpotifyStrategy extends PassportStrategy(Strategy, 'spotify') {
 
     const { _json, emails } = profile;
 
-    const email = emails?.[0]?.value ?? "";
-    const login = _json?.display_name ?? "";
+    const email = emails?.[0]?.value ?? '';
+    const login = _json?.display_name ?? '';
     const firstName = login;
     const lastName = login;
     const photo = _json?.images?.[0]?.value ?? null;
-
 
     const user = {
       provider: AuthStrategy.SPOTIFY,
