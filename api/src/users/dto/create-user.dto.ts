@@ -113,6 +113,6 @@ export class CreateUserDto {
     example: '123456',
   })
   @IsOptional()
-  @Matches("^\\d{6}$")
+  @Matches('^\\d{6}$')
   otp_code?: string;
 }

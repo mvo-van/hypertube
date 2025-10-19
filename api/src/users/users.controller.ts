@@ -14,7 +14,6 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserResponseDto } from './dto/user-response.dto';
-import { UnauthorizedException } from '@nestjs/common';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { NotFoundException } from '@nestjs/common';
 
@@ -27,10 +26,10 @@ export class UsersController {
   @Public()
   @Post()
   @ApiOperation({ summary: 'Create a new user' })
-  @ApiResponse({ 
-    status: 201, 
+  @ApiResponse({
+    status: 201,
     description: 'User successfully created',
-    type: UserResponseDto 
+    type: UserResponseDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
@@ -40,10 +39,10 @@ export class UsersController {
 
   @Get()
   @ApiOperation({ summary: 'Get all users' })
-  @ApiResponse({ 
-    status: 200, 
+  @ApiResponse({
+    status: 200,
     description: 'List of all users',
-    type: [UserResponseDto] 
+    type: [UserResponseDto],
   })
   findAll() {
     return this.usersService.findAll();
@@ -52,10 +51,10 @@ export class UsersController {
   @Get(':id')
   @ApiOperation({ summary: 'Get a user by ID' })
   @ApiParam({ name: 'id', description: 'User ID', type: Number })
-  @ApiResponse({ 
-    status: 200, 
+  @ApiResponse({
+    status: 200,
     description: 'User found',
-    type: UserResponseDto 
+    type: UserResponseDto,
   })
   @ApiResponse({ status: 404, description: 'User not found' })
   async findOne(@Param('id') id: string) {
@@ -69,10 +68,10 @@ export class UsersController {
   @Patch(':id')
   @ApiOperation({ summary: 'Update a user' })
   @ApiParam({ name: 'id', description: 'User ID', type: Number })
-  @ApiResponse({ 
-    status: 200, 
+  @ApiResponse({
+    status: 200,
     description: 'User successfully updated',
-    type: UserResponseDto 
+    type: UserResponseDto,
   })
   @ApiResponse({ status: 404, description: 'User not found' })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

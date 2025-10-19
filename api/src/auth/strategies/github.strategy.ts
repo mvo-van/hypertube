@@ -7,7 +7,6 @@ import { VerifyCallback } from 'passport-oauth2';
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
-  
   constructor(config: ConfigService) {
     super({
       clientID: config.get<string>('GITHUB_CLIENT_ID')!,
@@ -36,7 +35,6 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     const firstName = _json?.name?.givenName ?? login;
     const lastName = _json?.name?.familyName ?? login;
     const photo = null;
-
 
     const user = {
       provider: AuthStrategy.GITHUB,

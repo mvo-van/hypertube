@@ -11,7 +11,7 @@ export class FortytwoStrategy extends PassportStrategy(Strategy, 'fortytwo') {
     super({
       clientID: config.get<string>('FORTYTWO_UID')!,
       clientSecret: config.get<string>('FORTYTWO_SECRET')!,
-      callbackURL: "http://localhost:3000/auth/fortytwo/redirect",
+      callbackURL: 'http://localhost:3000/auth/fortytwo/redirect',
       scope: ['public'],
     });
   }

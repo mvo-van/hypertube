@@ -10,15 +10,15 @@ export class HealthController {
   @Get()
   @HttpCode(200)
   @ApiOperation({ summary: 'Health check endpoint' })
-  @ApiResponse({ 
-    status: 200, 
+  @ApiResponse({
+    status: 200,
     description: 'Service is healthy',
     schema: {
       type: 'object',
       properties: {
-        status: { type: 'string', example: 'ok' }
-      }
-    }
+        status: { type: 'string', example: 'ok' },
+      },
+    },
   })
   health(@Res() res: Response) {
     res.json({ status: 'ok' });

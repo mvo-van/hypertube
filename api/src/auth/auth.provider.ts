@@ -5,5 +5,5 @@ export enum AuthStrategy {
   GITHUB = 'github',
   GITLAB = 'gitlab',
   DISCORD = 'discord',
-  SPOTIFY = 'spotify'
+  SPOTIFY = 'spotify',
 }

@@ -1,4 +1,11 @@
-import { Controller, Post, UseGuards, Request, Get, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Request,
+  Get,
+  Body,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
@@ -71,7 +78,10 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   @Get('google/redirect')
   @ApiOperation({ summary: 'Google OAuth callback' })
-  @ApiResponse({ status: 200, description: 'Successfully authenticated with Google' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully authenticated with Google',
+  })
   googleAuthRedirect(@Request() req) {
     return this.authService.googleLogin(req);
   }
@@ -88,7 +98,10 @@ export class AuthController {
   @UseGuards(FortytwoAuthGuard)
   @Get('fortytwo/redirect')
   @ApiOperation({ summary: '42 OAuth callback' })
-  @ApiResponse({ status: 200, description: 'Successfully authenticated with 42' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully authenticated with 42',
+  })
   fortytwoAuthRedirect(@Request() req) {
     return this.authService.fortytwoLogin(req);
   }
@@ -105,7 +118,10 @@ export class AuthController {
   @UseGuards(GithubAuthGuard)
   @Get('github/callback')
   @ApiOperation({ summary: 'GitHub OAuth callback' })
-  @ApiResponse({ status: 200, description: 'Successfully authenticated with GitHub' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully authenticated with GitHub',
+  })
   githubAuthRedirect(@Request() req) {
     return this.authService.githubLogin(req);
   }
@@ -122,7 +138,10 @@ export class AuthController {
   @UseGuards(GitlabAuthGuard)
   @Get('gitlab/callback')
   @ApiOperation({ summary: 'GitLab OAuth callback' })
-  @ApiResponse({ status: 200, description: 'Successfully authenticated with GitLab' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully authenticated with GitLab',
+  })
   gitlabAuthRedirect(@Request() req) {
     return this.authService.gitlabLogin(req);
   }
@@ -139,7 +158,10 @@ export class AuthController {
   @UseGuards(DiscordAuthGuard)
   @Get('discord/callback')
   @ApiOperation({ summary: 'Discord OAuth callback' })
-  @ApiResponse({ status: 200, description: 'Successfully authenticated with Discord' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully authenticated with Discord',
+  })
   discordAuthRedirect(@Request() req) {
     return this.authService.discordLogin(req);
   }
@@ -156,7 +178,10 @@ export class AuthController {
   @UseGuards(SpotifyAuthGuard)
   @Get('spotify/callback')
   @ApiOperation({ summary: 'Spotify OAuth callback' })
-  @ApiResponse({ status: 200, description: 'Successfully authenticated with Spotify' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully authenticated with Spotify',
+  })
   spotifyAuthRedirect(@Request() req) {
     return this.authService.spotifyLogin(req);
   }

@@ -7,13 +7,12 @@ import { VerifyCallback } from 'passport-oauth2';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
-  
   constructor(config: ConfigService) {
     super({
       clientID: config.get<string>('DISCORD_CLIENT_ID')!,
       clientSecret: config.get<string>('DISCORD_CLIENT_SECRET')!,
       callbackURL: 'http://localhost:3000/auth/discord/callback',
-      scope: ['identify', 'email']
+      scope: ['identify', 'email'],
     });
   }
 
@@ -35,7 +34,6 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     const firstName = global_name;
     const lastName = global_name;
     const photo = null;
-
 
     const user = {
       provider: AuthStrategy.DISCORD,
