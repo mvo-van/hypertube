@@ -8,6 +8,7 @@ import { UtilsService } from 'src/utils/utils.service';
 import nodemailer from 'nodemailer';
 import { error } from 'console';
 import { UpdateUserDto } from 'src/users/dto/update-user.dto';
+import juice from 'juice';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly utilsService: UtilsService,
-  ) {}
+  ) { }
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOneByUsername(username);
@@ -48,29 +49,29 @@ export class AuthService {
         status: 404
       });
     }
-    console.log()
     const transporter = nodemailer.createTransport({
-        service: "Gmail",
-        auth: {
-            user: process.env.MAIL,
-            pass: process.env.MAIL_PASSWORD
-        }
+      service: "Gmail",
+      auth: {
+        user: process.env.MAIL,
+        pass: process.env.MAIL_PASSWORD
+      }
     });
+
     const mailOptions = {
-        from: process.env.MAIL_USERNAME,
-        to: email,
-        subject: "Votre code de reinitialisation de mot de passe",
-        html: `Bonjour, Saisissez ce code pour reinitialiser votre mot de passe ${otp}`
+      from: process.env.MAIL_USERNAME,
+      to: email,
+      subject: "Votre code de reinitialisation de mot de passe",
+      html: this.makeForgotPaswordEmail(otp)
     };
 
     console.log(`Sending mail to - ${email}`);
-    transporter.sendMail(mailOptions, (error, info)=> {
-        if (error) {
-            console.log(error);
-        } else {
-          this.usersService.update(user.id, {otp_code: otp});
-          console.log('Email sent: ' + info.response);
-        }
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        this.usersService.update(user.id, { otp_code: otp });
+        console.log('Email sent: ' + info.response);
+      }
     });
 
   }
@@ -80,12 +81,12 @@ export class AuthService {
 
     if (!user || otp.length != 6) {
       throw new NotFoundException({
-        error: "Unvalide otp",
+        error: "Invalid OTP password",
         message: `User with email '${email}' and otp '${otp}' was not found.`,
         status: 404
       });
     }
-    this.usersService.update(user.id, {password: await this.utilsService.hashPassword(newPassword), otp_code: ""});
+    this.usersService.update(user.id, { password: await this.utilsService.hashPassword(newPassword), otp_code: "" });
   }
 
 
@@ -115,7 +116,7 @@ export class AuthService {
       user = await this.usersService.create(newUser);
     }
     console.log(`User: ${user}`);
-    
+
     const payload = { sub: user?.id, username: user?.username };
 
     return {
@@ -149,7 +150,7 @@ export class AuthService {
       user = await this.usersService.create(newUser);
     }
     console.log(`User: ${user}`);
-    
+
     const payload = { sub: user?.id, username: user?.username };
 
     return {
@@ -183,7 +184,7 @@ export class AuthService {
       user = await this.usersService.create(newUser);
     }
     console.log(`User: ${user}`);
-    
+
     const payload = { sub: user?.id, username: user?.username };
 
     return {
@@ -217,7 +218,7 @@ export class AuthService {
       user = await this.usersService.create(newUser);
     }
     console.log(`User: ${user}`);
-    
+
     const payload = { sub: user?.id, username: user?.username };
 
     return {
@@ -251,7 +252,7 @@ export class AuthService {
       user = await this.usersService.create(newUser);
     }
     console.log(`User: ${user}`);
-    
+
     const payload = { sub: user?.id, username: user?.username };
 
     return {
@@ -284,11 +285,66 @@ export class AuthService {
       user = await this.usersService.create(newUser);
     }
     console.log(`User: ${user}`);
-    
+
     const payload = { sub: user?.id, username: user?.username };
 
     return {
       access_token: this.jwtService.sign(payload)
     };
+  }
+
+  private makeForgotPaswordEmail(otp: string): string {
+    const htmlTemplate = `
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Code de réinitialisation</title>
+    <style>
+      body { margin:0; padding:0; background:#f6f9fc; color:#1a202c; }
+      .wrapper { width:100%; padding:24px; background:#f6f9fc; }
+      .container { max-width:600px; margin:0 auto; background:#ffffff; border-radius:8px; overflow:hidden; }
+      .content { padding:24px 24px 8px; font-size:15px; line-height:1.6; }
+      .otp {
+        display:block;
+        font-family: Menlo, Consolas, Monaco, monospace;
+        font-weight: 800;
+        letter-spacing: 4px;
+        font-size: 28px;
+        text-align: center;
+        color:#111827;
+        background:#f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin: 16px 0 8px;
+      }
+      .muted { color:#6b7280; font-size:13px; text-align:center; }
+      @media (prefers-color-scheme: dark) {
+        body { background:#0b1220; color:#e5e7eb; }
+        .container { background:#0f172a; }
+        .content { color:#e5e7eb; }
+        .otp { background:#0b1220; border-color:#233044; color:#e5e7eb; }
+        .muted { color:#94a3b8; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="container" role="article" aria-roledescription="email">
+        <div class="content">
+          <p>Bonjour,</p>
+          <p>Voici votre code de vérification pour réinitialiser votre mot de passe:</p>
+          <span class="otp">${otp}</span>
+          <p class="muted">Si vous n'êtes pas à l'origine de cette demande, ignorez simplement cet e-mail.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>`;
+
+    return juice(htmlTemplate)
   }
 }
