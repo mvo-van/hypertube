@@ -40,13 +40,23 @@
 }
 
 .line {
+    width: 80%;
     color:  #9F9F9F;
     background-color: #9F9F9F;
-    border-color:  #9F9F9F;
-    height: 1px;
-    width: 80%;
+    height: 2px;
     border: 0;
     border-radius: 5px;
+    overflow: visible;
+    text-align: center;
+}
+
+.line::after {
+    content: "OU";
+    position: relative;
+    top: -10px;
+    padding: 0 4px;
+    background: #252526;
+    border-radius: 100%;
 }
 
 .titreOmni{

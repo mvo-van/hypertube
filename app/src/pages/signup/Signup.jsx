@@ -6,6 +6,7 @@ import BubbleBackground from "../../components/background/BubbleBackground";
 import { useState } from "react";
 import Form from "../../components/form/Form";
 import Input from "../../components/input/Input";
+import SignupPasswordCheck from "../../components/SignupPasswordCheck/SignupPasswordCheck";
 
 
 function Signup() {
@@ -25,9 +26,10 @@ function Signup() {
 
   const onPasswordHandler = (value) => {
     setPassword(value);
+
   }
 
-  const onPassWordValidate = (value) => {
+  const onPasswordValidate = (value) => {
   }
 
   const onConfPasswordHandler = (value) => {
@@ -72,15 +74,6 @@ function Signup() {
           <Form className="login-form" onSubmit={onSubmitHandler} label="valider" direction="row" color="yellow">
 
             <Input
-              label="pseudo"
-              type="string"
-              value={pseudo}
-              onChange={onPseudoHandler}
-              onBlur={onPseudoValidate}
-              color="yellow"
-            />
-
-            <Input
               label="prenom"
               type="string"
               value={firstName}
@@ -105,14 +98,25 @@ function Signup() {
               onBlur={onMailValidate}
               color="yellow"
             />
+
+            <Input
+              label="pseudo"
+              type="string"
+              value={pseudo}
+              onChange={onPseudoHandler}
+              onBlur={onPseudoValidate}
+              color="yellow"
+            />
+
             <Input
               label="mot de passe"
               type="password"
               value={password}
               onChange={onPasswordHandler}
-              onBlur={onPassWordValidate}
+              onBlur={onPasswordValidate}
               color="yellow"
             />
+
             <Input
               label="confirmation"
               type="password"
@@ -121,6 +125,8 @@ function Signup() {
               onBlur={onConfPassWordValidate}
               color="yellow"
             />
+
+            <SignupPasswordCheck password={password} />
           </Form>
           <hr className={style.line}/>
           <p className={style.titreOmni}>Omniauth</p>
