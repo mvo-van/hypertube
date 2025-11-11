@@ -20,6 +20,7 @@
   -webkit-text-fill-color: transparent;
   letter-spacing: 0.2rem;
   margin-left: 64px;
+  cursor: pointer;
 }
 
 .titre{
@@ -36,4 +37,24 @@
   display: flex;
   gap: 25px;
   margin-right: 64px;
+}
+
+.movie{
+  cursor: pointer;
+}
+
+.people{
+  cursor: pointer;
+}
+
+.user{
+  cursor: pointer;
+}
+
+.settings{
+  cursor: pointer;
+}
+
+.logout{
+  cursor: pointer;
 }
