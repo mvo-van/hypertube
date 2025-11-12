@@ -1,7 +1,7 @@
 import styles from "./SignupPasswordCheck.module.css";
 import React, { useEffect } from "react";
 
-export default function SignupPasswordCheck({ password }) {
+export default function SignupPasswordCheck ({ password, onChange = () => {}}) {
 	if (!password)
 		return;
 	// const passwordRegexNumber = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,24}$/;
@@ -17,8 +17,17 @@ export default function SignupPasswordCheck({ password }) {
 	const hasDigit = digitRegex.test(password);
 	const hasSpecialChar = specialCharRegex.test(password);
 
-	if (isLongEnough && hasUppercase && hasLowercase && hasDigit && hasSpecialChar)
+	const onChangeHandler = (value) => {
+		onChange(value);
+	}
+
+	if (isLongEnough && hasUppercase && hasLowercase && hasDigit && hasSpecialChar) {
+		onChangeHandler(true)
 		return;
+	}
+	else {
+		onChangeHandler(false);
+	}
 
 	return (
 		<div className={styles.password_box}>
@@ -74,4 +83,4 @@ export default function SignupPasswordCheck({ password }) {
 			</ul>
 		</div>
 	);
-}
+};

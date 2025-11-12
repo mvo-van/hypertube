@@ -49,3 +49,9 @@
     color: var(--color-red);
     font-size: 30px;
 }
+
+.invalid-alert{
+    font-family: 'Basic';
+	color: #dd1533;
+    font-size: 15px;
+}

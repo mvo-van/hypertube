@@ -7,6 +7,7 @@ const Input = React.forwardRef(({
   label,
   type,
   value,
+  maxLength = -1,
   onChange = () => {},
   onBlur = () => {},
   placeholder,
@@ -46,6 +47,7 @@ const Input = React.forwardRef(({
         ref={inputRef}
         placeholder={placeholder}
         autoComplete="off"
+        maxLength={maxLength}
       />
     </div>
   );
