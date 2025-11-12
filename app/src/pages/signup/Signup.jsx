@@ -17,8 +17,6 @@ import {
 	ERROR_INVALID_NICK,
 	ERROR_INVALID_PASSWORD,
 } from "../../common/messages";
-import { convertToObject } from "typescript";
-import { Mail } from "@mui/icons-material";
 
 function Signup() {
 	const [email, setEmail] = useState("");
