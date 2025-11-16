@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsString,
   IsStrongPassword,
+  Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -61,5 +62,9 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsEnum(AuthStrategy)
-  auth_strategy?: AuthStrategy = AuthStrategy.GOOGLE;
+  auth_strategy?: AuthStrategy;
+
+  @IsOptional()
+  @Matches("^\\d{6}$")
+  otp_code?: string;
 }

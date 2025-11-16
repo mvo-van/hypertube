@@ -7,11 +7,16 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { GoogleStrategy } from './strategies/google.strategy';
+import { FortytwoStrategy } from './strategies/fortytwo.strategy';
+import { GithubStrategy } from './strategies/github.strategy';
+import { GitlabStrategy } from './strategies/gitlab.strategy';
+import { DiscordStrategy } from './strategies/discord.strategy';
+import { SpotifyStrategy } from './strategies/spotify.strategy';
 import { AuthController } from './auth.controller';
 import { UtilsModule } from 'src/utils/utils.module';
 
 @Module({
-  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, FortytwoStrategy, GithubStrategy, GitlabStrategy, DiscordStrategy, SpotifyStrategy],
   imports: [
     UsersModule,
     PassportModule,
