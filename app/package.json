@@ -15,6 +15,7 @@
     "@types/node": "^16.18.126",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
+    "axios": "^1.13.2",
     "classnames": "^2.5.1",
     "match-sorter": "^8.1.0",
     "react": "^19.1.0",

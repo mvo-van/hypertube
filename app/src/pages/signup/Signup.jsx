@@ -17,6 +17,8 @@ import {
 	ERROR_INVALID_NICK,
 	ERROR_INVALID_PASSWORD,
 } from "../../common/messages";
+import { useNavigate } from "react-router";
+import axios from "axios";
 
 function Signup() {
 	const [email, setEmail] = useState("");
@@ -30,6 +32,7 @@ function Signup() {
 	const mailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
 	const useError = useErrorManager();
+  const navigate = useNavigate();
 
 	const onFirstNameHandler = (value) => {
 		setFirstName(value);
@@ -118,8 +121,8 @@ function Signup() {
 			validPassword.current &&
 			!useError.hasInputErrors()
 		) {
-			console.log("C'est tout bon maintenant faut attendre tony");
-		} else console.log("Bah non c'est pas bon");
+      navigate(`/validate-signup`);
+		}
 	};
 
 	return (
