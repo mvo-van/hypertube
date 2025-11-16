@@ -1,6 +1,6 @@
-import { IsEmail, IsString, IsStrongPassword, MaxLength } from "class-validator";
+import { IsEmail, IsString, IsStrongPassword, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { MAX_LENGTH_PASSWORD, MIN_LENGTH_PASSWORD } from "src/users/constants";
+import { MAX_LENGTH_PASSWORD, MIN_LENGTH_PASSWORD } from 'src/users/constants';
 
 export class RestPasswordDto {
     @ApiProperty({
