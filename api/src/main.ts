@@ -25,8 +25,9 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Hypertube API')
-    .setDescription('Routes list')
+    .setDescription('API documentation for Hypertube - A video streaming platform')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

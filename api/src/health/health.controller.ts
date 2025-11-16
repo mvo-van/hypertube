@@ -1,9 +1,25 @@
 import { Controller, Get, HttpCode, Res } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Public } from 'src/auth/decorators/public.decorator';
 
+@ApiTags('health')
 @Controller('health')
 export class HealthController {
+  @ApiOperation({ summary: 'Health check endpoint' })
+  @ApiResponse({
+    status: 200,
+    description: 'Service is healthy',
+    schema: {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'string',
+          example: 'ok',
+        },
+      },
+    },
+  })
   @Public()
   @Get()
   @HttpCode(200)
