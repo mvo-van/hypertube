@@ -54,7 +54,9 @@ export class CreateUserDto {
 
   @IsString()
   @MaxLength(MAX_LENGTH_PICTURE_URL)
-  profile_picture_url: string;
+  @IsOptional()
+  profile_picture_url?: string =
+    'https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
 
   @IsEnum(Lang)
   @IsOptional()
@@ -65,6 +67,6 @@ export class CreateUserDto {
   auth_strategy?: AuthStrategy;
 
   @IsOptional()
-  @Matches("^\\d{6}$")
+  @Matches('^\\d{6}$')
   otp_code?: string;
 }
