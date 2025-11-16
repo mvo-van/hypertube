@@ -135,7 +135,6 @@ function Signup() {
 
       navigate(`/validate-signup`);
     }
-  };
 
   return (
     <GenericPage className={style.home}>
