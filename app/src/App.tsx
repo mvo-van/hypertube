@@ -12,6 +12,7 @@ import Users from "./pages/users/Users";
 import ProfileUser from "./pages/profileUser/ProfileUser";
 import MoviePage from "./pages/moviePage/MoviePage";
 import Settings from "./pages/settings/Settings";
+import ValidateSignup from "./pages/validateSignup/ValidateSignup";
 
 function App() {
   return(
@@ -22,6 +23,7 @@ function App() {
         <Route path='/' element={<Home />}/>
         <Route path='/login' element={<Login />}/>
         <Route path='/signup' element={<Signup/>}/>
+        <Route path='/validate-signup' element={<ValidateSignup/>}/>
         <Route path='/feed' element={<Feed />}/>
         <Route path='/users' element={<Users />}/>
         <Route path='/user/:id' element={<ProfileUser />}/>

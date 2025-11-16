@@ -6,6 +6,7 @@ import Label from "../label/Label";
 const Input = React.forwardRef(({ 
   label,
   type,
+  mode = "text",
   value,
   maxLength = -1,
   onChange = () => {},
@@ -41,6 +42,7 @@ const Input = React.forwardRef(({
         className={`${styles["input__input"]} ${inputColor} round`}
         name={name} 
         type={type}
+        inputMode={mode}
         value={value}
         onChange={onChangeHandler}
         onBlur={onBlurHandler}
