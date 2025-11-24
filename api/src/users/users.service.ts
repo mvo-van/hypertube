@@ -20,12 +20,15 @@ export class UsersService {
     private readonly utilsService: UtilsService,
   ) {}
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const user = this.userRepository.create(createUserDto);
-
-    if (user.password != null) {
-      user.password = await this.utilsService.cipherPassword(user.password);
+    try {
+      const user = this.userRepository.create(createUserDto);
+      if (user.password != null) {
+        user.password = await this.utilsService.cipherPassword(user.password);
+      }
+      return await this.userRepository.save(user);
+    } catch {
+      throw new ConflictException('User already exists');
     }
-    return await this.userRepository.save(user); //TODO gerer le cas conflit username
   }
 
   async findOneByUsername(username: string): Promise<User | null> {
