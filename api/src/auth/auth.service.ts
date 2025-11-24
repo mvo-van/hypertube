@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { compareSync } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
@@ -16,7 +20,7 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly utilsService: UtilsService,
-  ) { }
+  ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOneByUsername(username);
@@ -36,32 +40,30 @@ export class AuthService {
   }
 
   async forgotPassword(email: string) {
-
     const otp = this.utilsService.generateOTP();
-
 
     const user = await this.usersService.findOneByEmail(email);
 
     if (!user) {
       throw new NotFoundException({
-        error: "User not found",
+        error: 'User not found',
         message: `User with email '${email}' was not found.`,
-        status: 404
+        status: 404,
       });
     }
     const transporter = nodemailer.createTransport({
-      service: "Gmail",
+      service: 'Gmail',
       auth: {
         user: process.env.MAIL,
-        pass: process.env.MAIL_PASSWORD
-      }
+        pass: process.env.MAIL_PASSWORD,
+      },
     });
 
     const mailOptions = {
       from: process.env.MAIL_USERNAME,
       to: email,
-      subject: "Votre code de reinitialisation de mot de passe",
-      html: this.makeForgotPaswordEmail(otp)
+      subject: 'Votre code de reinitialisation de mot de passe',
+      html: this.makeForgotPaswordEmail(otp),
     };
 
     console.log(`Sending mail to - ${email}`);
@@ -73,7 +75,6 @@ export class AuthService {
         console.log('Email sent: ' + info.response);
       }
     });
-
   }
 
   async restPassword(email: string, otp: string, newPassword: string) {
@@ -81,14 +82,16 @@ export class AuthService {
 
     if (!user || otp.length != 6) {
       throw new NotFoundException({
-        error: "Invalid OTP password",
+        error: 'Invalid OTP password',
         message: `User with email '${email}' and otp '${otp}' was not found.`,
-        status: 404
+        status: 404,
       });
     }
-    this.usersService.update(user.id, { password: await this.utilsService.hashPassword(newPassword), otp_code: "" });
+    this.usersService.update(user.id, {
+      password: await this.utilsService.cipherPassword(newPassword),
+      otp_code: '',
+    });
   }
-
 
   async googleLogin(req: any): Promise<null | any> {
     if (!req.user) {
@@ -110,7 +113,7 @@ export class AuthService {
         last_name: req.user.last_name,
         email: req.user.email,
         profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.GOOGLE
+        auth_strategy: AuthStrategy.GOOGLE,
       };
 
       user = await this.usersService.create(newUser);
@@ -120,7 +123,7 @@ export class AuthService {
     const payload = { sub: user?.id, username: user?.username };
 
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
 
@@ -144,7 +147,7 @@ export class AuthService {
         last_name: req.user.last_name,
         email: req.user.email,
         profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.FORTYTWO
+        auth_strategy: AuthStrategy.FORTYTWO,
       };
 
       user = await this.usersService.create(newUser);
@@ -154,7 +157,7 @@ export class AuthService {
     const payload = { sub: user?.id, username: user?.username };
 
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
 
@@ -178,7 +181,7 @@ export class AuthService {
         last_name: req.user.last_name,
         email: req.user.email,
         profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.GITHUB
+        auth_strategy: AuthStrategy.GITHUB,
       };
 
       user = await this.usersService.create(newUser);
@@ -188,7 +191,7 @@ export class AuthService {
     const payload = { sub: user?.id, username: user?.username };
 
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
 
@@ -212,7 +215,7 @@ export class AuthService {
         last_name: req.user.last_name,
         email: req.user.email,
         profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.GITLAB
+        auth_strategy: AuthStrategy.GITLAB,
       };
 
       user = await this.usersService.create(newUser);
@@ -222,7 +225,7 @@ export class AuthService {
     const payload = { sub: user?.id, username: user?.username };
 
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
 
@@ -246,7 +249,7 @@ export class AuthService {
         last_name: req.user.last_name,
         email: req.user.email,
         profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.DISCORD
+        auth_strategy: AuthStrategy.DISCORD,
       };
 
       user = await this.usersService.create(newUser);
@@ -256,7 +259,7 @@ export class AuthService {
     const payload = { sub: user?.id, username: user?.username };
 
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
   async spotifyLogin(req: any): Promise<null | any> {
@@ -279,7 +282,7 @@ export class AuthService {
         last_name: req.user.last_name,
         email: req.user.email,
         profile_picture_url: req.user.picture,
-        auth_strategy: AuthStrategy.SPOTIFY
+        auth_strategy: AuthStrategy.SPOTIFY,
       };
 
       user = await this.usersService.create(newUser);
@@ -289,7 +292,7 @@ export class AuthService {
     const payload = { sub: user?.id, username: user?.username };
 
     return {
-      access_token: this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload),
     };
   }
 
@@ -345,6 +348,6 @@ export class AuthService {
   </body>
 </html>`;
 
-    return juice(htmlTemplate)
+    return juice(htmlTemplate);
   }
 }

@@ -6,7 +6,7 @@ import { genSalt, hash } from 'bcryptjs';
 export class UtilsService {
   constructor(private config: ConfigService) {}
 
-  async hashPassword(password: string): Promise<string> {
+  async cipherPassword(password: string): Promise<string> {
     const rounds = this.config.get<number>('BCRYPT_SALT_ROUNDS');
     const salt = await genSalt(rounds);
 
@@ -26,7 +26,7 @@ export class UtilsService {
   // Generate a 6 digits otp password
   generateOTP(): string {
     const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    let otp = "";
+    let otp = '';
 
     for (let i = 0; i < 6; i++) {
       otp += digits[Math.floor(Math.random() * digits.length)];

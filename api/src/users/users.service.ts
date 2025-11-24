@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
@@ -7,6 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UtilsService } from '../utils/utils.service';
 import { AuthStrategy } from 'src/auth/auth.provider';
+import bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -19,7 +24,7 @@ export class UsersService {
     const user = this.userRepository.create(createUserDto);
 
     if (user.password != null) {
-      user.password = await this.utilsService.hashPassword(user.password);
+      user.password = await this.utilsService.cipherPassword(user.password);
     }
     return await this.userRepository.save(user); //TODO gerer le cas conflit username
   }
@@ -50,12 +55,12 @@ export class UsersService {
     });
   }
 
-  async findOneByEmail(email: string) : Promise<User | null>{
+  async findOneByEmail(email: string): Promise<User | null> {
     return await this.userRepository.findOneBy({ email: email });
   }
 
   async findOneByEmailOtp(email: string, otp: string) {
-    return await this.userRepository.findOneBy({ email: email, otp_code:otp });
+    return await this.userRepository.findOneBy({ email: email, otp_code: otp });
   }
 
   async findOne(id: number): Promise<User | null> {
@@ -65,8 +70,23 @@ export class UsersService {
     });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    return await this.userRepository.update(id, updateUserDto);
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User | null> {
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    if (bcrypt.compareSync(updateUserDto.password as string, user.password)) {
+      throw new ConflictException(
+        'Unable to update the password: the new password must be different from the previous one.',
+      );
+    }
+    await this.userRepository.update(id, {
+      ...updateUserDto,
+      password: await this.utilsService.cipherPassword(
+        updateUserDto.password as string,
+      ),
+    });
+    return await this.findOne(id);
   }
 
   async remove(id: number) {
