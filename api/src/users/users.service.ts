@@ -50,7 +50,7 @@ export class UsersService {
     });
   }
 
-  async findOneByEmail(email: string) {
+  async findOneByEmail(email: string) : Promise<User | null>{
     return await this.userRepository.findOneBy({ email: email });
   }
 
