@@ -1,0 +1,204 @@
+.allBox{
+    padding-top: 70px;
+    display: flex;
+    justify-content: center;
+}
+
+.settings{
+    max-width: 700px;
+    width: 100%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title{
+    font-family: "Basic";
+    font-size: 40px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.parameters{
+    max-width: 540px;
+    width: 100%;
+
+}
+
+.infoProfile{
+    width: 100%;
+}
+
+.nameInfo{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap-reverse;
+    justify-content: space-between;
+}
+
+.subNameInfo{
+    display: flex;
+    width: 230px;
+    flex-direction: column;
+    gap:5px
+}
+
+.subTitle{
+    font-family: "Basic";
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.subSubTitle{
+    font-family: 'Basic';
+    font-size: 16px;
+}
+
+.inputText{
+    font-family: 'Basic';
+    font-size: 16px;
+    width: 220px;
+    height: 27px;
+    border-radius: 10px;
+    background-color: #454545;
+    color: white;
+    padding-left: 10px;
+    margin-bottom: 5px;
+    display: inline-block;
+    line-height: 27px;
+}
+
+.photo{
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.line{
+    height: 1px;
+    max-width: 64%;
+    background-color: #454545;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-self: center;
+    margin-left: 18%;
+}
+
+.icone{
+    position: relative;
+    left: 50%;
+    bottom:25%;
+    
+}
+
+.boxPhoto{
+    width: 140px;
+    height: 140px;
+}
+
+.displayFalse{
+    display: none;
+}
+
+.buttonConnexion{
+    width: 100%;
+    max-width: 230px;
+    height: 34px;
+    background-color: #6a6a6a;
+    border-radius: 10px;
+    font-family: 'Basic';
+    color: white;
+}
+
+.language{
+    font-family: 'Basic';
+    font-size: 16px;
+    height: 34px;
+    width: 109px;
+    border-radius: 10px;
+    background-color: #454545;
+    color: white;
+    text-align: center;
+}
+
+.boxDisplay{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.display{
+    font-size: 16px;
+    font-family: 'Basic';
+}
+
+.yes{
+    width: 35px;
+    height: 27px;
+    color: white;
+    font-size: 16px;
+    font-family: 'Basic';
+    border-radius: 10px  0px 0px 10px;
+    margin-right: 2px;
+     display: inline-block;
+    line-height: 27px;
+    text-align: center;
+}
+
+.yes_true{
+    background-color: #419741;
+}
+
+.yes_false{
+    background-color: #454545;
+}
+
+.no{
+    width: 35px;
+    height: 27px;
+    color: white;
+    font-size: 16px;
+    font-family: 'Basic';
+    border-radius: 0px  10px 10px 0px;
+    display: inline-block;
+    line-height: 27px;
+    text-align: center;
+}
+
+.no_true{
+    background-color: #454545;
+}
+
+.no_false{
+    background-color: #963D3D;
+}
+
+.deletButton{
+    height: 34px;
+    width: 166px;
+    background-color: #963D3D;
+    font-family: 'Basic';
+    font-size: 16px;
+    border-radius: 10px;
+    color: white;
+}
+
+.saveButton{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    height: 39px;
+    width: 176px;
+    background-color: #686868;
+    color: white;
+    font-family: 'Basic';
+    font-size: 24px;
+    border-radius: 10px;
+    display: inline-block;
+    line-height: 39px;
+    text-align: center;
+}

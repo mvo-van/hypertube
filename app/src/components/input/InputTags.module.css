@@ -3,10 +3,16 @@
     flex-direction: column;
     font-weight: 100;
     width: 100%;
+    font-family: "Basic";
 }
 
 .input__label {
     width: 100%;
+}
+.input__label_lighter_gray{
+    font-family: 'Basic';
+    font-size: 16px;
+    color: var(--color-lighter-gray);
 }
 
 /* .input__input {
@@ -28,4 +34,5 @@
     margin-right: 5px;
     /* padding: 2px 6px; */
     font-size: 14px;
+    font-family: "Basic";
 }

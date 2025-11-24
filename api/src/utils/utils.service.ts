@@ -12,4 +12,25 @@ export class UtilsService {
 
     return hash(password, salt);
   }
+
+  makeUsername(firstName: string, lastName: string): string {
+    const maxLastNameLength: number = 7;
+
+    const lastNameUsername = lastName.slice(
+      0,
+      Math.min(maxLastNameLength, lastName.length),
+    );
+    return `${firstName[0]}${lastNameUsername}`;
+  }
+
+  // Generate a 6 digits otp password
+  generateOTP(): string {
+    const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    let otp = "";
+
+    for (let i = 0; i < 6; i++) {
+      otp += digits[Math.floor(Math.random() * digits.length)];
+    }
+    return otp;
+  }
 }

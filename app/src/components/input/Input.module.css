@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     font-weight: 100;
-    width: 100%;
+    width: 217px;
 }
 
 .input__label {
@@ -11,17 +11,15 @@
 
 .input__input {
     padding: 0 15px;
-    font-size: var(--input-font-size);
-    height: var(--input-height);
-    opacity: 0.7;
+    font-size: 16px;
+    height: 27px;
     color: var(--color-dark-gray);
-    font-family:'AmstelvarAlpha';
-
+    font-family:'Basic';
 }
 
 /* Input colors */
 .input__input__blue {
-    background-color: var(--color-blue);
+    background-color: #71A6C7;
 }
 
 .input__input__blue_to_yellow_1 {
@@ -37,7 +35,7 @@
 }
 
 .input__input__yellow {
-    background-color: var(--color-yellow);
+    background-color: #C0BF83;
 }
 
 .input__input__yellow_to_red_1 {
@@ -70,4 +68,8 @@
 
 .input__input__gray {
     background-color: var(--color-medium-gray);
+}
+
+.input__input__lighter_gray {
+    background-color: var(--color-lighter-gray);
 }

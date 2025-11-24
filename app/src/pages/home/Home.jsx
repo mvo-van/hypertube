@@ -17,6 +17,7 @@ function Home() {
   return (
     <GenericPage className={style.home}>
       <BubbleBackground>
+        {/* <div className={style["titre"]}>Hypertube</div> */}
         <MulticoText className={style["titre"]} text="Hypertube"/>
         <div className={style["button-box"]}>
 
@@ -25,9 +26,6 @@ function Home() {
           </form>
           <form action="/signup" onSubmit={onSubmitHandler}>
             <Button variant="regular" type="submit" color="yellow">inscription</Button>
-          </form>
-          <form action="/about" onSubmit={onSubmitHandler}>
-            <Button variant="regular" type="submit" color="red">a propos</Button>
           </form>
         </div>
       </BubbleBackground>

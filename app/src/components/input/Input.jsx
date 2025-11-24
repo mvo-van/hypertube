@@ -10,7 +10,7 @@ const Input = React.forwardRef(({
   onChange = () => {},
   onBlur = () => {},
   placeholder,
-  color = "blue"
+  color = "lighter_gray"
 }, ref) => {
   // const { theme } = useContext(AppContext);
   const onChangeHandler = (event) => {
@@ -34,7 +34,7 @@ const Input = React.forwardRef(({
     
   return (
     <div className={styles.input}>
-      <Label label={label} htmlFor={id} className={styles["input__label"]} color={color}/>
+      <Label label={label} htmlFor={id} className={styles["input__label"]} color="white"/>
       <input 
         id = {id}
         className={`${styles["input__input"]} ${inputColor} round`}

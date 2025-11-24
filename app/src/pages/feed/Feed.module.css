@@ -1,56 +1,11 @@
 
 .feed{
     height: 100%;
-    background-color: var(--color-dark-gray);
+    background-color: var(--color-darker-gray);
     z-index: 1;
     position: relative;
     justify-content: center;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-}
-
-.filter{
-    width: 100%;
-    z-index: 1;
-    position: relative;
-    background-color: var(--color-dark-gray);
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-    flex-wrap: wrap;
-
-}
-
-.size_box{
-    width: 360px;
-    /* background-color: aqua; */
-}
-
-.boxTrueFalse{
-    width: 100%;
-    /* display: flex;
-    flex-direction: row; */
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: flex-end;
-    flex-grow:2;
-    gap:5px;
-}
-
-.ralisationTitle {
-    font-size: var(--label-font-size);
-    color: var(--color-yellow-to-red-2);
-}
-
-.genreTitle{
-    font-size: var(--label-font-size);
-    color: var(--color-blue-to-yellow-3);
-}
-
-.casteTitle{
-    font-size: var(--label-font-size);
-    color: var(--color-yellow-to-red-1);
 }

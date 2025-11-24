@@ -1,10 +1,14 @@
 .text_box{
     /* font-size: 100px; */
-    line-height: 1
+    line-height: 1;
+    
 }
 
-.text_color_0{
-    color: var(--color-blue);
+.text_color{
+    background: #2BFAFA;
+    background: linear-gradient(to right, #2BFAFA 0%, #FDEE00 50%, #E73E01 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .text_color_1{

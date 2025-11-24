@@ -1,8 +1,10 @@
 import {
   IsEmail,
   IsEnum,
+  IsOptional,
   IsString,
   IsStrongPassword,
+  Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -18,6 +20,7 @@ import {
   MIN_LENGTH_USERNAME,
 } from '../constants';
 import { Lang } from '../../lang/lang';
+import { AuthStrategy } from 'src/auth/auth.provider';
 
 export class CreateUserDto {
   @IsString()
@@ -46,12 +49,24 @@ export class CreateUserDto {
     minNumbers: 1,
   })
   @MaxLength(MAX_LENGTH_PASSWORD)
-  password: string;
+  @IsOptional()
+  password?: string;
 
   @IsString()
   @MaxLength(MAX_LENGTH_PICTURE_URL)
-  profile_picture_url: string;
+  @IsOptional()
+  profile_picture_url?: string =
+    'https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
 
   @IsEnum(Lang)
-  language: Lang;
+  @IsOptional()
+  language?: Lang;
+
+  @IsOptional()
+  @IsEnum(AuthStrategy)
+  auth_strategy?: AuthStrategy;
+
+  @IsOptional()
+  @Matches('^\\d{6}$')
+  otp_code?: string;
 }

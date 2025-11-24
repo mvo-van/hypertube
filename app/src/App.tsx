@@ -10,11 +10,14 @@ import Signup from "./pages/signup/Signup";
 import Feed from "./pages/feed/Feed";
 import Users from "./pages/users/Users";
 import ProfileUser from "./pages/profileUser/ProfileUser";
+import MoviePage from "./pages/moviePage/MoviePage";
+import Settings from "./pages/settings/Settings";
 
 function App() {
   return(
     <BrowserRouter>
       <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Amatic+SC" />
+      <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css2?family=Basic&display=swap" />
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/login' element={<Login />}/>
@@ -22,6 +25,8 @@ function App() {
         <Route path='/feed' element={<Feed />}/>
         <Route path='/users' element={<Users />}/>
         <Route path='/user/:id' element={<ProfileUser />}/>
+        <Route path='/movie/:id' element={<MoviePage />}/>
+        <Route path='/settings' element={<Settings/>}/>
         <Route path='/test' element={<ProfileUser />}/>
       </Routes>
     </BrowserRouter>

@@ -69,7 +69,7 @@ function Signup() {
         <MulticoText className={style["titre"]} text="Inscription"/>
         <div className={style["button-box"]}>
 
-          <Form className="login-form" onSubmit={onSubmitHandler} label="valider" color="light_gray">
+          <Form className="login-form" onSubmit={onSubmitHandler} label="valider" direction="row" color="yellow">
 
             <Input
               label="pseudo"
@@ -77,7 +77,7 @@ function Signup() {
               value={pseudo}
               onChange={onPseudoHandler}
               onBlur={onPseudoValidate}
-              color="blue"
+              color="yellow"
             />
 
             <Input
@@ -86,7 +86,7 @@ function Signup() {
               value={firstName}
               onChange={onFirstNameHandler}
               onBlur={onFirstNameValidate}
-              color="blue_to_yellow_2"
+              color="yellow"
             />
 
             <Input
@@ -103,7 +103,7 @@ function Signup() {
               value={email}
               onChange={onMailHandler}
               onBlur={onMailValidate}
-              color="yellow_to_red_2"
+              color="yellow"
             />
             <Input
               label="mot de passe"
@@ -111,17 +111,19 @@ function Signup() {
               value={password}
               onChange={onPasswordHandler}
               onBlur={onPassWordValidate}
-              color="red"
+              color="yellow"
             />
             <Input
-              label="confirmation mot de passe"
+              label="confirmation"
               type="password"
               value={confPassword}
               onChange={onConfPasswordHandler}
               onBlur={onConfPassWordValidate}
-              color="red_to_blue_2"
+              color="yellow"
             />
           </Form>
+          <hr className={style.line}/>
+          <p className={style.titreOmni}>Omniauth</p>
         </div>
       </BubbleBackground>
     </GenericPage>

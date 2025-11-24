@@ -11,10 +11,13 @@ function CommentDiv({ comment, movieIcon=true, color=0}) {
   }
   return (
     <div className={`${style.divComment}`} >
-      <div onClick={onClickHandlerIconMovie} className={`${style[`movieIcone_${movieIcon}`]} `}>{movieIcon && <img className={style.imgMovie} src={comment.urlImg}/>}</div>
+      <div onClick={onClickHandlerIconMovie} className={`${style[`movieIcone_${movieIcon}`]} `}>{movieIcon && <img className={style.imgMovie} src={comment.urlImg}/>}{!movieIcon && <img className={style.imgUser} src={comment.imgUser}/>}</div>
       
-      <div className={`${style.divMessage} ${style[`divComment__color_${color}`]}`}>
+      <div className={`${style.divMessage}`}>
+        {!movieIcon && <p className={style.name}>{comment.userName}</p>}
         <p className={style.message}>{comment.message}</p>
+        <div className={`${style.line}`}/>
+
       </div>
     </div>
   );

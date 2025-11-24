@@ -1,9 +1,10 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { Lang } from '../../lang/lang';
+import { AuthStrategy } from 'src/auth/auth.provider';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({ type: 'varchar', length: 20, unique: true, nullable: false })
@@ -18,7 +19,7 @@ export class User {
   @Column({ type: 'varchar', length: 255, unique: true, nullable: false })
   email: string;
 
-  @Column({ type: 'varchar', length: 72, nullable: false })
+  @Column({ type: 'varchar', length: 72, nullable: true })
   password: string;
 
   @Column({ type: 'varchar', length: 255, nullable: false })
@@ -29,4 +30,10 @@ export class User {
 
   @Column({ type: 'enum', enum: Lang, default: Lang.ENGLISH })
   language: Lang;
+
+  @Column({ type: 'enum', enum: AuthStrategy, default: AuthStrategy.LOCAL })
+  auth_strategy: AuthStrategy;
+
+  @Column({ type: 'varchar', length: 6, nullable: true, default: null })
+  otp_code?: string;
 }

@@ -5,6 +5,8 @@ import MovieIcon from "../../components/movieIcon/MovieIcon";
 import style from "./Users.module.css"
 import Input from "../../components/input/Input";
 import UserIcon from "../../components/UserIcon/UserIcon";
+import { Search } from "@mui/icons-material";
+import { matchSorter } from "match-sorter";
 
 function Users() {
   
@@ -24,21 +26,29 @@ function Users() {
     {"id":13,"name":"george", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
     {"id":14,"name":"sushi chef", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
   ]);
-  const [range, setRange] = useState([1900, 2025])
-  console.log(users[0].name)
-  console.log("url",users[0].urlImg)
-
+  // console.log(users[0].name)
+  // console.log("url",users[0].urlImg)
+  const [searchValue, setSearchValue] = useState("")
+  const [searchUsers, setSearchUsers] = useState(users)
+  const onChangeHeadler = (e) => {
+    setSearchValue(e.target.value)
+    setSearchUsers(matchSorter(users, e.target.value, {keys: ['name']}))
+  }
 
   return (
     <GenericPage>
       <Header />
-      <div className={style.filter}>
-        <div className={style.size_box}>
-          <Input label="Rechercher un utilisateur" color="gray"/>
+      <div className={style.styleBox}>
+        <div className={style.filter}>
+          <div className={style.size_box}>
+            <input className={style.search} onChange={onChangeHeadler} type="text"/>
+            <Search className={style.searchIcon}/>
+          </div>
         </div>
-      </div>
-      <div className={style.feed}>
-        {users.map((user, index) => <UserIcon key={user.name + user.id} user={user} color={index%12}/>)}
+        <div className={style.feed}>
+          {searchUsers.map((user, index) => <UserIcon key={user.name + user.id} user={user} color={index%12}/>)}
+          {(searchUsers.length == 0) && <div className={style.divNoRes}>Aucun utilisateur ne correspond a votre recherche</div>}
+        </div>
       </div>
     </GenericPage>
   );

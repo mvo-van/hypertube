@@ -35,7 +35,9 @@
     --color-red-to-blue-1-t7 : rgba(207,138,150,0.7);
     --color-red-to-blue-2-t7 : rgba(178,156,178,0.7);
     --color-red-to-blue-3-t7 : rgba(149,174,207,0.7);
+    --color-lighter-gray : #f0f0f0;
     --color-light-gray : #9F9F9F;
     --color-medium-gray : #666666;
     --color-dark-gray : #424242;
+    --color-darker-gray : #252526;
 }

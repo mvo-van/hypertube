@@ -5,10 +5,11 @@ import style from "./ProfileUser.module.css"
 import {useNavigate, useParams} from "react-router-dom";
 import UserInfo from "../../components/UserInfo/UserInfo";
 import Comments from "../../components/comments/Comments";
+import HorizontalScrollMovies from "../../components/horizontalScrollMovies/HorizontalScrollMovies";
 
 function ProfileUser() {
   const {id} = useParams();
-
+  const me = true;
   const [user, setUsers] = useState(
     {"id":1,"pseudo":"augustes", "firstName":"george","lastName":"sanderson","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "moviesNumber":120, "seriesNumber":40}
   );
@@ -20,13 +21,35 @@ function ProfileUser() {
     {"movieId":1,"commentId":5, "message":"Il se situe à environ 6 kilomètres au nord-est de Nowy Tomyśl (siège de la gmina et du powiat) et à 51 kilomètres à l'ouest de Poznań (capitale régionale).","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg"},
   ]);
 
+  const [movies, setMovies] = useState([{"id":1,"name":"lilo & Stitch", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch","date":"2025", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch", "date":"2025","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch", "date":"2025","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch", "date":"2025","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch", "date":"2025","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch", "date":"2025","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch", "date":"2025","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch", "date":"2025","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch", "date":"2025","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch", "date":"2025","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch", "date":"2025","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch","date":"2025", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch","date":"2025", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch","date":"2025", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch","date":"2025", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+    {"id":1,"name":"lilo & Stitch","date":"2025", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
+  ]);
+
   return (
     <GenericPage>
       <Header />
       <div className={style.user}>
-        <UserInfo user={user}/>
-        <div className={`${style.line} ${style[`line_color_${user.id%12}`]}`}/>
-        <Comments comments={comments} color={user.id%12} movieIcon={true}/>
+        <UserInfo user={user} me={me}/>
+        {/* <div className={`${style.line} ${style[`line_color_${user.id%12}`]}`}/> */}
+        {movies.length && <div className={style.watchlist}>
+          <HorizontalScrollMovies movies={movies} label="watchlist"/>
+        </div>}
+        <Comments comments={comments} color={user.id%12} movieIcon={true} commentForm={false}/>
       </div>
     </GenericPage>
   );

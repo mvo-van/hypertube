@@ -4,7 +4,7 @@ function getVariantStyle(color, variant) {
   return style[`button__${color}__${variant}`];
 }
 
-function Button({ onClick, type, variant, className, disabled = false, children, color="blue"}){
+function Button({ onClick, type, variant="regular", className, disabled = false, children, color="blue"}){
   const classes = `${style.button} ${getVariantStyle(color, variant)} round ${className}`;
   if (!onClick) {
     onClick = () => {};
