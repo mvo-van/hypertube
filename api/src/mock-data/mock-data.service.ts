@@ -27,7 +27,7 @@ export class MockDataService {
 
   private async seedUsers() {
     const [_, count] = await this.userRepository.findAndCount();
-    if (count <= this.total_row) {
+    if (count >= this.total_row) {
       return;
     }
     for (let i = 0; i < this.total_row; i++) {
