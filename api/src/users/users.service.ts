@@ -74,21 +74,35 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found`);
     }
-    if (bcrypt.compareSync(updateUserDto.password as string, user.password)) {
-      throw new ConflictException(
-        'Unable to update the password: the new password must be different from the previous one.',
-      );
+
+    if (updateUserDto.password) {
+      await this.updatePassword(id, updateUserDto.password);
     }
-    await this.userRepository.update(id, {
-      ...updateUserDto,
-      password: await this.utilsService.cipherPassword(
-        updateUserDto.password as string,
-      ),
-    });
+
+    try {
+      await this.userRepository.update(id, updateUserDto);
+    } catch {
+      throw new ConflictException('Cannot update');
+    }
     return await this.findOne(id);
   }
 
   async remove(id: number) {
     return await this.userRepository.delete(id);
+  }
+
+  async updatePassword(id: number, password: string) {
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    if (bcrypt.compareSync(password, user.password)) {
+      throw new ConflictException(
+        'Unable to update the password: the new password must be different from the previous one.',
+      );
+    }
+    await this.userRepository.update(id, {
+      password: await this.utilsService.cipherPassword(password),
+    });
   }
 }
