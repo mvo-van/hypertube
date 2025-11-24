@@ -16,7 +16,17 @@ import { AuthController } from './auth.controller';
 import { UtilsModule } from 'src/utils/utils.module';
 
 @Module({
-  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, FortytwoStrategy, GithubStrategy, GitlabStrategy, DiscordStrategy, SpotifyStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    GoogleStrategy,
+    FortytwoStrategy,
+    GithubStrategy,
+    GitlabStrategy,
+    DiscordStrategy,
+    SpotifyStrategy,
+  ],
   imports: [
     UsersModule,
     PassportModule,
