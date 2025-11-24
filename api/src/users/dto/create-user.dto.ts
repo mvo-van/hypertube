@@ -54,7 +54,8 @@ export class CreateUserDto {
 
   @IsEnum(Lang)
   @IsOptional()
-  language?: Lang;
+  language?: Lang = Lang.ENGLISH;
+
   @IsString()
   @MaxLength(MAX_LENGTH_PICTURE_URL)
   @IsOptional()
@@ -64,9 +65,4 @@ export class CreateUserDto {
   @IsOptional()
   @IsEnum(AuthStrategy)
   auth_strategy?: AuthStrategy;
-
-  // TODO: TO DELETE
-  @IsOptional()
-  @Matches('^\\d{6}$')
-  otp_code?: string;
 }

@@ -9,6 +9,10 @@ import { UtilsModule } from './utils/utils.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { MockDataService } from './mock-data/mock-data.service';
+import { MockDataModule } from './mock-data/mock-data.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './users/entities/user.entity';
 
 @Module({
   imports: [
@@ -18,6 +22,8 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
     UsersModule,
     UtilsModule,
     AuthModule,
+    MockDataModule,
+    TypeOrmModule.forFeature([User]),
   ],
   controllers: [AppController],
   providers: [
@@ -26,6 +32,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    MockDataService,
   ],
 })
 export class AppModule {}

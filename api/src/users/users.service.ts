@@ -8,7 +8,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserResponseDto } from './dto/user-response.dto';
 import { UtilsService } from '../utils/utils.service';
 import { AuthStrategy } from 'src/auth/auth.provider';
 import bcrypt from 'bcryptjs';
