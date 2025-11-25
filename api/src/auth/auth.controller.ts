@@ -7,6 +7,7 @@ import {
   Body,
   Res,
   Req,
+  Logger,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
@@ -20,10 +21,13 @@ import { DiscordAuthGuard } from './guards/discord-auth.guard';
 import { SpotifyAuthGuard } from './guards/spotify-auth.guard';
 import { RestPasswordDto } from './dto/reset-password.dto';
 import { UserDto } from './dto/user.dto';
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import { AuthModule } from './auth.module';
 
 @Controller('auth')
 export class AuthController {
+  private readonly logger = new Logger(AuthModule.name);
+
   constructor(private readonly authService: AuthService) {}
 
   // ========================= Local =========================
@@ -32,6 +36,7 @@ export class AuthController {
   @Post('login')
   login(@Req() req: Request, @Res() res: Response) {
     const user: UserDto = req.user;
+    this.logger.log(`[login] ${user.username}`);
     const { access_token } = this.authService.login(user);
 
     res.cookie('access_token', access_token, {
@@ -47,12 +52,16 @@ export class AuthController {
   @Public()
   @Post('forgot-password')
   forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    this.logger.log(`[forgot password]: ${forgotPasswordDto.email}`);
     return this.authService.forgotPassword(forgotPasswordDto.email);
   }
 
   @Public()
   @Post('reset-password')
   resetPassword(@Body() resetPassword: RestPasswordDto) {
+    this.logger.log(
+      `[reset-password] ${resetPassword.email} ${resetPassword.otp_code}`,
+    );
     return this.authService.restPassword(
       resetPassword.email,
       resetPassword.otp,
@@ -64,12 +73,15 @@ export class AuthController {
   @Public()
   @UseGuards(GoogleAuthGuard)
   @Get('google')
-  async googleAuth(@Request() req) {}
+  googleAuth(@Req() req: Request) {
+    this.logger.log('[oauth-google]');
+  }
 
   @Public()
   @UseGuards(GoogleAuthGuard)
   @Get('google/redirect')
-  googleAuthRedirect(@Request() req) {
+  googleAuthRedirect(@Req() req: Request) {
+    this.logger.log('[google-redirect]');
     return this.authService.googleLogin(req);
   }
 
@@ -77,12 +89,15 @@ export class AuthController {
   @Public()
   @UseGuards(FortytwoAuthGuard)
   @Get('fortytwo')
-  async fortytwoAuth(@Request() req) {}
+  fortytwoAuth(@Req() req: Request) {
+    this.logger.log('[oauth-fortytwo]');
+  }
 
   @Public()
   @UseGuards(FortytwoAuthGuard)
   @Get('fortytwo/redirect')
-  fortytwoAuthRedirect(@Request() req) {
+  fortytwoAuthRedirect(@Req() req: Request) {
+    this.logger.log('[oauth-fortytwo-redirect]');
     return this.authService.fortytwoLogin(req);
   }
 
@@ -90,12 +105,15 @@ export class AuthController {
   @Public()
   @UseGuards(GithubAuthGuard)
   @Get('github')
-  async githubAuth(@Request() req) {}
+  githubAuth(@Req() req: Request) {
+    this.logger.log('[oauth-github]');
+  }
 
   @Public()
   @UseGuards(GithubAuthGuard)
   @Get('github/callback')
-  githubAuthRedirect(@Request() req) {
+  githubAuthRedirect(@Req() req: Request) {
+    this.logger.log('[oauth-github-redirect]');
     return this.authService.githubLogin(req);
   }
 
@@ -103,12 +121,15 @@ export class AuthController {
   @Public()
   @UseGuards(GitlabAuthGuard)
   @Get('gitlab')
-  async gitlabAuth(@Request() req) {}
+  gitlabAuth(@Req() req: Request) {
+    this.logger.log('[oauth-gitlab]');
+  }
 
   @Public()
   @UseGuards(GitlabAuthGuard)
   @Get('gitlab/callback')
-  gitlabAuthRedirect(@Request() req) {
+  gitlabAuthRedirect(@Req() req: Request) {
+    this.logger.log('[oauth-gitlab]');
     return this.authService.gitlabLogin(req);
   }
 
@@ -116,12 +137,15 @@ export class AuthController {
   @Public()
   @UseGuards(DiscordAuthGuard)
   @Get('discord')
-  async discordAuth(@Request() req) {}
+  discordAuth(@Req() req: Request) {
+    this.logger.log('[oauth-discord]');
+  }
 
   @Public()
   @UseGuards(DiscordAuthGuard)
   @Get('discord/callback')
-  discordAuthRedirect(@Request() req) {
+  discordAuthRedirect(@Req() req: Request) {
+    this.logger.log('[oauth-discord-redirect]');
     return this.authService.discordLogin(req);
   }
 
@@ -129,12 +153,15 @@ export class AuthController {
   @Public()
   @UseGuards(SpotifyAuthGuard)
   @Get('spotify')
-  async spotifyAuth(@Request() req) {}
+  spotifyAuth(@Req() req: Request) {
+    this.logger.log('[oauth-discord]');
+  }
 
   @Public()
   @UseGuards(SpotifyAuthGuard)
   @Get('spotify/callback')
-  spotifyAuthRedirect(@Request() req) {
+  spotifyAuthRedirect(@Req() req: Request) {
+    this.logger.log('[oauth-discord]');
     return this.authService.spotifyLogin(req);
   }
 }
