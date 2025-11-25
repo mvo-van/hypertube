@@ -1,4 +1,13 @@
-import { Controller, Post, UseGuards, Request, Get, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Request,
+  Get,
+  Body,
+  Res,
+  Req,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -10,7 +19,8 @@ import { GitlabAuthGuard } from './guards/gitlab-auth.guard';
 import { DiscordAuthGuard } from './guards/discord-auth.guard';
 import { SpotifyAuthGuard } from './guards/spotify-auth.guard';
 import { RestPasswordDto } from './dto/reset-password.dto';
-
+import { UserDto } from './dto/user.dto';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -20,20 +30,33 @@ export class AuthController {
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  login(@Req() req: Request, @Res() res: Response) {
+    const user: UserDto = req.user;
+    const { access_token } = this.authService.login(user);
+
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      maxAge: 900000,
+    });
+    res.send({
+      message: 'Authentication successful',
+    });
   }
 
   @Public()
-  @Post("forgot-password")
+  @Post('forgot-password')
   forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
     return this.authService.forgotPassword(forgotPasswordDto.email);
   }
 
   @Public()
-  @Post("reset-password")
+  @Post('reset-password')
   resetPassword(@Body() resetPassword: RestPasswordDto) {
-    return this.authService.restPassword(resetPassword.email, resetPassword.otp, resetPassword.newPassword);
+    return this.authService.restPassword(
+      resetPassword.email,
+      resetPassword.otp,
+      resetPassword.newPassword,
+    );
   }
 
   // ========================= Google =========================
@@ -88,8 +111,7 @@ export class AuthController {
     return this.authService.gitlabLogin(req);
   }
 
-  
-// ========================= Discord =========================
+  // ========================= Discord =========================
   @Public()
   @UseGuards(DiscordAuthGuard)
   @Get('discord')
@@ -102,7 +124,7 @@ export class AuthController {
     return this.authService.discordLogin(req);
   }
 
-// ========================= Spotify =========================
+  // ========================= Spotify =========================
   @Public()
   @UseGuards(SpotifyAuthGuard)
   @Get('spotify')
