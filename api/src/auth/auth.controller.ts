@@ -37,6 +37,7 @@ export class AuthController {
     res.cookie('access_token', access_token, {
       httpOnly: true,
       maxAge: 900000,
+      sameSite: true,
     });
     res.send({
       message: 'Authentication successful',
