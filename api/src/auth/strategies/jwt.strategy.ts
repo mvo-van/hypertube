@@ -8,7 +8,7 @@ function extractJwtFromCookie(req: Request): string {
   const access_token: string = req.cookies.access_token as string;
 
   if (!access_token) {
-    throw new BadRequestException('Request malformed, JWT cannot be parsed');
+    throw new BadRequestException('No JWT provided');
   }
   return access_token;
 }
@@ -23,7 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any): Promise<any> {
+  validate(payload: any) {
     return {
       userId: payload.sub,
       username: payload.username,
