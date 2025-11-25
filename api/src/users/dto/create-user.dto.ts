@@ -1,6 +1,7 @@
 import {
   IsEmail,
   IsEnum,
+  IsNotEmpty,
   IsOptional,
   IsString,
   IsStrongPassword,
@@ -39,6 +40,7 @@ export class CreateUserDto {
   last_name: string;
 
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @IsStrongPassword({
