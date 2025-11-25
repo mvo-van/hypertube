@@ -34,7 +34,7 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
 
   const mocker = app.get(MockDataService);
-  mocker.bootstrap();
+  await mocker.bootstrap();
 
   await app.listen(process.env.PORT ?? 3000);
 }
