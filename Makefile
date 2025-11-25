@@ -15,3 +15,5 @@ lint-fix:
 # Used when installing new dependencies
 build:
 	@docker compose build
+
+re: stop build start
