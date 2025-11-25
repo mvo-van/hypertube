@@ -13,6 +13,7 @@ import { UtilsService } from 'src/utils/utils.service';
 import nodemailer from 'nodemailer';
 import juice from 'juice';
 import { AuthModule } from './auth.module';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class AuthService {
@@ -34,7 +35,7 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any): Promise<any> {
+  login(user: UserDto) {
     const payload = { username: user.username, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
