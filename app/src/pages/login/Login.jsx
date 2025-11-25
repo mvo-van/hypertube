@@ -30,10 +30,6 @@ function Login() {
       username: pseudo,
       password: password,
     });
-    console.log(response);
-    // await axios.get("http://localhost:3000/users/11", {
-    //   withCredentials: true,
-    // });
   };
 
   const sendOtp = async () => {};
