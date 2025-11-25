@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   Head,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,6 +17,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UserResponseDto } from './dto/user-response.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { NotFoundException } from '@nestjs/common';
+import { User } from './entities/user.entity';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -43,9 +45,14 @@ export class UsersController {
     return user;
   }
 
-  @Patch(':id')
-  update(@Body() updateUserDto: UpdateUserDto, @Param('id') id: string) {
-    return this.usersService.update(+id, updateUserDto);
+  @Patch('/me')
+  async update(
+    @Request() req,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<UserResponseDto> {
+    const id = req.user.userId;
+    const user = await this.usersService.update(id, updateUserDto);
+    return new UserResponseDto(user as User);
   }
 
   @Delete(':id')

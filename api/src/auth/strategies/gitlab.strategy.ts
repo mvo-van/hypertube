@@ -1,13 +1,15 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-gitlab2';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthStrategy } from '../auth.provider';
 import { VerifyCallback } from 'passport-oauth2';
+import { AuthModule } from '../auth.module';
 
 @Injectable()
 export class GitlabStrategy extends PassportStrategy(Strategy, 'gitlab') {
-  
+  private readonly logger = new Logger(AuthModule.name);
+
   constructor(config: ConfigService) {
     super({
       clientID: config.get<string>('GITLAB_CLIENT_ID')!,
@@ -24,10 +26,9 @@ export class GitlabStrategy extends PassportStrategy(Strategy, 'gitlab') {
     done: VerifyCallback,
   ) {
     if (!profile) {
-      console.error('GitLabStrategy.validate: profile is undefined');
+      this.logger.error('GitLabStrategy.validate: profile is undefined');
       return done(new Error('No profile data from GitLab'), false);
     }
-    console.log(JSON.stringify(profile, null, 2));
 
     const { _json } = profile;
 
@@ -36,7 +37,6 @@ export class GitlabStrategy extends PassportStrategy(Strategy, 'gitlab') {
     const firstName = _json?.name ?? login;
     const lastName = _json?.name ?? login;
     const photo = _json?.avatar_url;
-
 
     const user = {
       provider: AuthStrategy.GITLAB,
