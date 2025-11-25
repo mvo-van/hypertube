@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
@@ -10,12 +11,13 @@ import { AuthStrategy } from './auth.provider';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UtilsService } from 'src/utils/utils.service';
 import nodemailer from 'nodemailer';
-import { error } from 'console';
-import { UpdateUserDto } from 'src/users/dto/update-user.dto';
 import juice from 'juice';
+import { AuthModule } from './auth.module';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthModule.name);
+
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
@@ -66,13 +68,13 @@ export class AuthService {
       html: this.makeForgotPaswordEmail(otp),
     };
 
-    console.log(`Sending mail to - ${email}`);
+    this.logger.log(`Sending mail to - ${email}`);
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.log(error);
+        this.logger.error(error);
       } else {
         this.usersService.update(user.id, { otp_code: otp });
-        console.log('Email sent: ' + info.response);
+        this.logger.log('Email sent: ' + info.response);
       }
     });
   }
@@ -118,8 +120,6 @@ export class AuthService {
 
       user = await this.usersService.create(newUser);
     }
-    console.log(`User: ${user}`);
-
     const payload = { sub: user?.id, username: user?.username };
 
     return {
@@ -152,7 +152,6 @@ export class AuthService {
 
       user = await this.usersService.create(newUser);
     }
-    console.log(`User: ${user}`);
 
     const payload = { sub: user?.id, username: user?.username };
 
@@ -186,7 +185,6 @@ export class AuthService {
 
       user = await this.usersService.create(newUser);
     }
-    console.log(`User: ${user}`);
 
     const payload = { sub: user?.id, username: user?.username };
 
@@ -220,7 +218,6 @@ export class AuthService {
 
       user = await this.usersService.create(newUser);
     }
-    console.log(`User: ${user}`);
 
     const payload = { sub: user?.id, username: user?.username };
 
@@ -254,7 +251,6 @@ export class AuthService {
 
       user = await this.usersService.create(newUser);
     }
-    console.log(`User: ${user}`);
 
     const payload = { sub: user?.id, username: user?.username };
 
@@ -287,7 +283,6 @@ export class AuthService {
 
       user = await this.usersService.create(newUser);
     }
-    console.log(`User: ${user}`);
 
     const payload = { sub: user?.id, username: user?.username };
 
