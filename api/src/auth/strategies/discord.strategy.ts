@@ -1,19 +1,21 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-discord';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthStrategy } from '../auth.provider';
 import { VerifyCallback } from 'passport-oauth2';
+import { AuthModule } from '../auth.module';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
-  
+  private readonly logger = new Logger(AuthModule.name);
+
   constructor(config: ConfigService) {
     super({
       clientID: config.get<string>('DISCORD_CLIENT_ID')!,
       clientSecret: config.get<string>('DISCORD_CLIENT_SECRET')!,
       callbackURL: 'http://localhost:3000/auth/discord/callback',
-      scope: ['identify', 'email']
+      scope: ['identify', 'email'],
     });
   }
 
@@ -24,10 +26,9 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     done: VerifyCallback,
   ) {
     if (!profile) {
-      console.error('DiscordStrategy.validate: profile is undefined');
+      this.logger.error('DiscordStrategy.validate: profile is undefined');
       return done(new Error('No profile data from Discord'), false);
     }
-    console.log(JSON.stringify(profile, null, 2));
 
     const { global_name, email } = profile;
 
@@ -35,7 +36,6 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     const firstName = global_name;
     const lastName = global_name;
     const photo = null;
-
 
     const user = {
       provider: AuthStrategy.DISCORD,
