@@ -1,12 +1,12 @@
-import style from "./Login.module.css"
+import style from "./Login.module.css";
 // import HomeBackground from "../../components/home/HomeBackground";
 import GenericPage from "../page/GenericPage";
-import MulticoText from "../../components/Text/MulticoText"
+import MulticoText from "../../components/Text/MulticoText";
 import BubbleBackground from "../../components/background/BubbleBackground";
 import { useState } from "react";
 import Form from "../../components/form/Form";
 import Input from "../../components/input/Input";
-
+import axios from "axios";
 
 function Login() {
   const [pseudo, setPseudo] = useState("");
@@ -14,32 +14,41 @@ function Login() {
 
   const onPseudoHandler = (value) => {
     setPseudo(value);
-  }
-    
-  const onPseudoValidate = (value) => {
-  }
+  };
+
+  const onPseudoValidate = (value) => {};
 
   const onPasswordHandler = (value) => {
     setPassword(value);
-  }
+  };
 
-  const onPassWordValidate = (value) => {
-  }
+  const onPassWordValidate = (value) => {};
 
   const onSubmitHandler = async (e) => {
-  }
+    e.preventDefault();
+    const response = await axios.post("http://localhost:3000/auth/login", {
+      username: pseudo,
+      password: password,
+    });
+    console.log(response);
+    // await axios.get("http://localhost:3000/users/11", {
+    //   withCredentials: true,
+    // });
+  };
 
-  const sendOtp = async() => {
-  } 
-
+  const sendOtp = async () => {};
 
   return (
     <GenericPage className={style.home}>
       <BubbleBackground>
-        <MulticoText className={style["titre"]} text="Connection"/>
+        <MulticoText className={style["titre"]} text="Connection" />
         <div className={style["button-box"]}>
-
-          <Form className="login-form" onSubmit={onSubmitHandler} label="Connexion" color="blue">
+          <Form
+            className="login-form"
+            onSubmit={onSubmitHandler}
+            label="Connexion"
+            color="blue"
+          >
             <Input
               label="pseudo"
               type="string"
@@ -48,7 +57,7 @@ function Login() {
               onBlur={onPseudoValidate}
               color="blue"
             />
-                            
+
             <Input
               label="mot de passe"
               type="password"
@@ -58,11 +67,11 @@ function Login() {
               color="blue"
             />
             <a href="#" onClick={() => sendOtp()} className={style.pwdlink}>
-                                Mot de Passe oublié
+              Mot de Passe oublié
             </a>
           </Form>
 
-          <hr className={style.line}/>
+          <hr className={style.line} />
           <p className={style.titreOmni}>Omniauth</p>
         </div>
       </BubbleBackground>
