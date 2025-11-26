@@ -45,9 +45,15 @@ export class UsersController {
     return new UserResponseDto(user);
   }
 
+  @Get('/me')
+  async findMe(@Req() req: Request) {
+    console.log(req.user);
+    // const user = await this.usersService.findOne(req.user.)
+  }
+
   @Patch('/me')
   async update(
-    @Request() req,
+    @Req() req: Request,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<UserResponseDto> {
     const id = req.user.userId;
