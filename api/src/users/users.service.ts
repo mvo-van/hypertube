@@ -1,7 +1,9 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -119,16 +121,41 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException({
         error: 'User not found',
-        message: `User with email '${username}' was not found`,
+        message: `User with username '${username}' was not found`,
       });
+    }
+    if (user.is_active) {
+      throw new BadRequestException('User has already been activated');
     }
 
     await this.userRepository.update(user.id, { otp_code: otp });
 
+    // TODO: manage email sending exception
     await this.mailerService.sendMail({
       to: user.email,
       subject: 'Votre code de validation',
       html: this.makeAccountValidationEmail(otp),
+    });
+  }
+
+  async validate(username: string, otp_code: string) {
+    const user = await this.userRepository.findOneBy({ username: username });
+
+    if (!user) {
+      throw new NotFoundException({
+        error: 'User not found',
+        message: `User with username '${username}' was not found`,
+      });
+    }
+    if (!user.otp_code) {
+      throw new UnauthorizedException('User has not been activated');
+    }
+    if (user.otp_code !== otp_code) {
+      throw new BadRequestException("OTP code doesn't match");
+    }
+    await this.userRepository.update(user.id, {
+      is_active: true,
+      otp_code: '',
     });
   }
 

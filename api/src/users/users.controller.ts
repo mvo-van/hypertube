@@ -21,7 +21,8 @@ import { Public } from 'src/auth/decorators/public.decorator';
 import { NotFoundException } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { SelfUserResponseDto } from './dto/self-user-response.dto';
-import { ValidateUserDto } from './dto/validate-user-dto';
+import { ActivateUserDto } from './dto/activate-user-dto';
+import { ValidateUserDto } from './dto/validate-user.dto';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -96,14 +97,27 @@ export class UsersController {
 
   @Public()
   @Post('/activate')
-  async activate(@Body() validateUserDto: ValidateUserDto) {
-    const { username } = validateUserDto;
+  async activate(@Body() activateUserDto: ActivateUserDto) {
+    const { username } = activateUserDto;
 
     this.logger.log(`Sending activation email to ${username}`);
     await this.usersService.activate(username);
     this.logger.log(`Activation email has been sent to ${username}`);
     return {
       message: 'otp has been sent',
+    };
+  }
+
+  @Public()
+  @Post('/validate')
+  async validate(@Body() validateUserDto: ValidateUserDto) {
+    const { username, otp_code } = validateUserDto;
+
+    this.logger.log(`Validating user ${username}`);
+    await this.usersService.validate(username, otp_code);
+    this.logger.log(`User ${username} has been validated`);
+    return {
+      message: 'User has been activated.',
     };
   }
 }

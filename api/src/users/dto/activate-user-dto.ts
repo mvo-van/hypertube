@@ -1,7 +1,7 @@
 import { IsString, MaxLength, MinLength } from 'class-validator';
 import { MAX_LENGTH_USERNAME, MIN_LENGTH_USERNAME } from '../constants';
 
-export class ValidateUserDto {
+export class ActivateUserDto {
   @IsString()
   @MaxLength(MAX_LENGTH_USERNAME)
   @MinLength(MIN_LENGTH_USERNAME)
