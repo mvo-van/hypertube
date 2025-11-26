@@ -14,6 +14,7 @@ import nodemailer from 'nodemailer';
 import juice from 'juice';
 import { AuthModule } from './auth.module';
 import { UserDto } from './dto/user.dto';
+import { IUser } from './interfaces/user.interface';
 
 @Injectable()
 export class AuthService {
@@ -25,11 +26,11 @@ export class AuthService {
     private readonly utilsService: UtilsService,
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
+  async validateUser(username: string, pass: string): Promise<IUser | null> {
     const user = await this.usersService.findOneByUsername(username);
 
     if (user && compareSync(pass, user.password)) {
-      const { _, ...result } = user as any;
+      const { _, ...result } = user;
       return result;
     }
     return null;
