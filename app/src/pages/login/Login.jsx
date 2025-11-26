@@ -7,6 +7,7 @@ import { useState } from "react";
 import Form from "../../components/form/Form";
 import Input from "../../components/input/Input";
 import axios from "axios";
+import { api } from "../../common/api";
 
 function Login() {
   const [pseudo, setPseudo] = useState("");
@@ -26,7 +27,7 @@ function Login() {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    const response = await axios.post("http://localhost:3000/auth/login", {
+    await api.post("/auth/login", {
       username: pseudo,
       password: password,
     });
