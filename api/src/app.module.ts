@@ -13,6 +13,8 @@ import { MockDataService } from './mock-data/mock-data.service';
 import { MockDataModule } from './mock-data/mock-data.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
+import { MailerService } from './mailer/mailer.service';
+import { MailerModule } from './mailer/mailer.module';
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { User } from './users/entities/user.entity';
     AuthModule,
     MockDataModule,
     TypeOrmModule.forFeature([User]),
+    MailerModule,
   ],
   controllers: [AppController],
   providers: [
@@ -33,6 +36,7 @@ import { User } from './users/entities/user.entity';
       useClass: JwtAuthGuard,
     },
     MockDataService,
+    MailerService,
   ],
 })
 export class AppModule {}

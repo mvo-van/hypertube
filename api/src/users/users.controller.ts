@@ -94,7 +94,7 @@ export class UsersController {
   @Public()
   @Post('/validate')
   async validate(@Body() validateUserDto: ValidateUserDto) {
-    const { email } = validateUserDto;
-    this.usersService.validate(email);
+    const { username } = validateUserDto;
+    await this.usersService.validate(username);
   }
 }

@@ -11,6 +11,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UtilsService } from '../utils/utils.service';
 import { AuthStrategy } from 'src/auth/auth.provider';
 import bcrypt from 'bcryptjs';
+import { ConfigService } from '@nestjs/config';
+import { MailerService } from 'src/mailer/mailer.service';
 
 @Injectable()
 export class UsersService {
@@ -18,6 +20,7 @@ export class UsersService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private readonly utilsService: UtilsService,
+    private readonly mailerService: MailerService,
   ) {}
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
@@ -111,16 +114,72 @@ export class UsersService {
 
   async validate(username: string) {
     const otp = this.utilsService.generateOTP();
+    const user = await this.findOneByUsername(username);
+    if (!user) {
+      throw new NotFoundException({
+        error: 'User not found',
+        message: `User with email '${username}' was not found`,
+      });
+    }
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre code de validation',
+      html: this.makeAccountValidationEmail(otp),
+    });
+  }
 
-    // const user = await this.findOneByEmail(email);
+  private makeAccountValidationEmail(otp: string): string {
+    const htmlTemplate = `
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Code de réinitialisation</title>
+    <style>
+      body { margin:0; padding:0; background:#f6f9fc; color:#1a202c; }
+      .wrapper { width:100%; padding:24px; background:#f6f9fc; }
+      .container { max-width:600px; margin:0 auto; background:#ffffff; border-radius:8px; overflow:hidden; }
+      .content { padding:24px 24px 8px; font-size:15px; line-height:1.6; }
+      .otp {
+        display:block;
+        font-family: Menlo, Consolas, Monaco, monospace;
+        font-weight: 800;
+        letter-spacing: 4px;
+        font-size: 28px;
+        text-align: center;
+        color:#111827;
+        background:#f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin: 16px 0 8px;
+      }
+      .muted { color:#6b7280; font-size:13px; text-align:center; }
+      @media (prefers-color-scheme: dark) {
+        body { background:#0b1220; color:#e5e7eb; }
+        .container { background:#0f172a; }
+        .content { color:#e5e7eb; }
+        .otp { background:#0b1220; border-color:#233044; color:#e5e7eb; }
+        .muted { color:#94a3b8; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="container" role="article" aria-roledescription="email">
+        <div class="content">
+          <p>Bonjour,</p>
+          <p>Voici votre code de validation:</p>
+          <span class="otp">${otp}</span>
+          <p class="muted">Si vous n'êtes pas à l'origine de cette demande, ignorez simplement cet e-mail.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>`;
 
-    // if (!user) {
-    //   throw new NotFoundException({
-    //     error: 'User not found',
-    //     message: `User with email '${email}' was not found`,
-    //   });
-    // }
-
-    // const mailOptions = {};
+    return juice(htmlTemplate);
   }
 }
