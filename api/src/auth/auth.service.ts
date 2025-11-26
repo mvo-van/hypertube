@@ -90,7 +90,7 @@ export class AuthService {
         status: 404,
       });
     }
-    this.usersService.update(user.id, {
+    await this.usersService.update(user.id, {
       password: await this.utilsService.cipherPassword(newPassword),
       otp_code: '',
     });

@@ -5,12 +5,14 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { MockDataService } from './mock-data/mock-data.service';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.enableCors({
     origin: 'http://localhost:8000',
+    credentials: true,
   });
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalPipes(
@@ -23,6 +25,7 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'static'), {
     prefix: '/static',
   });
+  app.use(cookieParser());
 
   const config = new DocumentBuilder()
     .setTitle('Hypertube API')
