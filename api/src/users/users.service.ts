@@ -11,8 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UtilsService } from '../utils/utils.service';
 import { AuthStrategy } from 'src/auth/auth.provider';
 import bcrypt from 'bcryptjs';
-import { ConfigService } from '@nestjs/config';
-import { MailerService } from 'src/mailer/mailer.service';
+import { MailerService } from '../mailer/mailer.service';
 
 @Injectable()
 export class UsersService {
@@ -22,6 +21,7 @@ export class UsersService {
     private readonly utilsService: UtilsService,
     private readonly mailerService: MailerService,
   ) {}
+
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
       const user = this.userRepository.create(createUserDto);
