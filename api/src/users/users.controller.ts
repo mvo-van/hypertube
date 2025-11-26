@@ -10,6 +10,7 @@ import {
   ClassSerializerInterceptor,
   Head,
   Request,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -18,6 +19,7 @@ import { UserResponseDto } from './dto/user-response.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { NotFoundException } from '@nestjs/common';
 import { User } from './entities/user.entity';
+import { SelfUserResponseDto } from './dto/self-user-response.dto';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -36,6 +38,16 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @Get('/me')
+  async findMe(@Req() req: Request) {
+    const { userId } = req.user;
+    const user = await this.usersService.findOne(userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return new SelfUserResponseDto(user);
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<UserResponseDto> {
     const user = await this.usersService.findOne(+id);
@@ -43,12 +55,6 @@ export class UsersController {
       throw new NotFoundException('User not found');
     }
     return new UserResponseDto(user);
-  }
-
-  @Get('/me')
-  async findMe(@Req() req: Request) {
-    console.log(req.user);
-    // const user = await this.usersService.findOne(req.user.)
   }
 
   @Patch('/me')
