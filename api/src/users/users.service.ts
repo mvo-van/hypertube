@@ -12,6 +12,7 @@ import { UtilsService } from '../utils/utils.service';
 import { AuthStrategy } from 'src/auth/auth.provider';
 import bcrypt from 'bcryptjs';
 import { MailerService } from '../mailer/mailer.service';
+import juice from 'juice';
 
 @Injectable()
 export class UsersService {
@@ -112,7 +113,7 @@ export class UsersService {
     });
   }
 
-  async validate(username: string) {
+  async activate(username: string) {
     const otp = this.utilsService.generateOTP();
     const user = await this.findOneByUsername(username);
     if (!user) {
@@ -121,6 +122,9 @@ export class UsersService {
         message: `User with email '${username}' was not found`,
       });
     }
+
+    await this.userRepository.update(user.id, { otp_code: otp });
+
     await this.mailerService.sendMail({
       to: user.email,
       subject: 'Votre code de validation',

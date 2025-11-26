@@ -11,6 +11,7 @@ import {
   Head,
   Request,
   Req,
+  Logger,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -25,6 +26,8 @@ import { ValidateUserDto } from './dto/validate-user-dto';
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
+  private readonly logger = new Logger(UsersController.name);
+
   constructor(private readonly usersService: UsersService) {}
 
   @Public()
@@ -92,9 +95,15 @@ export class UsersController {
   }
 
   @Public()
-  @Post('/validate')
-  async validate(@Body() validateUserDto: ValidateUserDto) {
+  @Post('/activate')
+  async activate(@Body() validateUserDto: ValidateUserDto) {
     const { username } = validateUserDto;
-    await this.usersService.validate(username);
+
+    this.logger.log(`Sending activation email to ${username}`);
+    await this.usersService.activate(username);
+    this.logger.log(`Activation email has been sent to ${username}`);
+    return {
+      message: 'otp has been sent',
+    };
   }
 }
