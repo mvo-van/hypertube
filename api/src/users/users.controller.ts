@@ -20,6 +20,7 @@ import { Public } from 'src/auth/decorators/public.decorator';
 import { NotFoundException } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { SelfUserResponseDto } from './dto/self-user-response.dto';
+import { ValidateUserDto } from './dto/validate-user-dto';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -88,5 +89,12 @@ export class UsersController {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+  }
+
+  @Public()
+  @Post('/validate')
+  async validate(@Body() validateUserDto: ValidateUserDto) {
+    const { email } = validateUserDto;
+    this.usersService.validate(email);
   }
 }

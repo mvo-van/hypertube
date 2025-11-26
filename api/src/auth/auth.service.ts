@@ -15,6 +15,7 @@ import juice from 'juice';
 import { AuthModule } from './auth.module';
 import { UserDto } from './dto/user.dto';
 import { IUser } from './interfaces/user.interface';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -24,6 +25,7 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly utilsService: UtilsService,
+    private readonly configService: ConfigService,
   ) {}
 
   async validateUser(username: string, pass: string): Promise<IUser | null> {
@@ -58,8 +60,8 @@ export class AuthService {
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-        user: process.env.MAIL,
-        pass: process.env.MAIL_PASSWORD,
+        user: this.configService.get<string>('MAIL'),
+        pass: this.configService.get<string>('MAIL_PASSWORD'),
       },
     });
 

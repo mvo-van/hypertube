@@ -108,4 +108,19 @@ export class UsersService {
       password: await this.utilsService.cipherPassword(password),
     });
   }
+
+  async validate(username: string) {
+    const otp = this.utilsService.generateOTP();
+
+    // const user = await this.findOneByEmail(email);
+
+    // if (!user) {
+    //   throw new NotFoundException({
+    //     error: 'User not found',
+    //     message: `User with email '${email}' was not found`,
+    //   });
+    // }
+
+    // const mailOptions = {};
+  }
 }
