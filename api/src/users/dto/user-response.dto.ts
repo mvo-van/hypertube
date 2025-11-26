@@ -14,9 +14,6 @@ export class UserResponseDto {
   last_name: string;
 
   @Expose()
-  email: string;
-
-  @Expose()
   profile_picture_url: string;
 
   @Expose()
