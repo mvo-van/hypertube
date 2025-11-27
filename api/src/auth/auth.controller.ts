@@ -50,22 +50,25 @@ export class AuthController {
 
   @Public()
   @Post('forgot-password')
-  forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
     this.logger.log(`[forgot password]: ${forgotPasswordDto.email}`);
-    return this.authService.forgotPassword(forgotPasswordDto.email);
+    await this.authService.forgotPassword(forgotPasswordDto.email);
+    return {
+      message: 'Reset link has been sent',
+    };
   }
 
   @Public()
   @Post('reset-password')
-  resetPassword(@Body() resetPassword: RestPasswordDto) {
+  async resetPassword(@Body() resetPassword: RestPasswordDto) {
     this.logger.log(
       `[reset-password] ${resetPassword.email} ${resetPassword.otp_code}`,
     );
-    return this.authService.restPassword(
-      resetPassword.email,
-      resetPassword.otp,
-      resetPassword.newPassword,
-    );
+    const { email, otp_code, new_password } = resetPassword;
+    await this.authService.resetPassword(email, otp_code, new_password);
+    return {
+      message: 'User password has been reset',
+    };
   }
 
   // ========================= Google =========================

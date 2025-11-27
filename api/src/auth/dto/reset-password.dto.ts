@@ -13,7 +13,7 @@ export class RestPasswordDto {
 
   @IsString()
   @Matches('^\\d{6}$')
-  otp_code?: string;
+  otp_code: string;
 
   @IsStrongPassword({
     minLength: MIN_LENGTH_PASSWORD,
@@ -23,5 +23,6 @@ export class RestPasswordDto {
     minNumbers: 1,
   })
   @MaxLength(MAX_LENGTH_PASSWORD)
-  newPassword: string;
+  new_password: string;
 }
+// $2b$07$.x74NmcTGezvTy4MZSLzyu5WkjT0pjR7wVf62EQaBkIMOZ93/5BAK
