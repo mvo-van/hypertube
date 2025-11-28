@@ -10,6 +10,7 @@ import {
   ClassSerializerInterceptor,
   Head,
   Logger,
+  Res,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -23,6 +24,7 @@ import { ActivateUserDto } from './dto/activate-user-dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
 import { UserParam } from 'src/auth/decorators/user-param.decorator';
 import { JwtUser } from 'src/auth/interfaces/jwt-user.interface';
+import { Response } from 'express';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -76,9 +78,13 @@ export class UsersController {
     return new UserResponseDto(user as User);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @Delete('/me')
+  async remove(@Res() res: Response, @UserParam('userId') userId: number) {
+    await this.usersService.remove(userId);
+    res.clearCookie('access_token');
+    res.json({
+      message: 'User has been succesfully deleted',
+    });
   }
 
   @Public()

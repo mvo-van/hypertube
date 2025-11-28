@@ -10,12 +10,10 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthStrategy } from './auth.provider';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UtilsService } from 'src/utils/utils.service';
-import nodemailer from 'nodemailer';
 import juice from 'juice';
 import { AuthModule } from './auth.module';
 import { UserDto } from './dto/user.dto';
 import { IUser } from './interfaces/user.interface';
-import { ConfigService } from '@nestjs/config';
 import { MailerService } from 'src/mailer/mailer.service';
 
 @Injectable()
