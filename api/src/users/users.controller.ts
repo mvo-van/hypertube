@@ -9,8 +9,6 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   Head,
-  Request,
-  Req,
   Logger,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -23,6 +21,8 @@ import { User } from './entities/user.entity';
 import { SelfUserResponseDto } from './dto/self-user-response.dto';
 import { ActivateUserDto } from './dto/activate-user-dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
+import { UserParam } from 'src/auth/decorators/user-param.decorator';
+import { JwtUser } from 'src/auth/interfaces/jwt-user.interface';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -38,14 +38,19 @@ export class UsersController {
     return new UserResponseDto(createdUser);
   }
 
+  @Get('/test')
+  test(@UserParam() user: JwtUser) {
+    console.log(user);
+    return user;
+  }
+
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
   @Get('/me')
-  async findMe(@Req() req: Request) {
-    const { userId } = req.user;
+  async findMe(@UserParam('userId') userId: number) {
     const user = await this.usersService.findOne(userId);
     if (!user) {
       throw new NotFoundException('User not found');
@@ -64,11 +69,10 @@ export class UsersController {
 
   @Patch('/me')
   async update(
-    @Req() req: Request,
+    @UserParam('userId') userId: number,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<UserResponseDto> {
-    const id = req.user.userId;
-    const user = await this.usersService.update(id, updateUserDto);
+    const user = await this.usersService.update(userId, updateUserDto);
     return new UserResponseDto(user as User);
   }
 
