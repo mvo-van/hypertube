@@ -213,4 +213,10 @@ export class UsersService {
 
     return juice(htmlTemplate);
   }
+
+  async uploadImage(userId: number, image: Express.Multer.File) {
+    const url = `http://localhost:3000/static/${image.filename}`;
+    await this.update(userId, { profile_picture_url: url });
+    return url;
+  }
 }

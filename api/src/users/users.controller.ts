@@ -11,6 +11,9 @@ import {
   Head,
   Logger,
   Res,
+  ParseFilePipeBuilder,
+  UploadedFile,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -25,6 +28,9 @@ import { ValidateUserDto } from './dto/validate-user.dto';
 import { UserParam } from 'src/auth/decorators/user-param.decorator';
 import { JwtUser } from 'src/auth/interfaces/jwt-user.interface';
 import { Response } from 'express';
+import { MEGA_BYTE } from 'src/image/image.const';
+import { FileInterceptor } from '@nestjs/platform-express';
+import path from 'node:path/win32';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -128,6 +134,27 @@ export class UsersController {
     this.logger.log(`User ${username} has been validated`);
     return {
       message: 'User has been activated.',
+    };
+  }
+
+  @Post('/me/upload')
+  @UseInterceptors(FileInterceptor('image'))
+  async uploadImage(
+    @UploadedFile(
+      new ParseFilePipeBuilder()
+        // .addFileTypeValidator({ fileType: 'image/jpg' })
+        .addMaxSizeValidator({ maxSize: MEGA_BYTE * 10 })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        }),
+    )
+    image: Express.Multer.File,
+    @UserParam('userId') userId: number,
+  ) {
+    const url = await this.usersService.uploadImage(userId, image);
+    return {
+      message: 'Upload succesful',
+      url: url,
     };
   }
 }
