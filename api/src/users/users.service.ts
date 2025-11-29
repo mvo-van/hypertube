@@ -15,6 +15,7 @@ import { AuthStrategy } from 'src/auth/auth.provider';
 import bcrypt from 'bcryptjs';
 import { MailerService } from '../mailer/mailer.service';
 import juice from 'juice';
+import { ImageService } from 'src/image/image.service';
 
 @Injectable()
 export class UsersService {
@@ -23,6 +24,7 @@ export class UsersService {
     private userRepository: Repository<User>,
     private readonly utilsService: UtilsService,
     private readonly mailerService: MailerService,
+    private readonly imageService: ImageService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -215,8 +217,19 @@ export class UsersService {
   }
 
   async uploadImage(userId: number, image: Express.Multer.File) {
-    const url = `http://localhost:3000/static/${image.filename}`;
-    await this.update(userId, { profile_picture_url: url });
-    return url;
+    const previousImageFilepath = await this.userRepository.findOne({
+      select: {
+        profile_picture_url: true,
+      },
+      where: {
+        id: userId,
+      },
+    });
+    if (previousImageFilepath) {
+      console.log(previousImageFilepath);
+    }
+    const filename = this.imageService.store(image);
+    await this.update(userId, { profile_picture_url: filename });
+    return filename;
   }
 }

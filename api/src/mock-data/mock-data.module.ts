@@ -7,6 +7,7 @@ import { UsersService } from 'src/users/users.service';
 import { UtilsService } from 'src/utils/utils.service';
 import { UsersModule } from 'src/users/users.module';
 import { MailerModule } from 'src/mailer/mailer.module';
+import { ImageModule } from 'src/image/image.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { MailerModule } from 'src/mailer/mailer.module';
     UtilsModule,
     UsersModule,
     MailerModule,
+    ImageModule,
   ],
   providers: [MockDataService, UsersService, UtilsService],
   exports: [MockDataService],

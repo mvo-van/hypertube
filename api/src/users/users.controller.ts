@@ -140,15 +140,7 @@ export class UsersController {
   @Post('/me/upload')
   @UseInterceptors(FileInterceptor('image'))
   async uploadImage(
-    @UploadedFile(
-      new ParseFilePipeBuilder()
-        // .addFileTypeValidator({ fileType: 'image/jpg' })
-        .addMaxSizeValidator({ maxSize: MEGA_BYTE * 10 })
-        .build({
-          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-        }),
-    )
-    image: Express.Multer.File,
+    @UploadedFile() image: Express.Multer.File,
     @UserParam('userId') userId: number,
   ) {
     const url = await this.usersService.uploadImage(userId, image);

@@ -15,6 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { MailerService } from './mailer/mailer.service';
 import { MailerModule } from './mailer/mailer.module';
+import { ImageModule } from './image/image.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { MailerModule } from './mailer/mailer.module';
     MockDataModule,
     TypeOrmModule.forFeature([User]),
     MailerModule,
+    ImageModule,
   ],
   controllers: [AppController],
   providers: [
