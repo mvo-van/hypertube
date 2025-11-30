@@ -29,7 +29,9 @@ export class ImageService {
     return this.makeUrl(filename);
   }
 
-  remove(filename: string) {
+  removeFromUrl(url: string) {
+    const filename = this.extractFilenameFromUrl(url);
+
     try {
       const filepath = this.makeFilepath(filename);
       fs.unlinkSync(filepath);
@@ -61,5 +63,11 @@ export class ImageService {
     const uuid = crypto.randomUUID().slice(0, 8);
     const filename = `${Date.now()}-${uuid}.jpeg`;
     return filename;
+  }
+
+  private extractFilenameFromUrl(url: string): string | null {
+    const parsedUrl = new URL(url);
+    const resources = parsedUrl.pathname.split('/').filter((elem) => elem);
+    return resources.pop();
   }
 }

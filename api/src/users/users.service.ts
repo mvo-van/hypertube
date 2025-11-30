@@ -217,7 +217,7 @@ export class UsersService {
   }
 
   async uploadImage(userId: number, image: Express.Multer.File) {
-    const { profile_picture_url: previousProfilePicture } =
+    const { profile_picture_url: previousProfilePictureUrl } =
       await this.userRepository.findOne({
         select: {
           profile_picture_url: true,
@@ -226,10 +226,9 @@ export class UsersService {
           id: userId,
         },
       });
-    // console.log(previousProfilePicture);
-    // if (previousProfilePicture) {
-    //   this.imageService.remove(previousProfilePicture);
-    // }
+    if (previousProfilePictureUrl) {
+      this.imageService.removeFromUrl(previousProfilePictureUrl);
+    }
     const url = this.imageService.store(image);
     await this.update(userId, { profile_picture_url: url });
     return url;

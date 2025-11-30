@@ -144,7 +144,6 @@ export class UsersController {
     @UserParam('userId') userId: number,
   ) {
     const url = await this.usersService.uploadImage(userId, image);
-    console.log(url);
     return { message: 'Upload succesful', url: url };
   }
 }
