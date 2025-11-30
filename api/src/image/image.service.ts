@@ -19,20 +19,24 @@ export class ImageService {
     this.check(image);
 
     const filename = this.makeFilename();
-    const staticFolder = join(__dirname, '..', '..', 'static');
-    const filepath = join(staticFolder, filename);
+    const filepath = this.makeFilepath(filename);
     try {
       fs.writeFileSync(filepath, image.buffer);
     } catch (err) {
       this.logger.error(err);
       throw new InternalServerErrorException('Cannot upload image');
     }
-    return filename;
+    return this.makeUrl(filename);
   }
 
-  // async remove(filepath: string) {
-
-  // }
+  remove(filename: string) {
+    try {
+      const filepath = this.makeFilepath(filename);
+      fs.unlinkSync(filepath);
+    } catch (err) {
+      this.logger.error(err);
+    }
+  }
 
   private check(image: Express.Multer.File) {
     if (image.size > 10 * MEGA_BYTE) {
@@ -44,7 +48,16 @@ export class ImageService {
     }
   }
 
-  private makeFilename() {
+  private makeUrl(filename: string) {
+    return `${BASE_URL}/static/${filename}`;
+  }
+
+  private makeFilepath(filename: string): string {
+    const staticFolder = join(__dirname, '..', '..', 'static');
+    return join(staticFolder, filename);
+  }
+
+  private makeFilename(): string {
     const uuid = crypto.randomUUID().slice(0, 8);
     const filename = `${Date.now()}-${uuid}.jpeg`;
     return filename;

@@ -54,7 +54,7 @@ export class UsersService {
     return await this.userRepository.find({
       select: {
         username: true,
-        profile_picture_url: true,
+        profile_picture: true,
         id: true,
         first_name: true,
         last_name: true,
@@ -217,19 +217,21 @@ export class UsersService {
   }
 
   async uploadImage(userId: number, image: Express.Multer.File) {
-    const previousImageFilepath = await this.userRepository.findOne({
-      select: {
-        profile_picture_url: true,
-      },
-      where: {
-        id: userId,
-      },
-    });
-    if (previousImageFilepath) {
-      console.log(previousImageFilepath);
-    }
-    const filename = this.imageService.store(image);
-    await this.update(userId, { profile_picture_url: filename });
-    return filename;
+    const { profile_picture_url: previousProfilePicture } =
+      await this.userRepository.findOne({
+        select: {
+          profile_picture_url: true,
+        },
+        where: {
+          id: userId,
+        },
+      });
+    // console.log(previousProfilePicture);
+    // if (previousProfilePicture) {
+    //   this.imageService.remove(previousProfilePicture);
+    // }
+    const url = this.imageService.store(image);
+    await this.update(userId, { profile_picture_url: url });
+    return url;
   }
 }
