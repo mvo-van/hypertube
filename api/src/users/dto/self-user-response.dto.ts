@@ -3,7 +3,7 @@ import { Exclude, Expose } from 'class-transformer';
 import { User } from '../entities/user.entity';
 
 @Exclude()
-export class UserResponseDto {
+export class SelfUserResponseDto {
   @Expose()
   username: string;
 
@@ -12,6 +12,9 @@ export class UserResponseDto {
 
   @Expose()
   last_name: string;
+
+  @Expose()
+  email: string;
 
   @Expose()
   profile_picture_url: string;

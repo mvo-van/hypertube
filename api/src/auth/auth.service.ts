@@ -10,11 +10,11 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthStrategy } from './auth.provider';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UtilsService } from 'src/utils/utils.service';
-import nodemailer from 'nodemailer';
 import juice from 'juice';
 import { AuthModule } from './auth.module';
 import { UserDto } from './dto/user.dto';
 import { IUser } from './interfaces/user.interface';
+import { MailerService } from 'src/mailer/mailer.service';
 
 @Injectable()
 export class AuthService {
@@ -24,6 +24,7 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly utilsService: UtilsService,
+    private readonly mailerService: MailerService,
   ) {}
 
   async validateUser(username: string, pass: string): Promise<IUser | null> {
@@ -55,33 +56,17 @@ export class AuthService {
         status: 404,
       });
     }
-    const transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: process.env.MAIL,
-        pass: process.env.MAIL_PASSWORD,
-      },
-    });
-
-    const mailOptions = {
-      from: process.env.MAIL_USERNAME,
-      to: email,
-      subject: 'Votre code de reinitialisation de mot de passe',
+    this.logger.log(`Sending email to ${email}`);
+    await this.usersService.update(user.id, { otp_code: otp });
+    await this.mailerService.sendMail({
+      to: user.email,
+      subject: 'Votre code de réinitialisation',
       html: this.makeForgotPaswordEmail(otp),
-    };
-
-    this.logger.log(`Sending mail to - ${email}`);
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        this.logger.error(error);
-      } else {
-        this.usersService.update(user.id, { otp_code: otp });
-        this.logger.log('Email sent: ' + info.response);
-      }
     });
+    this.logger.log(`Email sent to ${email}`);
   }
 
-  async restPassword(email: string, otp: string, newPassword: string) {
+  async resetPassword(email: string, otp: string, newPassword: string) {
     const user = await this.usersService.findOneByEmailOtp(email, otp);
 
     if (!user || otp.length != 6) {

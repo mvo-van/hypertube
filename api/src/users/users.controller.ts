@@ -9,7 +9,11 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   Head,
-  Request,
+  Logger,
+  Res,
+  ParseFilePipeBuilder,
+  UploadedFile,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -18,10 +22,21 @@ import { UserResponseDto } from './dto/user-response.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { NotFoundException } from '@nestjs/common';
 import { User } from './entities/user.entity';
+import { SelfUserResponseDto } from './dto/self-user-response.dto';
+import { ActivateUserDto } from './dto/activate-user-dto';
+import { ValidateUserDto } from './dto/validate-user.dto';
+import { UserParam } from 'src/auth/decorators/user-param.decorator';
+import { JwtUser } from 'src/auth/interfaces/jwt-user.interface';
+import { Response } from 'express';
+import { MEGA_BYTE } from 'src/image/image.const';
+import { FileInterceptor } from '@nestjs/platform-express';
+import path from 'node:path/win32';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
+  private readonly logger = new Logger(UsersController.name);
+
   constructor(private readonly usersService: UsersService) {}
 
   @Public()
@@ -31,33 +46,51 @@ export class UsersController {
     return new UserResponseDto(createdUser);
   }
 
+  @Get('/test')
+  test(@UserParam() user: JwtUser) {
+    console.log(user);
+    return user;
+  }
+
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
+  @Get('/me')
+  async findMe(@UserParam('userId') userId: number) {
+    const user = await this.usersService.findOne(userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return new SelfUserResponseDto(user);
+  }
+
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<UserResponseDto> {
     const user = await this.usersService.findOne(+id);
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return user;
+    return new UserResponseDto(user);
   }
 
   @Patch('/me')
   async update(
-    @Request() req,
+    @UserParam('userId') userId: number,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<UserResponseDto> {
-    const id = req.user.userId;
-    const user = await this.usersService.update(id, updateUserDto);
+    const user = await this.usersService.update(userId, updateUserDto);
     return new UserResponseDto(user as User);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @Delete('/me')
+  async remove(@Res() res: Response, @UserParam('userId') userId: number) {
+    await this.usersService.remove(userId);
+    res.clearCookie('access_token');
+    res.json({
+      message: 'User has been succesfully deleted',
+    });
   }
 
   @Public()
@@ -76,5 +109,41 @@ export class UsersController {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+  }
+
+  @Public()
+  @Post('/activate')
+  async activate(@Body() activateUserDto: ActivateUserDto) {
+    const { username } = activateUserDto;
+
+    this.logger.log(`Sending activation email to ${username}`);
+    await this.usersService.activate(username);
+    this.logger.log(`Activation email has been sent to ${username}`);
+    return {
+      message: 'otp has been sent',
+    };
+  }
+
+  @Public()
+  @Post('/validate')
+  async validate(@Body() validateUserDto: ValidateUserDto) {
+    const { username, otp_code } = validateUserDto;
+
+    this.logger.log(`Validating user ${username}`);
+    await this.usersService.validate(username, otp_code);
+    this.logger.log(`User ${username} has been validated`);
+    return {
+      message: 'User has been activated.',
+    };
+  }
+
+  @Post('/me/upload')
+  @UseInterceptors(FileInterceptor('image'))
+  async uploadImage(
+    @UploadedFile() image: Express.Multer.File,
+    @UserParam('userId') userId: number,
+  ) {
+    const url = await this.usersService.uploadImage(userId, image);
+    return { message: 'Upload succesful', url: url };
   }
 }

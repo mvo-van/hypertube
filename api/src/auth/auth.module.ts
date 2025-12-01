@@ -14,6 +14,7 @@ import { DiscordStrategy } from './strategies/discord.strategy';
 import { SpotifyStrategy } from './strategies/spotify.strategy';
 import { AuthController } from './auth.controller';
 import { UtilsModule } from 'src/utils/utils.module';
+import { MailerModule } from 'src/mailer/mailer.module';
 
 @Module({
   providers: [
@@ -32,10 +33,11 @@ import { UtilsModule } from 'src/utils/utils.module';
     PassportModule,
     ConfigModule,
     UtilsModule,
+    MailerModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (config: ConfigService) => ({
+      useFactory: (config: ConfigService) => ({
         secret: config.get<string>('JWT_SECRET'),
         signOptions: { expiresIn: '60m' },
       }),

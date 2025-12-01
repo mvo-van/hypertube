@@ -56,7 +56,7 @@ export class MockDataService {
       firstName: firstName,
       lastName: lastName,
     });
-    const profilePictureUrl: string = faker.internet.url();
+    const profilePicture: string = faker.system.commonFileName('jpeg');
 
     return {
       first_name: firstName,
@@ -64,7 +64,7 @@ export class MockDataService {
       username: username,
       password: password,
       email: email,
-      profile_picture_url: profilePictureUrl,
+      profile_picture: profilePicture,
       auth_strategy: AuthStrategy.LOCAL,
     };
   }

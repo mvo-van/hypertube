@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
+import { JwtUser } from '../interfaces/jwt-user.interface';
 
 function extractJwtFromCookie(req: Request): string {
   const access_token: string = req.cookies.access_token as string;
@@ -23,10 +24,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: any) {
+  validate(payload: any): JwtUser {
     return {
-      userId: payload.sub,
-      username: payload.username,
+      userId: payload.sub as number,
+      username: payload.username as string,
     };
   }
 }
