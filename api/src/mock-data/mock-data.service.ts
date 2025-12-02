@@ -34,6 +34,7 @@ export class MockDataService {
       const generatedUser = this.createUser();
 
       try {
+        this.logger.log(`Creating: ${JSON.stringify(generatedUser)}`);
         const createdUser = await this.usersService.create(generatedUser);
         await this.userRepository.update(createdUser.id, {
           is_active: true,
