@@ -12,5 +12,3 @@ root.render(
 		<App />
 	</React.StrictMode>
 );
-
-axios.defaults.withCredentials = true;
