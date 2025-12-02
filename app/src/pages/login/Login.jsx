@@ -6,12 +6,15 @@ import BubbleBackground from "../../components/background/BubbleBackground";
 import { useState } from "react";
 import Form from "../../components/form/Form";
 import Input from "../../components/input/Input";
-import axios from "axios";
 import { api } from "../../common/api";
+import { useNavigate } from "react-router";
+import { useAuth } from "../../context/userContext";
 
 function Login() {
 	const [pseudo, setPseudo] = useState("");
 	const [password, setPassword] = useState("");
+	const navigate = useNavigate();
+	const { saveUser } = useAuth();
 
 	const onPseudoHandler = (value) => {
 		setPseudo(value);
@@ -27,10 +30,18 @@ function Login() {
 
 	const onSubmitHandler = async (e) => {
 		e.preventDefault();
-		await api.post("/auth/login", {
-			username: pseudo,
-			password: password,
-		});
+		try {
+			await api.post("/auth/login", {
+				username: pseudo,
+				password: password,
+			});
+			navigate(`/feed`);
+		} catch (e) {
+			if (e.response.message == "User is not active") {
+				saveUser({ pseudo, password });
+				navigate(`/validate-signup`);
+			}
+		}
 	};
 
 	const sendOtp = async () => {};

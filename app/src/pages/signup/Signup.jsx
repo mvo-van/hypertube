@@ -127,7 +127,7 @@ function Signup() {
 			!useError.hasInputErrors()
 		)
 			try {
-				const res = await api.post("/users", {
+				await api.post("/users", {
 					username: pseudo,
 					first_name: firstName,
 					last_name: lastName,
@@ -135,6 +135,9 @@ function Signup() {
 					password,
 					auth_strategy: "local",
 					language: navigator.language.split("-")[0] || null,
+				});
+				await api.post("/users/activate", {
+					username: pseudo,
 				});
 				saveUser({ pseudo, password });
 				navigate(`/validate-signup`);
