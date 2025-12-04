@@ -9,3 +9,4 @@ export const MAX_LENGTH_PASSWORD: number = 72;
 export const MIN_LENGTH_PASSWORD: number = 12;
 export const MAX_LENGTH_PICTURE_URL: number = 255;
 export const BASE_URL = 'http://localhost:3000';
+export const OTP_EXPIRY_MINUTES = 15;

@@ -16,6 +16,7 @@ import bcrypt from 'bcryptjs';
 import { MailerService } from '../mailer/mailer.service';
 import juice from 'juice';
 import { ImageService } from 'src/image/image.service';
+import { OTP_EXPIRY_MINUTES } from './constants';
 
 @Injectable()
 export class UsersService {
@@ -120,6 +121,8 @@ export class UsersService {
 
   async activate(username: string) {
     const otp = this.utilsService.generateOTP();
+    const expiryDate =
+      this.utilsService.createExpiryDateInMinutes(OTP_EXPIRY_MINUTES);
     const user = await this.findOneByUsername(username);
     if (!user) {
       throw new NotFoundException({
@@ -131,7 +134,10 @@ export class UsersService {
       throw new BadRequestException('User has already been activated');
     }
 
-    await this.userRepository.update(user.id, { otp_code: otp });
+    await this.userRepository.update(user.id, {
+      otp_code: otp,
+      otp_code_expiry: expiryDate,
+    });
 
     // TODO: manage email sending exception
     await this.mailerService.sendMail({
@@ -155,6 +161,9 @@ export class UsersService {
     }
     if (user.otp_code !== otp_code) {
       throw new BadRequestException("OTP code doesn't match");
+    }
+    if (this.utilsService.hasExpired(user.otp_code_expiry!)) {
+      throw new UnauthorizedException('OTP code expired');
     }
     await this.userRepository.update(user.id, {
       is_active: true,

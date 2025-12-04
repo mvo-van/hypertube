@@ -36,4 +36,7 @@ export class User {
 
   @Column({ type: 'varchar', length: 6, nullable: true, default: null })
   otp_code?: string;
+
+  @Column({ type: 'timestamp', nullable: true, default: null })
+  otp_code_expiry?: Date;
 }

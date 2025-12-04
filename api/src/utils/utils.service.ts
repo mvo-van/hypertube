@@ -33,4 +33,17 @@ export class UtilsService {
     }
     return otp;
   }
+
+  createExpiryDateInMinutes(minutes: number): Date {
+    const expiryDate = new Date();
+    expiryDate.setMinutes(expiryDate.getMinutes() + minutes);
+
+    return expiryDate;
+  }
+
+  hasExpired(expiryDate: Date): boolean {
+    const date = new Date();
+
+    return date.getTime() > expiryDate.getTime();
+  }
 }
