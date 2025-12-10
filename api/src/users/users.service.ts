@@ -99,6 +99,7 @@ export class UsersService {
   }
 
   async remove(id: number) {
+    await this.deletePicture(id);
     return await this.userRepository.delete(id);
   }
 
@@ -216,21 +217,25 @@ export class UsersService {
     return juice(htmlTemplate);
   }
 
-  async uploadImage(userId: number, image: Express.Multer.File) {
+  async uploadImage(id: number, image: Express.Multer.File) {
+    await this.deletePicture(id);
+    const url = this.imageService.store(image);
+    await this.update(id, { profile_picture_url: url });
+    return url;
+  }
+
+  private async deletePicture(id: number) {
     const { profile_picture_url: previousProfilePictureUrl } =
       await this.userRepository.findOne({
         select: {
           profile_picture_url: true,
         },
         where: {
-          id: userId,
+          id: id,
         },
       });
     if (previousProfilePictureUrl) {
       this.imageService.removeFromUrl(previousProfilePictureUrl);
     }
-    const url = this.imageService.store(image);
-    await this.update(userId, { profile_picture_url: url });
-    return url;
   }
 }

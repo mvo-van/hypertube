@@ -30,6 +30,9 @@ export class ImageService {
   }
 
   removeFromUrl(url: string) {
+    if (!this.isStaticFile(url)) {
+      return;
+    }
     const filename = this.extractFilenameFromUrl(url);
 
     try {
@@ -69,5 +72,9 @@ export class ImageService {
     const parsedUrl = new URL(url);
     const resources = parsedUrl.pathname.split('/').filter((elem) => elem);
     return resources.pop();
+  }
+
+  private isStaticFile(url: string): boolean {
+    return new URL(url).origin.includes(BASE_URL);
   }
 }

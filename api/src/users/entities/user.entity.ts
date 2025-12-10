@@ -22,7 +22,7 @@ export class User {
   @Column({ type: 'varchar', length: 72, nullable: true })
   password: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   profile_picture_url: string;
 
   @Column({ type: 'boolean', default: false })
