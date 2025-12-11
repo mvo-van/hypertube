@@ -6,74 +6,89 @@ import BubbleBackground from "../../components/background/BubbleBackground";
 import { useState } from "react";
 import Form from "../../components/form/Form";
 import Input from "../../components/input/Input";
-import axios from "axios";
 import { api } from "../../common/api";
+import { useNavigate } from "react-router";
+import { useAuth } from "../../context/userContext";
 
 function Login() {
-  const [pseudo, setPseudo] = useState("");
-  const [password, setPassword] = useState("");
+	const [pseudo, setPseudo] = useState("");
+	const [password, setPassword] = useState("");
+	const navigate = useNavigate();
+	const { saveUser } = useAuth();
 
-  const onPseudoHandler = (value) => {
-    setPseudo(value);
-  };
+	const onPseudoHandler = (value) => {
+		setPseudo(value);
+	};
 
-  const onPseudoValidate = (value) => {};
+	const onPseudoValidate = (value) => {};
 
-  const onPasswordHandler = (value) => {
-    setPassword(value);
-  };
+	const onPasswordHandler = (value) => {
+		setPassword(value);
+	};
 
-  const onPassWordValidate = (value) => {};
+	const onPassWordValidate = (value) => {};
 
-  const onSubmitHandler = async (e) => {
-    e.preventDefault();
-    await api.post("/auth/login", {
-      username: pseudo,
-      password: password,
-    });
-  };
+	const onSubmitHandler = async (e) => {
+		e.preventDefault();
+		try {
+			await api.post("/auth/login", {
+				username: pseudo,
+				password: password,
+			});
+			navigate(`/feed`);
+		} catch (e) {
+			if (e.response.message == "User is not active") {
+				saveUser({ pseudo, password });
+				navigate(`/validate-signup`);
+			}
+		}
+	};
 
-  const sendOtp = async () => {};
+	const sendOtp = async () => {};
 
-  return (
-    <GenericPage className={style.home}>
-      <BubbleBackground>
-        <MulticoText className={style["titre"]} text="Connection" />
-        <div className={style["button-box"]}>
-          <Form
-            className="login-form"
-            onSubmit={onSubmitHandler}
-            label="Connexion"
-            color="blue"
-          >
-            <Input
-              label="pseudo"
-              type="string"
-              value={pseudo}
-              onChange={onPseudoHandler}
-              onBlur={onPseudoValidate}
-              color="blue"
-            />
+	return (
+		<GenericPage className={style.home}>
+			<BubbleBackground>
+				<MulticoText className={style["titre"]} text="Connexion" />
+				<div className={style["button-box"]}>
+					<Form
+						className="login-form"
+						onSubmit={onSubmitHandler}
+						label="Connexion"
+						color="blue"
+					>
+						<Input
+							label="pseudo"
+							type="string"
+							value={pseudo}
+							onChange={onPseudoHandler}
+							onBlur={onPseudoValidate}
+							color="blue"
+						/>
 
-            <Input
-              label="mot de passe"
-              type="password"
-              value={password}
-              onChange={onPasswordHandler}
-              onBlur={onPassWordValidate}
-              color="blue"
-            />
-            <a href="#" onClick={() => sendOtp()} className={style.pwdlink}>
-              Mot de Passe oublié
-            </a>
-          </Form>
+						<Input
+							label="mot de passe"
+							type="password"
+							value={password}
+							onChange={onPasswordHandler}
+							onBlur={onPassWordValidate}
+							color="blue"
+						/>
+						<a
+							href="#"
+							onClick={() => sendOtp()}
+							className={style.pwdlink}
+						>
+							Mot de Passe oublié
+						</a>
+					</Form>
 
-          <hr className={style.line} />
-          <p className={style.titreOmni}>Omniauth</p>
-        </div>
-      </BubbleBackground>
-    </GenericPage>
-  );
+					<hr className={style.line} />
+					<p className={style.titreOmni}>Omniauth</p>
+				</div>
+			</BubbleBackground>
+		</GenericPage>
+	);
 }
 
 export default Login;
