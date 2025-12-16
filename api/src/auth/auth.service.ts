@@ -45,8 +45,6 @@ export class AuthService {
   }
 
   async forgotPassword(email: string) {
-    const otp = this.utilsService.generateOTP();
-
     const user = await this.usersService.findOneByEmail(email);
 
     if (!user) {
@@ -56,8 +54,10 @@ export class AuthService {
         status: 404,
       });
     }
+
     this.logger.log(`Sending email to ${email}`);
-    await this.usersService.update(user.id, { otp_code: otp });
+    const otp = await this.usersService.createOTP(user.id);
+
     await this.mailerService.sendMail({
       to: user.email,
       subject: 'Votre code de réinitialisation',
@@ -69,6 +69,7 @@ export class AuthService {
   async resetPassword(email: string, otp: string, newPassword: string) {
     const user = await this.usersService.findOneByEmailOtp(email, otp);
 
+    // TODO: GERER OTP NON EXISTANT ET EXPIRE
     if (!user || otp.length != 6) {
       throw new NotFoundException({
         error: 'Invalid OTP password',
@@ -78,8 +79,8 @@ export class AuthService {
     }
     await this.usersService.update(user.id, {
       password: await this.utilsService.cipherPassword(newPassword),
-      otp_code: '',
     });
+    await this.usersService.deleteOTP(user.id);
   }
 
   async googleLogin(req: any): Promise<null | any> {

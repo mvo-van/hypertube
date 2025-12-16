@@ -119,11 +119,27 @@ export class UsersService {
     });
   }
 
-  async activate(username: string) {
+  async createOTP(id: number): Promise<string> {
     const otp = this.utilsService.generateOTP();
     const expiryDate =
       this.utilsService.createExpiryDateInMinutes(OTP_EXPIRY_MINUTES);
+    await this.userRepository.update(id, {
+      otp_code: otp,
+      otp_code_expiry: expiryDate,
+    });
+    return otp;
+  }
+
+  async deleteOTP(id: number) {
+    await this.userRepository.update(id, {
+      otp_code: null,
+      otp_code_expiry: null,
+    });
+  }
+
+  async activate(username: string) {
     const user = await this.findOneByUsername(username);
+
     if (!user) {
       throw new NotFoundException({
         error: 'User not found',
@@ -134,12 +150,8 @@ export class UsersService {
       throw new BadRequestException('User has already been activated');
     }
 
-    await this.userRepository.update(user.id, {
-      otp_code: otp,
-      otp_code_expiry: expiryDate,
-    });
+    const otp = await this.createOTP(user.id);
 
-    // TODO: manage email sending exception
     await this.mailerService.sendMail({
       to: user.email,
       subject: 'Votre code de validation',
@@ -165,10 +177,8 @@ export class UsersService {
     if (this.utilsService.hasExpired(user.otp_code_expiry!)) {
       throw new UnauthorizedException('OTP code expired');
     }
-    await this.userRepository.update(user.id, {
-      is_active: true,
-      otp_code: '',
-    });
+    await this.deleteOTP(user.id);
+    await this.userRepository.update(user.id, { is_active: true });
   }
 
   private makeAccountValidationEmail(otp: string): string {
