@@ -11,6 +11,7 @@ import MoviePage from "./pages/moviePage/MoviePage";
 import Settings from "./pages/settings/Settings";
 import ValidateSignup from "./pages/validateSignup/ValidateSignup";
 import { AuthProvider } from "./context/userContext";
+import Test from "./pages/test/Test";
 
 function App() {
   return (
@@ -36,7 +37,7 @@ function App() {
           <Route path="/user/:id" element={<ProfileUser />} />
           <Route path="/movie/:id" element={<MoviePage />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/test" element={<ProfileUser />} />
+          <Route path="/test" element={<Test />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
