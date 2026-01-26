@@ -7,14 +7,14 @@ import videojs from "video.js";
 // const videoUrl = 'http://localhost:8000/videos/587a4d55-661f-4a2c-b3d1-b3c4dfbfbfde/playlist.m3u8';
 
 // Fetch the link to playlist.m3u8 of the video you want to play
-export const VideoPlayer = ({ thumbnail, videoUrl }) => {
+export const VideoPlayer = ({ thumbnail, videoUrl, onReady }) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);
 
   const options = {
     autoplay: false,
     controls: true,
-    playbackRates: [0.5, 1, 1.5, 2],
+    // playbackRates: [0.5, 1, 1.5, 2],
     height: 400,
     responsive: true,
     poster: thumbnail,
