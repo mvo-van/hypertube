@@ -55,7 +55,7 @@ export class UsersService {
     return await this.userRepository.find({
       select: {
         username: true,
-        profile_picture: true,
+        profile_picture_url: true,
         id: true,
         first_name: true,
         last_name: true,
