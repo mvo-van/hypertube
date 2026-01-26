@@ -19,7 +19,6 @@ function Users() {
     const config = { withCredentials: true };
     try {
       const res = await axios.get(`http://localhost:3000/users`, config);
-      console.log(res)
       setSearchUsers(res.data.map(elem => {
         return({id : elem.id,
           name:elem.username,
