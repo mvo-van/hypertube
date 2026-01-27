@@ -11,6 +11,7 @@ import {
   Head,
   Logger,
   Res,
+  Req,
   ParseFilePipeBuilder,
   UploadedFile,
   HttpStatus,
@@ -39,12 +40,39 @@ export class UsersController {
 
   constructor(private readonly usersService: UsersService) {}
 
+  //========================= Local =========================
+
   @Public()
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
     const createdUser = await this.usersService.create(createUserDto);
     return new UserResponseDto(createdUser);
   }
+
+  // // ========================= Google =========================
+
+  // // @Public()
+  // // @UseGuards(GoogleAuthGuard)
+  // // @Get('google')
+  // // googleAuth(@Req() req: Request) {
+  // //   this.logger.log('[oauth-google]');
+  // // }
+
+  // // @Public()
+  // // @UseGuards(GoogleAuthGuard)
+  // // @Get('google/redirect')
+  // // googleAuthRedirect(@Req() req: Request) {
+  // //   this.logger.log('[google-redirect]');
+  // //   return this.authService.googleLogin(req);
+  // // }
+
+  // @Public()
+  // @Post("OauthGoogle")
+  // async createOAuthGoogle(@Req() req: Request) {
+  //   console.log("oAuthGoogle")
+  //   // const createdUser = await this.usersService.create(createUserDto);
+  //   // return new UserResponseDto(createdUser);
+  // }
 
   @Get('/test')
   test(@UserParam() user: JwtUser) {

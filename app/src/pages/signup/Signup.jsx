@@ -22,6 +22,7 @@ import {
 import { useNavigate } from "react-router";
 import { api } from "../../common/api";
 import { useAuth } from "../../context/userContext";
+import axios from "axios";
 
 function Signup() {
 	const [email, setEmail] = useState("");
@@ -145,6 +146,16 @@ function Signup() {
 				// Ajouter cas erreur
 			}
 	};
+
+//   const onClickHandlerOAuthFortytwo = async () => {
+// 		try {
+// 			await api.get("/auth/fortytwo",{});
+// 			// const res = await axios.get(`http://localhost:3000/auth/fortytwo`, { withCredentials: true });
+// 			// console.log(res)
+// 		} catch (e) {
+// 			console.log(e)
+// 		}
+// 	};
 
 	return (
 		<GenericPage className={style.home}>
@@ -271,6 +282,25 @@ function Signup() {
 					</Form>
 					<hr className={style.line} />
 					<p className={style.titreOmni}>Omniauth</p>
+					<form action="http://localhost:3000/auth/google" method="get">
+  						<input type="submit" value="Google"/>
+					</form>
+					<form action="http://localhost:3000/auth/fortytwo" method="get">
+  						<input type="submit" value="42"/>
+					</form>
+					<form action="http://localhost:3000/auth/github" method="get">
+  						<input type="submit" value="github"/>
+					</form>
+					<form action="http://localhost:3000/auth/gitlab" method="get">
+  						<input type="submit" value="gitlab"/>
+					</form>
+					<form action="http://localhost:3000/auth/discord" method="get">
+  						<input type="submit" value="discord"/>
+					</form>
+					<form action="http://localhost:3000/auth/spotify" method="get">
+  						<input type="submit" value="spotify"/>
+					</form>
+
 				</div>
 			</BubbleBackground>
 		</GenericPage>

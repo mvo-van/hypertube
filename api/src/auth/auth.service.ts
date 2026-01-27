@@ -92,7 +92,7 @@ export class AuthService {
       AuthStrategy.GOOGLE,
     );
 
-    if (user != null) {
+    if (!user) {
       // Create user
       const newUser: CreateUserDto = {
         username: this.utilsService.makeUsername(
@@ -105,7 +105,6 @@ export class AuthService {
         profile_picture_url: req.user.picture,
         auth_strategy: AuthStrategy.GOOGLE,
       };
-
       user = await this.usersService.create(newUser);
     }
     const payload = { sub: user?.id, username: user?.username };
@@ -124,8 +123,7 @@ export class AuthService {
       AuthStrategy.FORTYTWO,
     );
 
-    if (user != null) {
-      // Create user
+    if (!user) {
       const newUser: CreateUserDto = {
         username: this.utilsService.makeUsername(
           req.user.first_name,
@@ -157,7 +155,7 @@ export class AuthService {
       AuthStrategy.GITHUB,
     );
 
-    if (user != null) {
+    if (!user) {
       // Create user
       const newUser: CreateUserDto = {
         username: this.utilsService.makeUsername(
@@ -190,7 +188,7 @@ export class AuthService {
       AuthStrategy.GITLAB,
     );
 
-    if (user != null) {
+    if (!user) {
       // Create user
       const newUser: CreateUserDto = {
         username: this.utilsService.makeUsername(
@@ -223,7 +221,7 @@ export class AuthService {
       AuthStrategy.DISCORD,
     );
 
-    if (user != null) {
+    if (!user) {
       // Create user
       const newUser: CreateUserDto = {
         username: this.utilsService.makeUsername(
@@ -255,7 +253,7 @@ export class AuthService {
       AuthStrategy.SPOTIFY,
     );
 
-    if (user != null) {
+    if (!user) {
       // Create user
       const newUser: CreateUserDto = {
         username: this.utilsService.makeUsername(
