@@ -12,9 +12,6 @@ function ProfileUser() {
   const {id} = useParams();
 
   const [me, setMe] = useState(false);
-  // const [user, setUsers] = useState(
-  //   {"id":1,"pseudo":"augustes", "firstName":"george","lastName":"sanderson","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "moviesNumber":120, "seriesNumber":40}
-  // );
   const [user, setUser] = useState({});
   const [comments, setComments] = useState([
     {"movieId":1,"commentId":1, "message":"L'agglomération antique de Montaigu-la-Brisette est une agglomération secondaire gallo-romaine des trois premiers siècles de notre ère située sur le territoire de la commune moderne de Montaigu-la-Brisette, dans le département français de la Manche, en région Normandie.","urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg"},
