@@ -7,7 +7,7 @@ import videojs from "video.js";
 // const videoUrl = 'http://localhost:8000/videos/587a4d55-661f-4a2c-b3d1-b3c4dfbfbfde/playlist.m3u8';
 
 // Fetch the link to playlist.m3u8 of the video you want to play
-export const VideoPlayer = ({ thumbnail, videoUrl }) => {
+export const VideoPlayer = ({ thumbnail, videoUrl, onReady }) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);
 
@@ -15,6 +15,7 @@ export const VideoPlayer = ({ thumbnail, videoUrl }) => {
     autoplay: false,
     controls: true,
     playbackRates: [0.5, 1, 1.5, 2],
+    width: 600,
     height: 400,
     responsive: true,
     poster: thumbnail,
@@ -47,7 +48,9 @@ export const VideoPlayer = ({ thumbnail, videoUrl }) => {
 
       const player = (playerRef.current = videojs(videoElement, options, () => {
         videojs.log("player is ready");
-        onReady && onReady(player);
+        if (onReady) {
+          onReady(player);
+        }
       }));
     } else {
       const player = playerRef.current;
@@ -69,12 +72,7 @@ export const VideoPlayer = ({ thumbnail, videoUrl }) => {
   }, [playerRef]);
 
   return (
-    <div
-      data-vjs-player
-      style={{
-        width: "600px",
-      }}
-    >
+    <div data-vjs-player>
       <div ref={videoRef} className="" />
     </div>
   );
