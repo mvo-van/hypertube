@@ -40,7 +40,7 @@ export class AuthController {
 
     res.cookie('access_token', access_token, {
       httpOnly: true,
-      maxAge: 900000,
+      maxAge: 10800000,
       sameSite: true,
     });
     res.send({
