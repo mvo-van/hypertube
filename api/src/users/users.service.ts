@@ -34,6 +34,9 @@ export class UsersService {
       if (user.password != null) {
         user.password = await this.utilsService.cipherPassword(user.password);
       }
+      if (user.auth_strategy != "local") {
+        user.is_active = true;
+      }
       return await this.userRepository.save(user);
     } catch {
       throw new ConflictException('User already exists');
