@@ -1,0 +1,35 @@
+.omniauthDiv{
+    display: flex;
+    flex-direction: column;
+    gap : 20px;
+    align-items: center;
+}
+
+.titreOmni{
+    padding-top: 20px;
+    color: var(--color-red);
+    font-size: 30px;
+    
+}
+
+.omniauthIconeDiv{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 150px;
+    background-color: rgba(225,225,225,0.5);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.imgOauth{
+    width: 40px;
+    height: auto;
+    background-color: transparent;
+}
+
+.buttonOauth{
+    background-color: transparent;
+}
