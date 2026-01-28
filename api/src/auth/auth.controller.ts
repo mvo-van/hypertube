@@ -27,9 +27,11 @@ import { AuthModule } from './auth.module';
 export class AuthController {
   private readonly logger = new Logger(AuthModule.name);
 
-  constructor(private readonly authService: AuthService) {}
-  
-  
+  constructor(private readonly authService: AuthService) { }
+
+  @Get('/connected')
+  connected() { }
+
   @Get('/logout')
   logout(@Res() res: Response) {
     res.clearCookie('access_token');
@@ -91,9 +93,9 @@ export class AuthController {
   @Public()
   @UseGuards(GoogleAuthGuard)
   @Get('google/redirect')
-  async googleAuthRedirect(@Req() req: Request, @Res() res: Response)  {
+  async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
     this.logger.log('[google-redirect]');
-    const {access_token} = await this.authService.googleLogin(req);
+    const { access_token } = await this.authService.googleLogin(req);
     res.cookie('access_token', access_token, {
       httpOnly: true,
       maxAge: 10800000,
@@ -115,7 +117,7 @@ export class AuthController {
   @Get('fortytwo/redirect')
   async fortytwoAuthRedirect(@Req() req: Request, @Res() res: Response) {
     this.logger.log('[oauth-fortytwo-redirect]');
-    const {access_token} = await  this.authService.fortytwoLogin(req);
+    const { access_token } = await this.authService.fortytwoLogin(req);
     res.cookie('access_token', access_token, {
       httpOnly: true,
       maxAge: 10800000,
@@ -137,7 +139,7 @@ export class AuthController {
   @Get('github/callback')
   async githubAuthRedirect(@Req() req: Request, @Res() res: Response) {
     this.logger.log('[oauth-github-redirect]');
-    const {access_token} = await this.authService.githubLogin(req);
+    const { access_token } = await this.authService.githubLogin(req);
     res.cookie('access_token', access_token, {
       httpOnly: true,
       maxAge: 10800000,
@@ -159,7 +161,7 @@ export class AuthController {
   @Get('gitlab/callback')
   async gitlabAuthRedirect(@Req() req: Request, @Res() res: Response) {
     this.logger.log('[oauth-gitlab]');
-    const {access_token} = await this.authService.gitlabLogin(req);
+    const { access_token } = await this.authService.gitlabLogin(req);
 
     res.cookie('access_token', access_token, {
       httpOnly: true,
@@ -182,7 +184,7 @@ export class AuthController {
   @Get('discord/callback')
   async discordAuthRedirect(@Req() req: Request, @Res() res: Response) {
     this.logger.log('[oauth-discord-redirect]');
-    const {access_token} = await this.authService.discordLogin(req);
+    const { access_token } = await this.authService.discordLogin(req);
     res.cookie('access_token', access_token, {
       httpOnly: true,
       maxAge: 10800000,
@@ -204,7 +206,7 @@ export class AuthController {
   @Get('spotify/callback')
   async spotifyAuthRedirect(@Req() req: Request, @Res() res: Response) {
     this.logger.log('[oauth-discord]');
-    const {access_token} = await this.authService.spotifyLogin(req);
+    const { access_token } = await this.authService.spotifyLogin(req);
     res.cookie('access_token', access_token, {
       httpOnly: true,
       maxAge: 10800000,
