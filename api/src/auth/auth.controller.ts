@@ -28,6 +28,15 @@ export class AuthController {
   private readonly logger = new Logger(AuthModule.name);
 
   constructor(private readonly authService: AuthService) {}
+  
+  
+  @Get('/logout')
+  logout(@Res() res: Response) {
+    res.clearCookie('access_token');
+    res.json({
+      message: 'User has been succesfully logout',
+    });
+  }
 
   // ========================= Local =========================
   @Public()

@@ -3,6 +3,7 @@ import IconButton from "../button/IconButton";
 import iconPseudo from "../../assets/images/me.png"
 import {Movie, People, Settings, Logout, AccountCircle} from '@mui/icons-material';
 import { useNavigate } from "react-router";
+import { api } from "../../common/api";
 
 function Header({}) {
   const img = null
@@ -29,9 +30,14 @@ function Header({}) {
     navigate(`/settings`);
   }
 
-  const onClickHandlerQuit = () => {
-    // TODO
-  }
+  const onClickHandlerQuit = async () => {
+    try {
+      await api.get("/auth/logout", { withCredentials: true });
+      navigate(`/`);
+    } catch (e) {
+      console.log(e)
+    }
+  };
 
 
   return (
