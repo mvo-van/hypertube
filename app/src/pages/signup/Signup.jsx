@@ -148,16 +148,6 @@ function Signup() {
 			}
 	};
 
-//   const onClickHandlerOAuthFortytwo = async () => {
-// 		try {
-// 			await api.get("/auth/fortytwo",{});
-// 			// const res = await axios.get(`http://localhost:3000/auth/fortytwo`, { withCredentials: true });
-// 			// console.log(res)
-// 		} catch (e) {
-// 			console.log(e)
-// 		}
-// 	};
-
 	return (
 		<GenericPage className={style.home}>
 			<BubbleBackground>
