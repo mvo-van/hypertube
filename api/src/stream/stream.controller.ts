@@ -10,22 +10,9 @@ export class StreamController {
   stream(@Res() res: Response, @Param('filename') filename: string) {
     const filepath = join(__dirname, '..', '..', 'video', filename);
 
-    // const mimeTypes = {
-    //   '.m3u8': 'application/x-mpegURL',
-    //   '.ts': 'video/mp2t',
-    //   '.aac': 'audio/aac',
-    //   '.m4s': 'video/iso.segment',
-    //   '.mp4': 'video/mp4',
-    // };
-
-    const ext = extname(filepath);
-    // console.log('Sending: ', mimeTypes[ext]);
-    // res.setHeader('Content-Type', mimeTypes[ext] || 'application/octet-stream');
-    // res.set('Cache-Control', 'no-store');
-    // BUGFIX: L'erreur vient du callback qui est appelé après le renvoie de la réponse
     res.sendFile(filepath, (err) => {
       if (err) {
-        res.status(404).send('File not found');
+        res.status(404).end();
       }
     });
   }
