@@ -11,6 +11,7 @@ import MoviePage from "./pages/moviePage/MoviePage";
 import Settings from "./pages/settings/Settings";
 import ValidateSignup from "./pages/validateSignup/ValidateSignup";
 import { AuthProvider } from "./context/userContext";
+import Error404 from "./pages/error404/Error404";
 
 function App() {
 	return (
@@ -40,6 +41,7 @@ function App() {
 					<Route path="/movie/:id" element={<MoviePage />} />
 					<Route path="/settings" element={<Settings />} />
 					<Route path="/test" element={<ProfileUser />} />
+					<Route path="*" element={<Error404 />} />
 				</Routes>
 			</AuthProvider>
 		</BrowserRouter>
