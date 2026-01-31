@@ -37,7 +37,7 @@ import path from 'node:path/win32';
 export class UsersController {
   private readonly logger = new Logger(UsersController.name);
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Public()
   @Post()
