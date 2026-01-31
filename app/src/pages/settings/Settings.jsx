@@ -1,50 +1,57 @@
 import GenericPage from "../page/GenericPage";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../components/header/Header";
 import style from "./Settings.module.css"
-import {useNavigate, useParams} from "react-router-dom";
-import UserInfo from "../../components/UserInfo/UserInfo";
-import Comments from "../../components/comments/Comments";
-import HorizontalScrollMovies from "../../components/horizontalScrollMovies/HorizontalScrollMovies";
-import Input from "../../components/input/Input";
-import Button from "../../components/button/Button";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { api } from "../../common/api";
 
 function Settings() {
-  // const {id} = useParams();
-  const me = true;
-  const [user, setUsers] = useState(
-    {"showName":true, "mail":"george@gmail.com","showWatch":true,"showWatchList":true,"language":"fr","id":1,"pseudo":"augustes", "firstName":"george","lastName":"sanderson","photo":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "moviesNumber":120, "seriesNumber":40}
-  );
+  const [pseudo, setPseudo] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [mail, setMail] = useState("")
+  const [language, setLanguage] = useState("fr")
+  const [showName, setShowName] = useState(true)
+  const [showWatch, setShowWatch] = useState(true)
+  const [showWatchList, setShowWatchList] = useState(true)
+  const [photo, setPhoto] = useState("")
 
-  const [pseudo, setPseudo] = useState(user.pseudo)
-  const [firstName, setFirstName] = useState(user.firstName)
-  const [lastName, setLastName] = useState(user.lastName)
-  const [mail, setMail] = useState(user.mail)
-  const [language, setLanguage] = useState(user.language)
-  const [showName, setShowName] = useState(user.showName)
-  const [showWatch, setShowWatch] = useState(user.showWatch)
-  const [showWatchList, setShowWatchList] = useState(user.showWatchList)
-  const [photo, setPhoto] = useState(user.photo)
+  const getUserProfile = async () => {
+    try {
+      const res = await api.get(`http://localhost:3000/users/me`);
+      console.log(res.data)
+      setPseudo(res.data.username)
+      setFirstName(res.data.first_name)
+      setLastName(res.data.last_name)
+      setMail(res.data.email)
+      setLanguage(res.data.language)
+      setPhoto(res.data.profile_picture_url)
+      setShowName(true) //todo
+      setShowWatch(true) //todo
+      setShowWatchList(true) //todo
+    } catch (e) {
+    }
+  }
+
+  useEffect(() => {
+    getUserProfile()
+  }, [])
+
   // const [movies, setMovies] = useState([]);
 
   const onPseudoHandler = (e) => {
-    // console.log(e.target.value)
     setPseudo(e.target.value)
   }
 
   const onFirstNameHandler = (e) => {
-    // console.log(e.target.value)
     setFirstName(e.target.value)
   }
 
   const onLastNameHandler = (e) => {
-    // console.log(e.target.value)
     setLastName(e.target.value)
   }
 
   const onMailHandler = (e) => {
-    // console.log(e.target.value)
     setMail(e.target.value)
   }
 
@@ -54,8 +61,7 @@ function Settings() {
   }
 
   const onClickChangePwd = (e) => {
-    console.log(e.target.files)
-    setPhoto(URL.createObjectURL(e.target.files[0]))
+    // todo
   }
 
   const onLanguageHandler = (e) => {
@@ -91,8 +97,24 @@ function Settings() {
     //TODO
   }
 
-  const onClickSaveProfil = () => {
-    //TODO
+  const onClickSaveProfil = async (e) => {
+    e.preventDefault();
+    try {
+      await api.patch("/users/me", {
+        username: pseudo,
+        first_name: firstName,
+        last_name: lastName,
+        profile_picture_url: photo,
+        language: language,
+        // mail: mail,
+        // showName: showName,
+        // showWatch: showWatch,
+        // showWatchList: showWatchList
+      });
+    } catch (e) {
+      console.log(e)
+      console.log("une erreur est survenue durent l'update de votre profile")
+    }
   }
 
   return (
@@ -109,69 +131,70 @@ function Settings() {
               <div className={style.nameInfo}>
                 <div className={style.subNameInfo}>
                   <div className={style.subSubTitle}>Pseudo</div>
-                  <input className={style.inputText} type="text" id="pseudo" value={pseudo} onChange={onPseudoHandler}/>
+                  <input className={style.inputText} type="text" id="pseudo" value={pseudo} onChange={onPseudoHandler} />
                   <div className={style.subSubTitle}>Prénom</div>
-                  <input className={style.inputText} type="text" id="firstName" value={firstName} onChange={onFirstNameHandler}/>
+                  <input className={style.inputText} type="text" id="firstName" value={firstName} onChange={onFirstNameHandler} />
                   <div className={style.subSubTitle}>Nom</div>
-                  <input className={style.inputText} type="text" id="lastName" value={lastName} onChange={onLastNameHandler}/>
+                  <input className={style.inputText} type="text" id="lastName" value={lastName} onChange={onLastNameHandler} />
                   <div className={style.subSubTitle}>Mail</div>
-                  <input className={style.inputText} type="text" id="mail" value={mail} onChange={onMailHandler}/>
+                  <input className={style.inputText} type="text" id="mail" value={mail} onChange={onMailHandler} />
                 </div>
                 <div >
                   <label htmlFor="photo" className={style.boxPhoto}>
-                    <BorderColorIcon className={style.icone}/>
-                    <img className={style.photo} src={photo}/>
+                    <BorderColorIcon className={style.icone} />
+                    {photo && <img className={style.photo} src={photo} />}
+                    {(!photo) && <img className={style.photo} src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png" />}
                   </label>
-                  <input className={style.displayFalse} type="file" id="photo" onChange={onImageHandler} accept="image/png, image/jpeg"/>
+                  <input className={style.displayFalse} type="file" id="photo" onChange={onImageHandler} accept="image/png, image/jpeg" />
                 </div>
               </div>
 
             </div>
             <div className={style.line}></div>
             <div className={style.subTitle}>Authentification</div>
-              <button className={style.buttonConnexion} onClick={onClickChangePwd}>Réinitialiser le mot de passe</button>
+            <button className={style.buttonConnexion} onClick={onClickChangePwd}>Réinitialiser le mot de passe</button>
             <div className={style.line}></div>
-            
+
             <div className={style.subTitle}>Langue préférée</div>
 
-              <select className={style.language} name="language" id="language-select" onChange={onLanguageHandler} value={language}>
-                <option value="fr">Français</option>
-                <option value="en">English</option>
-              </select>
+            <select className={style.language} name="language" id="language-select" onChange={onLanguageHandler} value={language}>
+              <option value="fr">Français</option>
+              <option value="en">English</option>
+            </select>
 
             <div className={style.line}></div>
-            
+
             <div className={style.subTitle}>Confidentialité du profil</div>
-              
-              <div className={style.boxDisplay}> 
-                <div className={style.display}>Afficher prénom/nom </div>
-                <div>
-                  <button className={`${style[`yes_${showName}`]} ${style.yes}`} onClick={onClickShowNameYes}>oui</button>
-                  <button className={`${style[`no_${showName}`]} ${style.no}`} onClick={onClickShowNameNo}>non</button>
-                </div>
+
+            <div className={style.boxDisplay}>
+              <div className={style.display}>Afficher prénom/nom </div>
+              <div>
+                <button className={`${style[`yes_${showName}`]} ${style.yes}`} onClick={onClickShowNameYes}>oui</button>
+                <button className={`${style[`no_${showName}`]} ${style.no}`} onClick={onClickShowNameNo}>non</button>
               </div>
-              <div className={style.boxDisplay}>
-                <div className={style.display}>Afficher films/séries vus </div>
-                <div>
-                  <button className={`${style[`yes_${showWatch}`]} ${style.yes}`} onClick={onClickShowWatchYes}>oui</button>
-                  <button className={`${style[`no_${showWatch}`]} ${style.no}`} onClick={onClickShowWatchNo}>non</button>
-                </div>
+            </div>
+            <div className={style.boxDisplay}>
+              <div className={style.display}>Afficher films/séries vus </div>
+              <div>
+                <button className={`${style[`yes_${showWatch}`]} ${style.yes}`} onClick={onClickShowWatchYes}>oui</button>
+                <button className={`${style[`no_${showWatch}`]} ${style.no}`} onClick={onClickShowWatchNo}>non</button>
               </div>
-              <div className={style.boxDisplay}>
-                <div className={style.display}>Afficher favoris </div>
-                <div><button className={`${style[`yes_${showWatchList}`]} ${style.yes}`} onClick={onClickShowWatchListYes}>oui</button>
+            </div>
+            <div className={style.boxDisplay}>
+              <div className={style.display}>Afficher favoris </div>
+              <div><button className={`${style[`yes_${showWatchList}`]} ${style.yes}`} onClick={onClickShowWatchListYes}>oui</button>
                 <button className={`${style[`no_${showWatchList}`]} ${style.no}`} onClick={onClickShowWatchListNo}>non</button>
               </div>
             </div>
 
             <div className={style.line}></div>
-            
+
             <div className={style.subTitle}>Suppression</div>
-              <button onClick={onClickDeletProfil} className={style.deletButton}>Supprimer mon profil</button>
+            <button onClick={onClickDeletProfil} className={style.deletButton}>Supprimer mon profil</button>
           </div>
 
           <button className={style.saveButton} onClick={onClickSaveProfil}>Sauvegarder</button>
-            
+
         </div>
       </div>
     </GenericPage>
