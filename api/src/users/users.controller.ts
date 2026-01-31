@@ -38,7 +38,7 @@ import path from 'node:path/win32';
 export class UsersController {
   private readonly logger = new Logger(UsersController.name);
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Public()
   @Post()
@@ -70,7 +70,7 @@ export class UsersController {
   @Get(':id')
   async findOne(@Param('id') id: string, @UserParam('userId') userId: number): Promise<UserResponseDto> {
     const user = await this.usersService.findOne(+id);
-    user.me=(user.id==userId);
+    user.me = (user.id == userId);
     if (!user) {
       throw new NotFoundException('User not found');
     }

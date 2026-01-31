@@ -4,11 +4,12 @@ import iconPseudo from "../../assets/images/me.png"
 import { Movie, People, Settings, Logout, AccountCircle } from '@mui/icons-material';
 import { useNavigate } from "react-router";
 import { api } from "../../common/api";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function Header({ }) {
   const img = null
   const navigate = useNavigate()
+  const [myId, setMyId] = useState(null)
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -21,6 +22,18 @@ function Header({ }) {
 
     checkAuth();
   }, [navigate]);
+
+  useEffect(() => {
+    const getId = async () => {
+      try {
+        const res = await api.get("/users/me");
+        setMyId(res.data.id)
+      } catch (e) {
+      }
+    };
+
+    getId();
+  }, []);
 
   const onClickHandlerTitle = () => {
     navigate(`/feed`);
@@ -35,7 +48,7 @@ function Header({ }) {
   }
 
   const onClickHandlerMe = () => {
-    // TODO
+    navigate(`/user/` + myId);
   }
 
   const onClickHandlerSettings = () => {
