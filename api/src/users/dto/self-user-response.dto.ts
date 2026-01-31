@@ -5,6 +5,9 @@ import { User } from '../entities/user.entity';
 @Exclude()
 export class SelfUserResponseDto {
   @Expose()
+  id: number;
+
+  @Expose()
   username: string;
 
   @Expose()
