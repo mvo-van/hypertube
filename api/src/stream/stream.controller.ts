@@ -1,7 +1,8 @@
-import { Controller, Get, Param, Res } from '@nestjs/common';
+import { Controller, Get, Param, Query, Req, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { extname, join } from 'node:path';
+import { join } from 'node:path';
 import { Public } from 'src/auth/decorators/public.decorator';
+import ffmpeg from 'fluent-ffmpeg';
 
 @Controller('stream')
 export class StreamController {
@@ -10,10 +11,31 @@ export class StreamController {
   stream(@Res() res: Response, @Param('filename') filename: string) {
     const filepath = join(__dirname, '..', '..', 'video', filename);
 
-    res.sendFile(filepath, (err) => {
+    res.sendFile(filepath, (err: Error) => {
       if (err) {
         res.status(404).end();
       }
     });
+  }
+
+  @Get(':filename/subs')
+  @Public()
+  subs(
+    @Res() res: Response,
+    @Query('lang') lang: string,
+    @Param('filename') filename: string,
+  ) {
+    const filepath = join(__dirname, '..', '..', 'video', filename);
+
+    const trackIndex = lang == 'fr' ? 0 : 1;
+
+    ffmpeg(filepath)
+      .outputOptions([`-map 0:s:${trackIndex}`, `-f webvtt`])
+      .on('start', () => console.log('Extract subtitles'))
+      .on('error', (err: Error) => {
+        console.log(err);
+        res.status(500).send('Error extracting subtitles');
+      })
+      .pipe(res);
   }
 }
