@@ -26,10 +26,10 @@ async function bootstrap() {
     }),
   );
   app.useStaticAssets(join(__dirname, '..', 'static'), {
-      prefix: '/static',
-      setHeaders: (res: Response, path: string, stat: any) => {
-        res.setHeader('Content-Type', 'application/x-mpegURL');
-      },
+    prefix: '/static',
+    setHeaders: (res: Response, path: string, stat: any) => {
+      res.setHeader('Content-Type', 'application/x-mpegURL');
+    },
   });
   app.use(cookieParser());
 

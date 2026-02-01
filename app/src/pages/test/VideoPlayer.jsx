@@ -1,80 +1,35 @@
 import React, { useEffect } from "react";
-import videojs from "video.js";
 
-// FOR MORE VIDEO PLAYER OPTIONS, VISIT: https://videojs.com/guides/options/
-
-// const thumbnail = 'https://www.animenewsnetwork.com/hotlink/thumbnails/crop1200x630gNE/youtube/wm0pDk3HChM.jpg';
-// const videoUrl = 'http://localhost:8000/videos/587a4d55-661f-4a2c-b3d1-b3c4dfbfbfde/playlist.m3u8';
-
-// Fetch the link to playlist.m3u8 of the video you want to play
-export const VideoPlayer = ({ thumbnail, videoUrl, onReady }) => {
-  const videoRef = React.useRef(null);
-  const playerRef = React.useRef(null);
-
-  const options = {
-    autoplay: false,
-    controls: true,
-    playbackRates: [0.5, 1, 1.5, 2],
-    width: 600,
-    height: 400,
-    responsive: true,
-    poster: thumbnail,
-    controlBar: {
-      playToggle: true,
-      volumePanel: {
-        inline: false,
-      },
-      skipButtons: {
-        forward: 10,
-        backward: 10,
-      },
-      fullscreenToggle: true,
-    },
-    sources: [
-      {
-        src: videoUrl,
-        type: "application/x-mpegURL",
-      },
-    ],
-  };
-  useEffect(() => {
-    // Make sure Video.js player is only initialized once
-    if (!playerRef.current) {
-      // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode.
-      const videoElement = document.createElement("video-js");
-
-      videoElement.classList.add("vjs-big-play-centered");
-      videoRef.current.appendChild(videoElement);
-
-      const player = (playerRef.current = videojs(videoElement, options, () => {
-        videojs.log("player is ready");
-        if (onReady) {
-          onReady(player);
-        }
-      }));
-    } else {
-      const player = playerRef.current;
-
-      player.autoplay(options.autoplay);
-      player.src(options.sources);
-    }
-  }, [options, videoRef]);
-
-  React.useEffect(() => {
-    const player = playerRef.current;
-
-    return () => {
-      if (player && !player.isDisposed()) {
-        player.dispose();
-        playerRef.current = null;
-      }
-    };
-  }, [playerRef]);
+export const VideoPlayer = () => {
+  // const thumbnail =
+  //   "https://disney.images.edge.bamgrid.com/ripcut-delivery/v2/variant/disney/4a55d5e6-8e3b-4cab-a34c-e8dbe51b5cc2/compose?aspectRatio=1.78&format=webp&width=1200";
+  const movie = "http://localhost:3000/stream/output.mkv";
 
   return (
-    <div data-vjs-player>
-      <div ref={videoRef} className="" />
-    </div>
+    <video
+      src={movie}
+      controls
+      preload="auto"
+      autoPlay
+      width="800"
+      crossOrigin="anonymous"
+    >
+      <track
+        kind="subtitles"
+        src="http://localhost:3000/stream/output.mp4/subs?lang=fr"
+        srcLang="fr"
+        label="Français"
+        default
+        crossOrigin="anonymous"
+      />
+      <track
+        kind="subtitles"
+        src="http://localhost:3000/stream/output.mp4/subs?lang=en"
+        srcLang="en"
+        label="Anglais"
+        crossOrigin="anonymous"
+      />
+    </video>
   );
 };
 
