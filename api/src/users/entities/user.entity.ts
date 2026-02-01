@@ -39,4 +39,13 @@ export class User {
 
   @Column({ type: 'timestamp', nullable: true, default: null })
   otp_code_expiry?: Date;
+
+  @Column({ type: 'boolean', default: true })
+  show_name: boolean;
+
+  @Column({ type: 'boolean', default: true })
+  show_watch: boolean;
+
+  @Column({ type: 'boolean', default: true })
+  show_watchlist: boolean;
 }

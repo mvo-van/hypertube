@@ -25,6 +25,16 @@ export class SelfUserResponseDto {
   @Expose()
   language: Lang;
 
+  @Expose()
+  show_name: boolean;
+
+  @Expose()
+  show_watch: boolean;
+
+  @Expose()
+  show_watchlist: boolean;
+
+
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);
   }

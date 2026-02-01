@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsEmail,
   IsEnum,
   IsNotEmpty,
@@ -21,6 +22,7 @@ import {
 } from '../constants';
 import { Lang } from '../../lang/lang';
 import { AuthStrategy } from 'src/auth/auth.provider';
+import { bool } from 'joi';
 
 export class CreateUserDto {
   @IsString()
@@ -66,4 +68,16 @@ export class CreateUserDto {
   @IsOptional()
   @IsEnum(AuthStrategy)
   auth_strategy?: AuthStrategy;
+
+  @IsOptional()
+  @IsBoolean()
+  show_name?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  show_watch?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  show_watchlist?: boolean;
 }

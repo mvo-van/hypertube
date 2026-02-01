@@ -26,9 +26,9 @@ function Settings() {
       setMail(res.data.email)
       setLanguage(res.data.language)
       setPhoto(res.data.profile_picture_url)
-      setShowName(true) //todo
-      setShowWatch(true) //todo
-      setShowWatchList(true) //todo
+      setShowName(res.data.show_name)
+      setShowWatch(res.data.show_watch)
+      setShowWatchList(res.data.show_watchlist)
     } catch (e) {
     }
   }
@@ -107,9 +107,9 @@ function Settings() {
         profile_picture_url: photo,
         language: language,
         // mail: mail,
-        // showName: showName,
-        // showWatch: showWatch,
-        // showWatchList: showWatchList
+        showName: showName,
+        showWatch: showWatch,
+        showWatchList: showWatchList
       });
     } catch (e) {
       console.log(e)
