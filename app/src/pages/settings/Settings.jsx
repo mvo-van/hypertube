@@ -4,6 +4,7 @@ import Header from "../../components/header/Header";
 import style from "./Settings.module.css"
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { api } from "../../common/api";
+import Notification from "../../components/notification/Notifiacation";
 
 function Settings() {
   const [pseudo, setPseudo] = useState("")
@@ -15,6 +16,9 @@ function Settings() {
   const [showWatch, setShowWatch] = useState(true)
   const [showWatchList, setShowWatchList] = useState(true)
   const [photo, setPhoto] = useState("")
+  const [visible, setVisible] = useState(false);
+  const [text, setText] = useState("")
+  const [notifColor, setNatifColor] = useState("red")
 
   const getUserProfile = async () => {
     try {
@@ -64,9 +68,12 @@ function Settings() {
     // todo
   }
 
+  const onClickChangeMail = (e) => {
+    // todo
+  }
+
   const onLanguageHandler = (e) => {
-    console.log(e.value)
-    setLanguage(e.value)
+    setLanguage(e.target.value)
   }
 
   const onClickShowNameYes = () => {
@@ -106,14 +113,20 @@ function Settings() {
         last_name: lastName,
         profile_picture_url: photo,
         language: language,
-        // mail: mail,
-        showName: showName,
-        showWatch: showWatch,
-        showWatchList: showWatchList
+        show_name: showName,
+        show_watch: showWatch,
+        show_watchlist: showWatchList
       });
+      setText("Mise a jour de votre pofile validé")
+      setNatifColor("green")
+      setVisible(true);
+      setTimeout(() => { setVisible(false); }, 5000);
     } catch (e) {
       console.log(e)
-      console.log("une erreur est survenue durent l'update de votre profile")
+      setText("Une erreur est survenue")
+      setNatifColor("green")
+      setVisible(true);
+      setTimeout(() => { setVisible(false); }, 5000);
     }
   }
 
@@ -136,8 +149,6 @@ function Settings() {
                   <input className={style.inputText} type="text" id="firstName" value={firstName} onChange={onFirstNameHandler} />
                   <div className={style.subSubTitle}>Nom</div>
                   <input className={style.inputText} type="text" id="lastName" value={lastName} onChange={onLastNameHandler} />
-                  <div className={style.subSubTitle}>Mail</div>
-                  <input className={style.inputText} type="text" id="mail" value={mail} onChange={onMailHandler} />
                 </div>
                 <div >
                   <label htmlFor="photo" className={style.boxPhoto}>
@@ -152,7 +163,11 @@ function Settings() {
             </div>
             <div className={style.line}></div>
             <div className={style.subTitle}>Authentification</div>
-            <button className={style.buttonConnexion} onClick={onClickChangePwd}>Réinitialiser le mot de passe</button>
+            <div className={style.divAuthentication}>
+              <button className={style.buttonConnexion} onClick={onClickChangePwd}>Réinitialiser le mot de passe</button>
+              <button className={style.buttonConnexion} onClick={onClickChangeMail}>Mise a jour de mon mail </button>
+            </div>
+
             <div className={style.line}></div>
 
             <div className={style.subTitle}>Langue préférée</div>
@@ -194,7 +209,7 @@ function Settings() {
           </div>
 
           <button className={style.saveButton} onClick={onClickSaveProfil}>Sauvegarder</button>
-
+          <Notification visible={visible} color={notifColor} text={text} />
         </div>
       </div>
     </GenericPage>
