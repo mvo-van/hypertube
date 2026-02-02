@@ -26,7 +26,7 @@ export class UsersService {
     private readonly utilsService: UtilsService,
     private readonly mailerService: MailerService,
     private readonly imageService: ImageService,
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
@@ -34,7 +34,7 @@ export class UsersService {
       if (user.password != null) {
         user.password = await this.utilsService.cipherPassword(user.password);
       }
-      if (user.auth_strategy != "local") {
+      if (user.auth_strategy && user.auth_strategy != AuthStrategy.LOCAL) {
         user.is_active = true;
       }
       return await this.userRepository.save(user);

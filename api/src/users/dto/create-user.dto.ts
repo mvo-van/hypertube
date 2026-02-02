@@ -62,8 +62,7 @@ export class CreateUserDto {
   @IsString()
   @MaxLength(MAX_LENGTH_PICTURE_URL)
   @IsOptional()
-  profile_picture_url?: string =
-    'https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
+  profile_picture_url?: string;
 
   @IsOptional()
   @IsEnum(AuthStrategy)
