@@ -111,9 +111,10 @@ function Settings() {
     e.preventDefault();
     try {
       if (updateImage) {
-        await api.post("/users/me/upload", {
-          image: updateImage,
-        });
+        const data = new FormData();
+        data.append("image", updateImage);
+        console.log(updateImage)
+        await api.post("/users/me/upload", data);
         console.log("here")
       }
 
