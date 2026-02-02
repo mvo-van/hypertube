@@ -30,6 +30,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.0",
     "@nestjs/typeorm": "^11.0.0",
+    "@opensubtitles/video-metadata-extractor": "^1.8.1",
     "@types/nodemailer": "^7.0.2",
     "bcrypt-ts": "^7.1.0",
     "bcryptjs": "^3.0.2",
