@@ -19,6 +19,7 @@ function Settings() {
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState("")
   const [notifColor, setNatifColor] = useState("red")
+  const [updateImage, setUpdateImage] = useState(null)
 
   const getUserProfile = async () => {
     try {
@@ -60,7 +61,9 @@ function Settings() {
   }
 
   const onImageHandler = (e) => {
-    console.log(e.target.files)
+    console.log(e.target.files[0])
+    console.log(URL.createObjectURL(e.target.files[0]))
+    setUpdateImage(e.target.files[0])
     setPhoto(URL.createObjectURL(e.target.files[0]))
   }
 
@@ -107,11 +110,17 @@ function Settings() {
   const onClickSaveProfil = async (e) => {
     e.preventDefault();
     try {
+      if (updateImage) {
+        await api.post("/users/me/upload", {
+          image: updateImage,
+        });
+        console.log("here")
+      }
+
       await api.patch("/users/me", {
         username: pseudo,
         first_name: firstName,
         last_name: lastName,
-        profile_picture_url: photo,
         language: language,
         show_name: showName,
         show_watch: showWatch,
@@ -124,7 +133,7 @@ function Settings() {
     } catch (e) {
       console.log(e)
       setText("Une erreur est survenue")
-      setNatifColor("green")
+      setNatifColor("red")
       setVisible(true);
       setTimeout(() => { setVisible(false); }, 5000);
     }
