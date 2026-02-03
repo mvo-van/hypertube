@@ -25,4 +25,3 @@ export class RestPasswordDto {
   @MaxLength(MAX_LENGTH_PASSWORD)
   new_password: string;
 }
-

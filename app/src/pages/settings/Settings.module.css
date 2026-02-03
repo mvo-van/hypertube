@@ -1,10 +1,10 @@
-.allBox{
+.allBox {
     padding-top: 70px;
     display: flex;
     justify-content: center;
 }
 
-.settings{
+.settings {
     max-width: 700px;
     width: 100%;
     color: white;
@@ -13,24 +13,24 @@
     align-items: center;
 }
 
-.title{
+.title {
     font-family: "Basic";
     font-size: 40px;
     width: 100%;
     margin-bottom: 20px;
 }
 
-.parameters{
+.parameters {
     max-width: 540px;
     width: 100%;
 
 }
 
-.infoProfile{
+.infoProfile {
     width: 100%;
 }
 
-.nameInfo{
+.nameInfo {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -38,25 +38,25 @@
     justify-content: space-between;
 }
 
-.subNameInfo{
+.subNameInfo {
     display: flex;
     width: 230px;
     flex-direction: column;
-    gap:5px
+    gap: 5px
 }
 
-.subTitle{
+.subTitle {
     font-family: "Basic";
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-.subSubTitle{
+.subSubTitle {
     font-family: 'Basic';
     font-size: 16px;
 }
 
-.inputText{
+.inputText {
     font-family: 'Basic';
     font-size: 16px;
     width: 220px;
@@ -70,14 +70,14 @@
     line-height: 27px;
 }
 
-.photo{
+.photo {
     width: 140px;
     height: 140px;
     object-fit: cover;
     border-radius: 50%;
 }
 
-.line{
+.line {
     height: 1px;
     max-width: 64%;
     background-color: #454545;
@@ -87,23 +87,23 @@
     margin-left: 18%;
 }
 
-.icone{
+.icone {
     position: relative;
     left: 50%;
-    bottom:25%;
-    
+    bottom: 25%;
+
 }
 
-.boxPhoto{
+.boxPhoto {
     width: 140px;
     height: 140px;
 }
 
-.displayFalse{
+.displayFalse {
     display: none;
 }
 
-.buttonConnexion{
+.buttonConnexion {
     width: 100%;
     max-width: 230px;
     height: 34px;
@@ -113,7 +113,7 @@
     color: white;
 }
 
-.language{
+.language {
     font-family: 'Basic';
     font-size: 16px;
     height: 34px;
@@ -124,7 +124,7 @@
     text-align: center;
 }
 
-.boxDisplay{
+.boxDisplay {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -132,53 +132,53 @@
     margin-bottom: 10px;
 }
 
-.display{
+.display {
     font-size: 16px;
     font-family: 'Basic';
 }
 
-.yes{
+.yes {
     width: 35px;
     height: 27px;
     color: white;
     font-size: 16px;
     font-family: 'Basic';
-    border-radius: 10px  0px 0px 10px;
+    border-radius: 10px 0px 0px 10px;
     margin-right: 2px;
-     display: inline-block;
-    line-height: 27px;
-    text-align: center;
-}
-
-.yes_true{
-    background-color: #419741;
-}
-
-.yes_false{
-    background-color: #454545;
-}
-
-.no{
-    width: 35px;
-    height: 27px;
-    color: white;
-    font-size: 16px;
-    font-family: 'Basic';
-    border-radius: 0px  10px 10px 0px;
     display: inline-block;
     line-height: 27px;
     text-align: center;
 }
 
-.no_true{
+.yes_true {
+    background-color: #419741;
+}
+
+.yes_false {
     background-color: #454545;
 }
 
-.no_false{
+.no {
+    width: 35px;
+    height: 27px;
+    color: white;
+    font-size: 16px;
+    font-family: 'Basic';
+    border-radius: 0px 10px 10px 0px;
+    display: inline-block;
+    line-height: 27px;
+    text-align: center;
+}
+
+.no_true {
+    background-color: #454545;
+}
+
+.no_false {
     background-color: #963D3D;
 }
 
-.deletButton{
+.deletButton {
     height: 34px;
     width: 166px;
     background-color: #963D3D;
@@ -188,7 +188,7 @@
     color: white;
 }
 
-.saveButton{
+.saveButton {
     margin-top: 30px;
     margin-bottom: 20px;
     height: 39px;
@@ -201,4 +201,11 @@
     display: inline-block;
     line-height: 39px;
     text-align: center;
+}
+
+.divAuthentication {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
 }

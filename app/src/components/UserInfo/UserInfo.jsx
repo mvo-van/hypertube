@@ -6,16 +6,12 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 function UserInfo({ user={}, me=false}) {
   const navigate = useNavigate()
 
-  const onClickHandlerUser = () => {
-    navigate(`/user/${user.id}`);
-  }
-
   const onClickHandlerModify = () => {
     navigate(`/setting`);
   }
 
   return (
-    <div className={`${style.userInfo} ${style[`userIcon__color_${user.id%12}`]}`} onClick={onClickHandlerUser}>
+    <div className={`${style.userInfo} ${style[`userIcon__color_${user.id%12}`]}`}>
       <div className={style.divAllInfo}>
         <img className={style.imgUser} src={user.urlImg}/>
         <div className={style.infosDiv}>

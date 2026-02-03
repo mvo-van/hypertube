@@ -45,8 +45,6 @@ export class AuthService {
   }
 
   async forgotPassword(email: string) {
-    const otp = this.utilsService.generateOTP();
-
     const user = await this.usersService.findOneByEmail(email);
 
     if (!user) {
@@ -56,8 +54,10 @@ export class AuthService {
         status: 404,
       });
     }
+
     this.logger.log(`Sending email to ${email}`);
-    await this.usersService.update(user.id, { otp_code: otp });
+    const otp = await this.usersService.createOTP(user.id);
+
     await this.mailerService.sendMail({
       to: user.email,
       subject: 'Votre code de réinitialisation',
@@ -69,6 +69,7 @@ export class AuthService {
   async resetPassword(email: string, otp: string, newPassword: string) {
     const user = await this.usersService.findOneByEmailOtp(email, otp);
 
+    // TODO: GERER OTP NON EXISTANT ET EXPIRE
     if (!user || otp.length != 6) {
       throw new NotFoundException({
         error: 'Invalid OTP password',
@@ -78,8 +79,8 @@ export class AuthService {
     }
     await this.usersService.update(user.id, {
       password: await this.utilsService.cipherPassword(newPassword),
-      otp_code: '',
     });
+    await this.usersService.deleteOTP(user.id);
   }
 
   async googleLogin(req: any): Promise<null | any> {
@@ -91,7 +92,7 @@ export class AuthService {
       AuthStrategy.GOOGLE,
     );
 
-    if (user != null) {
+    if (!user) {
       // Create user
       const newUser: CreateUserDto = {
         username: this.utilsService.makeUsername(
@@ -104,7 +105,6 @@ export class AuthService {
         profile_picture_url: req.user.picture,
         auth_strategy: AuthStrategy.GOOGLE,
       };
-
       user = await this.usersService.create(newUser);
     }
     const payload = { sub: user?.id, username: user?.username };
@@ -123,8 +123,7 @@ export class AuthService {
       AuthStrategy.FORTYTWO,
     );
 
-    if (user != null) {
-      // Create user
+    if (!user) {
       const newUser: CreateUserDto = {
         username: this.utilsService.makeUsername(
           req.user.first_name,
@@ -156,7 +155,7 @@ export class AuthService {
       AuthStrategy.GITHUB,
     );
 
-    if (user != null) {
+    if (!user) {
       // Create user
       const newUser: CreateUserDto = {
         username: this.utilsService.makeUsername(
@@ -189,7 +188,7 @@ export class AuthService {
       AuthStrategy.GITLAB,
     );
 
-    if (user != null) {
+    if (!user) {
       // Create user
       const newUser: CreateUserDto = {
         username: this.utilsService.makeUsername(
@@ -222,7 +221,7 @@ export class AuthService {
       AuthStrategy.DISCORD,
     );
 
-    if (user != null) {
+    if (!user) {
       // Create user
       const newUser: CreateUserDto = {
         username: this.utilsService.makeUsername(
@@ -254,7 +253,7 @@ export class AuthService {
       AuthStrategy.SPOTIFY,
     );
 
-    if (user != null) {
+    if (!user) {
       // Create user
       const newUser: CreateUserDto = {
         username: this.utilsService.makeUsername(

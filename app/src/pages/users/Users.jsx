@@ -1,5 +1,5 @@
 import GenericPage from "../page/GenericPage";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../components/header/Header";
 import MovieIcon from "../../components/movieIcon/MovieIcon";
 import style from "./Users.module.css"
@@ -7,29 +7,36 @@ import Input from "../../components/input/Input";
 import UserIcon from "../../components/UserIcon/UserIcon";
 import { Search } from "@mui/icons-material";
 import { matchSorter } from "match-sorter";
+import axios from "axios";
 
 function Users() {
-  
-  const [users, setUsers] = useState([
-    {"id":1,"name":"augustes", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":2,"name":"bob", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":3,"name":"bouh", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":4,"name":"celia", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":5,"name":"suilli", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":6,"name":"george", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":7,"name":"sushi chef", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":8,"name":"augustes", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":9,"name":"bob", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":10,"name":"bouh", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":11,"name":"celia", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":12,"name":"suilli", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":13,"name":"george", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-    {"id":14,"name":"sushi chef", "urlImg":"https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see":true},
-  ]);
-  // console.log(users[0].name)
-  // console.log("url",users[0].urlImg)
+  const [users, setUsers] = useState([])
   const [searchValue, setSearchValue] = useState("")
-  const [searchUsers, setSearchUsers] = useState(users)
+  const [searchUsers, setSearchUsers] = useState([])
+  
+  
+  const getAllUsersProfile = async() =>{
+    const config = { withCredentials: true };
+    try {
+      const res = await axios.get(`http://localhost:3000/users`, config);
+      setSearchUsers(res.data.map(elem => {
+        return({id : elem.id,
+          name:elem.username,
+          urlImg:elem.profile_picture_url})
+      }))
+      setUsers(res.data.map(elem => {
+        return({id : elem.id,
+          name:elem.username,
+          urlImg:elem.profile_picture_url})
+      }))
+    } catch (e) {
+    }
+  }
+
+  useEffect(()=>{
+    getAllUsersProfile()
+  },[])
+  
   const onChangeHeadler = (e) => {
     setSearchValue(e.target.value)
     setSearchUsers(matchSorter(users, e.target.value, {keys: ['name']}))

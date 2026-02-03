@@ -27,7 +27,18 @@ import { AuthModule } from './auth.module';
 export class AuthController {
   private readonly logger = new Logger(AuthModule.name);
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
+
+  @Get('/connected')
+  connected() { }
+
+  @Get('/logout')
+  logout(@Res() res: Response) {
+    res.clearCookie('access_token');
+    res.json({
+      message: 'User has been succesfully logout',
+    });
+  }
 
   // ========================= Local =========================
   @Public()
@@ -40,7 +51,7 @@ export class AuthController {
 
     res.cookie('access_token', access_token, {
       httpOnly: true,
-      maxAge: 900000,
+      maxAge: 10800000,
       sameSite: true,
     });
     res.send({
@@ -82,9 +93,15 @@ export class AuthController {
   @Public()
   @UseGuards(GoogleAuthGuard)
   @Get('google/redirect')
-  googleAuthRedirect(@Req() req: Request) {
+  async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
     this.logger.log('[google-redirect]');
-    return this.authService.googleLogin(req);
+    const { access_token } = await this.authService.googleLogin(req);
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      maxAge: 10800000,
+      sameSite: true,
+    });
+    return res.redirect('http://localhost:8000/feed')
   }
 
   // ========================= 42 =========================
@@ -98,9 +115,15 @@ export class AuthController {
   @Public()
   @UseGuards(FortytwoAuthGuard)
   @Get('fortytwo/redirect')
-  fortytwoAuthRedirect(@Req() req: Request) {
+  async fortytwoAuthRedirect(@Req() req: Request, @Res() res: Response) {
     this.logger.log('[oauth-fortytwo-redirect]');
-    return this.authService.fortytwoLogin(req);
+    const { access_token } = await this.authService.fortytwoLogin(req);
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      maxAge: 10800000,
+      sameSite: true,
+    });
+    return res.redirect('http://localhost:8000/feed')
   }
 
   // ========================= Github =========================
@@ -114,9 +137,15 @@ export class AuthController {
   @Public()
   @UseGuards(GithubAuthGuard)
   @Get('github/callback')
-  githubAuthRedirect(@Req() req: Request) {
+  async githubAuthRedirect(@Req() req: Request, @Res() res: Response) {
     this.logger.log('[oauth-github-redirect]');
-    return this.authService.githubLogin(req);
+    const { access_token } = await this.authService.githubLogin(req);
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      maxAge: 10800000,
+      sameSite: true,
+    });
+    return res.redirect('http://localhost:8000/feed')
   }
 
   // ========================= Gitlab =========================
@@ -130,9 +159,16 @@ export class AuthController {
   @Public()
   @UseGuards(GitlabAuthGuard)
   @Get('gitlab/callback')
-  gitlabAuthRedirect(@Req() req: Request) {
+  async gitlabAuthRedirect(@Req() req: Request, @Res() res: Response) {
     this.logger.log('[oauth-gitlab]');
-    return this.authService.gitlabLogin(req);
+    const { access_token } = await this.authService.gitlabLogin(req);
+
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      maxAge: 10800000,
+      sameSite: true,
+    });
+    return res.redirect('http://localhost:8000/feed')
   }
 
   // ========================= Discord =========================
@@ -146,9 +182,15 @@ export class AuthController {
   @Public()
   @UseGuards(DiscordAuthGuard)
   @Get('discord/callback')
-  discordAuthRedirect(@Req() req: Request) {
+  async discordAuthRedirect(@Req() req: Request, @Res() res: Response) {
     this.logger.log('[oauth-discord-redirect]');
-    return this.authService.discordLogin(req);
+    const { access_token } = await this.authService.discordLogin(req);
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      maxAge: 10800000,
+      sameSite: true,
+    });
+    return res.redirect('http://localhost:8000/feed')
   }
 
   // ========================= Spotify =========================
@@ -162,8 +204,14 @@ export class AuthController {
   @Public()
   @UseGuards(SpotifyAuthGuard)
   @Get('spotify/callback')
-  spotifyAuthRedirect(@Req() req: Request) {
+  async spotifyAuthRedirect(@Req() req: Request, @Res() res: Response) {
     this.logger.log('[oauth-discord]');
-    return this.authService.spotifyLogin(req);
+    const { access_token } = await this.authService.spotifyLogin(req);
+    res.cookie('access_token', access_token, {
+      httpOnly: true,
+      maxAge: 10800000,
+      sameSite: true,
+    });
+    return res.redirect('http://localhost:8000/feed')
   }
 }

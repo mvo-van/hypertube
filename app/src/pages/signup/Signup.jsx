@@ -22,6 +22,8 @@ import {
 import { useNavigate } from "react-router";
 import { api } from "../../common/api";
 import { useAuth } from "../../context/userContext";
+import axios from "axios";
+import Omniauth from "../../components/omniauth/Omniauth";
 
 function Signup() {
 	const [email, setEmail] = useState("");
@@ -270,7 +272,8 @@ function Signup() {
 						/>
 					</Form>
 					<hr className={style.line} />
-					<p className={style.titreOmni}>Omniauth</p>
+					<Omniauth/>
+
 				</div>
 			</BubbleBackground>
 		</GenericPage>

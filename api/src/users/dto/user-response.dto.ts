@@ -19,6 +19,9 @@ export class UserResponseDto {
   @Expose()
   language: Lang;
 
+  @Expose()
+  me: Boolean;
+
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);
   }
