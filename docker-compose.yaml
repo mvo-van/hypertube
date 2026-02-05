@@ -53,6 +53,9 @@ services:
       - SPOTIFY_CLIENT_SECRET=${SPOTIFY_CLIENT_SECRET}
       - MAIL=${MAIL}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - OPEN_SUBTITLE_USERNAME=${OPEN_SUBTITLE_USERNAME}
+      - OPEN_SUBTITLE_PASSWORD=${OPEN_SUBTITLE_PASSWORD}
+      - OPEN_SUBTITLE_API_KEY=${OPEN_SUBTITLE_API_KEY}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 10s
