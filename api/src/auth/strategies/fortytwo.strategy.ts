@@ -22,13 +22,14 @@ export class FortytwoStrategy extends PassportStrategy(Strategy, 'fortytwo') {
     profile: any,
     done: VerifyCallback,
   ) {
-    const { name, emails, photos } = profile;
+    const { name, emails, _json } = profile;
+    console.log(profile)
     const user = {
       provider: AuthStrategy.FORTYTWO,
       email: emails[0].value,
       first_name: name.givenName,
       last_name: name.familyName,
-      picture: photos[0].value,
+      picture: _json.image.link,
       accessToken,
       refreshToken,
     };

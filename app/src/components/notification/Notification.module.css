@@ -1,0 +1,22 @@
+.notification {
+  z-index: 100;
+  position: fixed;
+  top: 70px;
+  left: 1rem;
+  font-family: Basic;
+  width: 200px;
+  font-size: 15px;
+  color: rgb(225, 225, 225, 0.8);
+  border-radius: 10px;
+  font-size: 15px;
+  text-align: center;
+  padding: 10px;
+}
+
+.natification__green {
+  background-color: rgb(65, 151, 65, 0.9);
+}
+
+.natification__red {
+  background-color: rgb(150, 61, 61, 0.9);
+}

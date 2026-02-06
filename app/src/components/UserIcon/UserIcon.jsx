@@ -12,10 +12,9 @@ function UserIcon({ user, color=0 }) {
 
   return (
     <div className={`${style.userIcon}`} onClick={onClickHandlerUser}>
-      {/* <div className={style.divInfo}> */}
-        <img className={style.imgUser} src={user.urlImg}/>
+        {user.urlImg && <img className={style.imgUser} src={user.urlImg}/>}
+        {!user.urlImg && <img className={style.imgUser} src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"/>}
         <p className={style.userName}>{user.name}</p>
-      {/* </div> */}
     </div>
   );
 }

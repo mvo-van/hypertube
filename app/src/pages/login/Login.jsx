@@ -9,6 +9,7 @@ import Input from "../../components/input/Input";
 import { api } from "../../common/api";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../context/userContext";
+import Omniauth from "../../components/omniauth/Omniauth";
 
 function Login() {
 	const [pseudo, setPseudo] = useState("");
@@ -20,13 +21,13 @@ function Login() {
 		setPseudo(value);
 	};
 
-	const onPseudoValidate = (value) => {};
+	const onPseudoValidate = (value) => { };
 
 	const onPasswordHandler = (value) => {
 		setPassword(value);
 	};
 
-	const onPassWordValidate = (value) => {};
+	const onPassWordValidate = (value) => { };
 
 	const onSubmitHandler = async (e) => {
 		e.preventDefault();
@@ -44,7 +45,7 @@ function Login() {
 		}
 	};
 
-	const sendOtp = async () => {};
+	const sendOtp = async () => { };
 
 	return (
 		<GenericPage className={style.home}>
@@ -84,7 +85,7 @@ function Login() {
 					</Form>
 
 					<hr className={style.line} />
-					<p className={style.titreOmni}>Omniauth</p>
+					<Omniauth />
 				</div>
 			</BubbleBackground>
 		</GenericPage>

@@ -5,6 +5,9 @@ import { User } from '../entities/user.entity';
 @Exclude()
 export class SelfUserResponseDto {
   @Expose()
+  id: number;
+
+  @Expose()
   username: string;
 
   @Expose()
@@ -21,6 +24,16 @@ export class SelfUserResponseDto {
 
   @Expose()
   language: Lang;
+
+  @Expose()
+  show_name: boolean;
+
+  @Expose()
+  show_watch: boolean;
+
+  @Expose()
+  show_watchlist: boolean;
+
 
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);

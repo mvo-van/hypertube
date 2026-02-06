@@ -40,6 +40,7 @@
     "joi": "^17.13.3",
     "juice": "^11.0.3",
     "nodemailer": "^7.0.9",
+    "opensubtitles.com": "^1.1.0",
     "passport": "^0.7.0",
     "passport-42": "^1.2.6",
     "passport-discord": "^0.1.4",
