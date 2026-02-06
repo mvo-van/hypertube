@@ -7,7 +7,7 @@ import OS from 'opensubtitles.com';
 
 @Controller('stream')
 export class StreamController {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) { }
 
   @Get(':filename')
   @Public()
@@ -21,19 +21,20 @@ export class StreamController {
     });
   }
 
-  @Get(':filename/subs')
+  @Get(':imdb_id/subs')
   @Public()
   async subs(
     @Res() res: Response,
-    @Query('lang') lang: string,
-    @Param('filename') filename: string,
+    @Param('imdb_id') imdb_id: string,
   ) {
     // Sanitize filename
-    let [basename, _] = filename.split('.');
-    basename = basename.replaceAll('-', ' ');
-    basename = basename.replaceAll('_', ' ');
+    const lang = 'fr'
 
-    console.log(basename);
+    // let [basename, _] = filename.split('.');
+    // basename = basename.replaceAll('-', ' ');
+    // basename = basename.replaceAll('_', ' ');
+
+    console.log(imdb_id);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const api = new OS({
       apikey: this.configService.get<string>('OPEN_SUBTITLE_API_KEY'),
@@ -47,7 +48,7 @@ export class StreamController {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    const response = await api.subtitles({ query: basename });
+    const response = await api.subtitles({ imdb_id: imdb_id });
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     const matchingSubtitles = response.data.filter((movie: any) => {
@@ -63,9 +64,8 @@ export class StreamController {
     console.log(firstMatch);
 
     await sleep(5000);
-
     const subtitleURL = await api.download({
-      file_id: firstMatch.attributes.id,
+      file_id: firstMatch.attributes.files[0].file_id,
     });
     console.log(subtitleURL);
 

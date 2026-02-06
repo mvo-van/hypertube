@@ -12,6 +12,7 @@ import Settings from "./pages/settings/Settings";
 import ValidateSignup from "./pages/validateSignup/ValidateSignup";
 import { AuthProvider } from "./context/userContext";
 import Error404 from "./pages/error404/Error404";
+import Test from "./pages/test/Test";
 
 function App() {
   return (
@@ -37,7 +38,7 @@ function App() {
           <Route path="/user/:id" element={<ProfileUser />} />
           <Route path="/movie/:id" element={<MoviePage />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/test" element={<ProfileUser />} />
+          <Route path="/test" element={<Test />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </AuthProvider>
