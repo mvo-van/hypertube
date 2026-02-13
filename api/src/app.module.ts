@@ -13,9 +13,10 @@ import { MockDataService } from './mock-data/mock-data.service';
 import { MockDataModule } from './mock-data/mock-data.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
-import { MailerService } from './mailer/mailer.service';
+import { MailerService } from './mailer/mailer.service'
 import { MailerModule } from './mailer/mailer.module';
 import { ImageModule } from './image/image.module';
+import { DownloaderModule } from './downloader/downloader.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ImageModule } from './image/image.module';
     TypeOrmModule.forFeature([User]),
     MailerModule,
     ImageModule,
+    DownloaderModule,
   ],
   controllers: [AppController],
   providers: [
