@@ -19,8 +19,8 @@ import * as Joi from 'joi';
         JWT_SECRET: Joi.string().token().required(),
         GOOGLE_CLIENT_ID: Joi.string().required(),
         GOOGLE_CLIENT_SECRET: Joi.string().required(),
-        FORTYTWO_UID:Joi.string().required(),
-        FORTYTWO_SECRET:Joi.string().required(),
+        FORTYTWO_UID: Joi.string().required(),
+        FORTYTWO_SECRET: Joi.string().required(),
         GITHUB_CLIENT_ID: Joi.string().required(),
         GITHUB_CLIENT_SECRET: Joi.string().required(),
         GITLAB_CLIENT_ID: Joi.string().required(),
@@ -31,8 +31,10 @@ import * as Joi from 'joi';
         SPOTIFY_CLIENT_SECRET: Joi.string().required(),
         MAIL: Joi.string().required(),
         MAIL_PASSWORD: Joi.string().required(),
+        TMDB_API_KEY: Joi.string().required(),
+        TMDB_TOKEN_ACCES: Joi.string().required(),
       }),
     }),
   ],
 })
-export class AppConfigModule {}
+export class AppConfigModule { }

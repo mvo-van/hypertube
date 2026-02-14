@@ -8,16 +8,20 @@ import {
   Delete,
   UseInterceptors,
   ClassSerializerInterceptor,
+  Res,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { MovieResponseDto } from './dto/movie-response.dto';
+import { ConfigService } from '@nestjs/config';
+import { Public } from 'src/auth/decorators/public.decorator';
+import axios from "axios";
 
 @Controller('movies')
 @UseInterceptors(ClassSerializerInterceptor)
 export class MoviesController {
-  constructor(private readonly moviesService: MoviesService) {}
+  constructor(private readonly moviesService: MoviesService, private readonly configService: ConfigService) { }
 
   @Post()
   async create(
@@ -33,11 +37,244 @@ export class MoviesController {
     return movies.map((movie) => new MovieResponseDto(movie));
   }
 
+  // @Get(':id')
+  // async findOne(@Param('id') id: number): Promise<MovieResponseDto> {
+  //   const movie = await this.moviesService.findOne(+id);
+  //   return new MovieResponseDto(movie);
+  // }
+
+  @Public()
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<MovieResponseDto> {
-    const movie = await this.moviesService.findOne(+id);
-    return new MovieResponseDto(movie);
+  async getMovieInfo(@Param('id') id: number, @Res() res: Response) {
+    const TMDB_API_KEY = this.configService.get<string>('TMDB_API_KEY');
+    console.log(id)
+    try {
+      const movie_info = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}`)
+      const genres = movie_info.data.genres.map((x) => x.name)
+      const studios = movie_info.data.production_companies.slice(0, 6).map((x) => x.name)
+      const movie_credits_info = await axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${TMDB_API_KEY}`)
+      const cast = movie_credits_info.data.cast.slice(0, 6).map((x) => x.name)
+      const screenwriters = movie_credits_info.data.crew.map((x) => {
+        if (x.department == "Writing") { return x.name }
+      }).filter((writer) => writer).slice(0, 6)
+      const producers = movie_credits_info.data.crew.map((x) => {
+        if (x.job == "Executive Producer" || x.job == "Producer") { return x.name }
+      }).filter((produceur) => produceur).slice(0, 6)
+
+      res.send({
+        imdb_id: movie_info.data.imdb_id,
+        type: "movie",
+        time: movie_info.data.runtime,
+        date: parseInt(movie_info.data.release_date),
+        note: Number((movie_info.data.vote_average).toFixed(1)),
+        see: false, // todo
+        download: false, // todo
+        like: false, // todo
+        id: movie_info.data.id,
+        name: movie_info.data.original_title,
+        synopsis: movie_info.data.overview,
+        poster: `https://image.tmdb.org/t/p/original/${movie_info.data.poster_path}`,
+        banner: `https://image.tmdb.org/t/p/original/${movie_info.data.backdrop_path}`,
+        timeStart: 0, // todo sauvegarde de la minute du dernier visionage
+        genres: genres,
+        actors: cast,
+        producers: producers,
+        screenwriters: screenwriters,
+        studios: studios
+      });
+    } catch (error) {
+      console.log(error)
+      return { message: 'Movie not detected successfully' }
+    }
+    // return { message: 'Movie detected successfully' };
   }
+
+  @Public()
+  @Get('serie/:id')
+  async getSerieInfo(@Param('id') id: number, @Res() res: Response) {
+    const TMDB_API_KEY = this.configService.get<string>('TMDB_API_KEY');
+    console.log(id)
+    try {
+      const serie_info = await axios.get(`https://api.themoviedb.org/3/tv/${id}?api_key=${TMDB_API_KEY}`)
+      console.log(serie_info.data)
+      const genres = serie_info.data.genres.map((x) => x.name)
+      const studios = serie_info.data.production_companies.slice(0, 6).map((x) => x.name)
+      const seasons = serie_info.data.seasons.map((x) => {
+        return {
+          serie_id: serie_info.data.id,
+          see: true, // todo
+          seasonNbr: x.season_number,
+          poster: `https://image.tmdb.org/t/p/original/${x.poster_path}`,
+          date: parseInt(x.air_date)
+        }
+      })
+      const serie_credits_info = await axios.get(`https://api.themoviedb.org/3/tv/${id}/credits?api_key=${TMDB_API_KEY}`)
+      const cast = serie_credits_info.data.cast.slice(0, 6).map((x) => x.name)
+      const screenwriters = serie_credits_info.data.crew.map((x) => {
+        if (x.department == "Writing") { return x.name }
+      }).filter((writer) => writer).slice(0, 6)
+      const producers = serie_credits_info.data.crew.map((x) => {
+        if (x.job == "Executive Producer" || x.job == "Producer" || x.job == "Director") { return x.name }
+      }).filter((produceur) => produceur).slice(0, 6)
+      console.log(serie_credits_info.data)
+      res.send({
+        serie_infos: {
+          id: serie_info.data.id,
+          name: serie_info.data.name, // ou original_name
+          type: "serie",
+          dateStart: parseInt(serie_info.data.first_air_date),
+          dateEnd: parseInt(serie_info.data.last_air_date),
+          note: Number((serie_info.data.vote_average).toFixed(1)),
+          nbrSeasons: serie_info.data.number_of_seasons,
+          synopsis: serie_info.data.overview,
+          poster: `https://image.tmdb.org/t/p/original/${serie_info.data.poster_path}`,
+          banner: `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}`,
+          like: false, // todo
+          genres: genres,
+          actors: cast,
+          producers: producers,
+          screenwriters: screenwriters,
+          studios: studios
+        },
+        seasons: seasons
+      });
+    } catch (error) {
+      console.log(error)
+      return { message: 'Serie not detected successfully' }
+    }
+    // return { message: 'Movie detected successfully' };
+  }
+
+  @Public()
+  @Get('serie/:serie_id/season/:season_number')
+  async getSeasonInfo(@Param('serie_id') serie_id: number, @Param('season_number') season_number: number, @Res() res: Response) {
+    const TMDB_API_KEY = this.configService.get<string>('TMDB_API_KEY');
+    console.log(serie_id)
+    try {
+      const serie_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}?api_key=${TMDB_API_KEY}`)
+      console.log(serie_info.data)
+
+      const genres = serie_info.data.genres.map((x) => x.name)
+      const studios = serie_info.data.production_companies.slice(0, 6).map((x) => x.name)
+
+      const serie_credits_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/credits?api_key=${TMDB_API_KEY}`)
+      const cast = serie_credits_info.data.cast.slice(0, 6).map((x) => x.name)
+      const screenwriters = serie_credits_info.data.crew.map((x) => {
+        if (x.department == "Writing") { return x.name }
+      }).filter((writer) => writer).slice(0, 6)
+      const producers = serie_credits_info.data.crew.map((x) => {
+        if (x.job == "Executive Producer" || x.job == "Producer" || x.job == "Director") { return x.name }
+      }).filter((produceur) => produceur).slice(0, 6)
+      // console.log(serie_credits_info.data)
+      const season_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/season/${season_number}?api_key=${TMDB_API_KEY}`)
+      const episodes = season_info.data.episodes.map((x) => {
+        let path_poster = `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}`
+        if (x.still_path) {
+          path_poster = `https://image.tmdb.org/t/p/w500/${x.still_path}`
+        }
+
+        return {
+          serie_id: serie_info.data.id,
+          seasonNbr: season_number,
+          synopsis: x.overview,
+          note: x.vote_average,
+          title: x.name,
+          see: true, // to do
+          start: 0, // to do
+          episodeNbr: x.episode_number,
+          poster: path_poster,
+          time: parseInt(x.runtime)
+        }
+      })
+      console.log(serie_info.data)
+      res.send({
+        season_infos: {
+          type: "season",
+          date: parseInt(season_info.data.air_date),
+          note: Number((season_info.data.vote_average).toFixed(1)),
+          nbrEpisodes: season_info.data.episodes.length,
+          id: season_info.data._id,
+          season: season_info.data.season_number,
+          see: false,              //todo
+          like: false,             //todo
+          name: serie_info.data.name,
+          synopsis: season_info.data.overview,
+          poster: `https://image.tmdb.org/t/p/original/${season_info.data.poster_path}`,
+          banner: `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}`,
+          genres: genres,
+          actors: cast,
+          producers: producers,
+          screenwriters: screenwriters,
+          studios: studios
+        },
+        episodes: episodes
+      });
+    } catch (error) {
+      console.log(error)
+      return { message: 'Serie not detected successfully' }
+    }
+    // return { message: 'Movie detected successfully' };
+  }
+
+  @Public()
+  @Get('serie/:serie_id/season/:season_number/episode/:episode_number')
+  async getEpisodeInfo(@Param('serie_id') serie_id: number, @Param('season_number') episode_number: number, @Param('episode_number') season_number: number, @Res() res: Response) {
+    const TMDB_API_KEY = this.configService.get<string>('TMDB_API_KEY');
+    console.log(serie_id)
+    try {
+      const serie_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}?api_key=${TMDB_API_KEY}`)
+      console.log(serie_info.data)
+      const genres = serie_info.data.genres.map((x) => x.name)
+      const studios = serie_info.data.production_companies.slice(0, 6).map((x) => x.name)
+
+      const season_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/season/${season_number}?api_key=${TMDB_API_KEY}`)
+
+      const episode_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/season/${season_number}/episode/${episode_number}?api_key=${TMDB_API_KEY}`)
+      const producers = episode_info.data.crew.map((x) => {
+        if (x.job == "Executive Producer" || x.job == "Producer" || x.job == "Director") { return x.name }
+      }).filter((produceur) => produceur).slice(0, 6)
+      const screenwriters = episode_info.data.crew.map((x) => {
+        if (x.department == "Writing") { return x.name }
+      }).filter((writer) => writer).slice(0, 6)
+      const cast = episode_info.data.guest_stars.slice(0, 6).map((x) => x.name)
+      let path_poster = `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}`
+      if (episode_info.data.still_path) {
+        path_poster = `https://image.tmdb.org/t/p/w500/${episode_info.data.still_path}`
+      }
+      // console.log(episode_info.data)
+      console.log(serie_info.data)
+      res.send({
+        episode_infos: {
+          type: "episode",
+          time: episode_info.data.runtime,
+          date: parseInt(episode_info.data.air_date),
+          note: Number((episode_info.data.vote_average).toFixed(1)),
+          episode_name: episode_info.data.name,
+          name: serie_info.data.name,
+          episode: episode_info.data.episode_number,
+          season: episode_info.data.season_number,
+          see: false, // todo
+          download: false, // todo
+          like: false, // todo
+          id: episode_info.data.id,
+          synopsis: episode_info.data.overview,
+          poster_episode: episode_info.data.still_path, // todo
+          poster: `https://image.tmdb.org/t/p/original/${season_info.data.poster_path}`,
+          banner: `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}`,
+          genres: genres,
+          actors: cast,
+          producers: producers,
+          screenwriters: screenwriters,
+          studios: studios
+        }
+      });
+    } catch (error) {
+      console.log(error)
+      return { message: 'Serie not detected successfully' }
+    }
+    // return { message: 'Movie detected successfully' };
+  }
+
 
   @Patch(':id')
   async update(

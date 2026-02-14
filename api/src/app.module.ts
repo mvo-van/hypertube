@@ -16,6 +16,8 @@ import { User } from './users/entities/user.entity';
 import { MailerService } from './mailer/mailer.service';
 import { MailerModule } from './mailer/mailer.module';
 import { ImageModule } from './image/image.module';
+import { MoviesModule } from './movies/movies.module';
+import { LikesModule } from './likes/likes.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { ImageModule } from './image/image.module';
     TypeOrmModule.forFeature([User]),
     MailerModule,
     ImageModule,
+    MoviesModule,
+    LikesModule
   ],
   controllers: [AppController],
   providers: [
@@ -41,4 +45,4 @@ import { ImageModule } from './image/image.module';
     MailerService,
   ],
 })
-export class AppModule {}
+export class AppModule { }

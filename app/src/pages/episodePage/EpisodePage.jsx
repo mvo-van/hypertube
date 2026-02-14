@@ -1,7 +1,7 @@
 import GenericPage from "../page/GenericPage";
 import { useEffect, useState } from "react";
 import Header from "../../components/header/Header";
-import style from "./MoviePage.module.css"
+import style from "./EpisodePage.module.css"
 import { useNavigate, useParams } from "react-router-dom";
 import Comments from "../../components/comments/Comments";
 import MovieInfo from "../../components/movieInfo/MovieInfo";
@@ -10,12 +10,12 @@ import DivEpisodes from "../../components/divEpisodes/DivEpisodes";
 import { api } from "../../common/api";
 import { CircularProgress } from "@mui/material";
 
-function MoviePage() {
-  const { id } = useParams();
+function EpisodePage() {
+  const { serie_id, season_number, episode_number } = useParams();
   const [message, setMessage] = useState("")
-  const [movie, setMovie] = useState({})
-  const [movieUser, setMovieUser] = useState({})
+  const [episode, setEpisode] = useState({})
   const [info_get, setInfo_get] = useState(false)
+
   const [comments, setComments] = useState([
     { "userId": 1, "userName": "Eithaaaan", "imgUser": "https://cinefilms-planet.fr/wp-content/uploads/2010/04/bob-razowski-personnage-monstres-academy-02-1-1536x864.jpg", "commentId": 1, "message": "L'agglomération antique de Montaigu-la-Brisette est une agglomération secondaire gallo-romaine des trois premiers siècles de notre ère située sur le territoire de la commune moderne de Montaigu-la-Brisette, dans le département français de la Manche, en région Normandie." },
     { "userId": 1, "userName": "Eithaaaan", "imgUser": "https://cinefilms-planet.fr/wp-content/uploads/2010/04/bob-razowski-personnage-monstres-academy-02-1-1536x864.jpg", "commentId": 2, "message": "Dans la géographie antique, elle est située dans la partie nord-est de la civitas des Unelles (province de Gaule lyonnaise) ; elle n'est toutefois citée dans aucun texte et ne figure sur aucun itinéraire antique. Malgré sa petite taille, estimée à 15 hectares tout au plus pour sa partie densément construite, elle comporte un vaste sanctuaire au nord-ouest et des thermes publics monumentaux partiellement aménagés au-dessus du lit d'un ruisseau canalisé au sud-est ; par opposition, les bâtiments édifiés dans la partie centrale voient se côtoyer des habitations aisées pourvues de portiques et des constructions au plan plus modeste mais dotées de jardins ou de dépendances à vocation peut-être artisanale, le tout selon une organisation assez lâche, sans schéma urbain uniforme. Cette configuration interroge sur la fonction et le statut de l'agglomération, peut-être une ville-étape sur un itinéraire antique et/ou un centre de production céréalière. À proximité plus ou moins grande de l'agglomération, des établissements agricoles ou artisanaux semblent liés au site principal ; ils sont en tout cas actifs du Ier au IIIe siècle apr. J.-C., tout comme l'agglomération elle-même." },
@@ -24,17 +24,17 @@ function MoviePage() {
     { "userId": 1, "userName": "Eithaaaan", "imgUser": "https://cinefilms-planet.fr/wp-content/uploads/2010/04/bob-razowski-personnage-monstres-academy-02-1-1536x864.jpg", "commentId": 5, "message": "Il se situe à environ 6 kilomètres au nord-est de Nowy Tomyśl (siège de la gmina et du powiat) et à 51 kilomètres à l'ouest de Poznań (capitale régionale)." },
   ]);
 
-  const getMovie = async () => {
+  const getEpisode = async () => {
     try {
-      const res = await api.get(`http://localhost:3000/movies/${id}`);
-      setMovie(res.data)
+      const res = await api.get(`http://localhost:3000/movies/serie/${serie_id}/season/${season_number}/episode/${episode_number}`);
+      setEpisode(res.data.episode_infos)
       setInfo_get(true)
     } catch (e) {
     }
   }
 
   useEffect(() => {
-    getMovie()
+    getEpisode()
   }, [])
 
   const onMessageSubmit = (e) => {
@@ -58,15 +58,14 @@ function MoviePage() {
           {!info_get && <div className={style.chargeDiv}>
             <CircularProgress color="inherit" size="3rem" />
           </div>}
-          {info_get && <MovieInfo movie={movie} />}
-          {
-            (movie.type == "episode" || movie.type == "movie") &&
-            <Comments comments={comments} color={movie.id % 12} movieIcon={false} message={message} onMessageHeandler={onMessageHeandler} onMessageSubmit={onMessageSubmit} />
-          }
+          {info_get && <MovieInfo movie={episode} />}
+
+          <Comments comments={comments} color={episode.id % 12} movieIcon={false} message={message} onMessageHeandler={onMessageHeandler} onMessageSubmit={onMessageSubmit} />
+
         </div>
       </div>
     </GenericPage>
   );
 }
 
-export default MoviePage;
+export default EpisodePage;
