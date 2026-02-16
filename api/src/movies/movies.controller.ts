@@ -113,6 +113,7 @@ export class MoviesController {
         }
       })
       const serie_credits_info = await axios.get(`https://api.themoviedb.org/3/tv/${id}/credits?api_key=${TMDB_API_KEY}`)
+      const imdb_id = await axios.get(`https://api.themoviedb.org/3/tv/${id}/external_ids?api_key=${TMDB_API_KEY}`)
       const cast = serie_credits_info.data.cast.slice(0, 6).map((x) => x.name)
       const screenwriters = serie_credits_info.data.crew.map((x) => {
         if (x.department == "Writing") { return x.name }
@@ -122,6 +123,7 @@ export class MoviesController {
       }).filter((produceur) => produceur).slice(0, 6)
       res.send({
         serie_infos: {
+          imdb_id: imdb_id.data.imdb_id,
           id: serie_info.data.id,
           name: serie_info.data.name, // ou original_name
           type: "serie",
@@ -170,6 +172,7 @@ export class MoviesController {
         if (x.job == "Executive Producer" || x.job == "Producer" || x.job == "Director") { return x.name }
       }).filter((produceur) => produceur).slice(0, 6)
       const season_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/season/${season_number}?api_key=${TMDB_API_KEY}`)
+      console.log(imdb_id)
       const episodes = season_info.data.episodes.map((x) => {
         let path_poster = `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}`
         if (x.still_path) {
@@ -234,6 +237,8 @@ export class MoviesController {
       const season_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/season/${season_number}?api_key=${TMDB_API_KEY}`)
 
       const episode_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/season/${season_number}/episode/${episode_number}?api_key=${TMDB_API_KEY}`)
+
+      const imdb_id = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/season/${season_number}/episode/${episode_number}/external_ids?api_key=${TMDB_API_KEY}`)
       const producers = episode_info.data.crew.map((x) => {
         if (x.job == "Executive Producer" || x.job == "Producer" || x.job == "Director") { return x.name }
       }).filter((produceur) => produceur).slice(0, 6)
@@ -247,6 +252,7 @@ export class MoviesController {
       }
       res.send({
         episode_infos: {
+          imdb_id: imdb_id.data.imdb_id,
           type: "episode",
           time: episode_info.data.runtime,
           date: parseInt(episode_info.data.air_date),
