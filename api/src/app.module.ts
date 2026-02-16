@@ -18,6 +18,8 @@ import { MailerModule } from './mailer/mailer.module';
 import { ImageModule } from './image/image.module';
 import { MoviesModule } from './movies/movies.module';
 import { LikesModule } from './likes/likes.module';
+import { WatchedModule } from './watched/watched.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -32,7 +34,9 @@ import { LikesModule } from './likes/likes.module';
     MailerModule,
     ImageModule,
     MoviesModule,
-    LikesModule
+    LikesModule,
+    WatchedModule,
+    CommentsModule
   ],
   controllers: [AppController],
   providers: [

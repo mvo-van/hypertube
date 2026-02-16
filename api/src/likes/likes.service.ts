@@ -13,8 +13,6 @@ export class LikesService {
     @InjectRepository(Like)
     private likeRepository: Repository<Like>,
     private readonly usersService: UsersService,
-
-
   ) { }
 
   async create(createLikeDto: CreateLikeDto, userId: number): Promise<Like> {
@@ -28,9 +26,29 @@ export class LikesService {
       else {
         throw new ConflictException("User doesn't exist");
       }
+      const isLikeAlredyExist = await this.findOneByMovieIdUserId(like.type, like.movie_id, userId);
+      if (isLikeAlredyExist) {
+        return isLikeAlredyExist
+      }
       return await this.likeRepository.save(like);
     } catch (e) {
-      console.log(e)
+      throw new ConflictException('Like conflict');
+    }
+  }
+
+  async removeByMovieIDAndUser(deleteLikeDto: CreateLikeDto, userId: number) {
+    try {
+      const like = this.likeRepository.create(deleteLikeDto);
+
+      const user = await this.usersService.findOne(userId);
+      if (user) {
+        like.user = user;
+      }
+      else {
+        throw new ConflictException("User doesn't exist");
+      }
+      return await this.likeRepository.delete(like);
+    } catch (e) {
       throw new ConflictException('Like conflict');
     }
   }
@@ -42,6 +60,20 @@ export class LikesService {
         type: type, movie_id: movieId, user: user
       });
     }
+  }
+
+  async findAllMovieAndSeasonLikeByUser(userId: number) {
+    const user = await this.usersService.findOne(userId);
+    if (user) {
+      return await this.likeRepository.find({
+        where: [{
+          type: TypeStrategy.MOVIE, user: user
+        }, {
+          type: TypeStrategy.SEASON, user: user
+        }]
+      });
+    }
+
   }
 
   findAll() {
@@ -56,7 +88,7 @@ export class LikesService {
     return `This action updates a #${id} like`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} like`;
+  async remove(id: number) {
+    return await this.likeRepository.delete(id);
   }
 }

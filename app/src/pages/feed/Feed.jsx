@@ -126,8 +126,6 @@ function Feed() {
 			see: true,
 		},
 	]);
-	// console.log(movies[0].name)
-	// console.log("url",movies[0].urlImg)
 
 	return (
 		<GenericPage>

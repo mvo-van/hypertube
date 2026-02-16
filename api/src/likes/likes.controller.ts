@@ -26,9 +26,28 @@ export class LikesController {
     return this.likesService.findOneByMovieIdUserId(type, movieId, userId);
   }
 
+  @Get("/likeList")
+  async findAllMovieAndSeasonLikeByUser(@UserParam('userId') userId: number) {
+    return this.likesService.findAllMovieAndSeasonLikeByUser(userId)
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateLikeDto: UpdateLikeDto) {
     return this.likesService.update(+id, updateLikeDto);
+  }
+
+  @Delete('/oneMovie')
+  removeByMovieIDAndUser(@Body() deleteLikeDto: CreateLikeDto, @UserParam('userId') userId: number) {
+    console.log("here")
+    return this.likesService.removeByMovieIDAndUser(deleteLikeDto, userId);
+  }
+
+  @Delete('/allUserLikeMovie')
+  async removeAllUserLikeMovie(@UserParam('userId') userId: number) {
+    const movieLike = await this.likesService.findAllMovieAndSeasonLikeByUser(userId)
+    if (movieLike) {
+      movieLike.forEach((elem) => this.likesService.remove(+elem.id))
+    }
   }
 
   @Delete(':id')

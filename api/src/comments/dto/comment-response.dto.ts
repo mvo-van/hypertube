@@ -1,7 +1,7 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
 import { Comment } from '../entities/comment.entity';
-import { User } from '../../users/entities/user.entity';
-import { Movie } from '../../movies/entities/movie.entity';
+import { UserResponseDto } from 'src/users/dto/user-response.dto';
+import { TypeStrategy } from 'src/movies/movies.provider';
 
 @Exclude()
 export class CommentResponseDto {
@@ -18,13 +18,14 @@ export class CommentResponseDto {
   user_id: number;
 
   @Expose()
-  movie_id: number;
+  movie_id: string;
 
   @Expose()
-  user?: Partial<User>;
+  movieType: TypeStrategy;
 
   @Expose()
-  movie?: Partial<Movie>;
+  @Type(() => UserResponseDto)
+  user: UserResponseDto;
 
   constructor(partial: Partial<Comment>) {
     Object.assign(this, partial);

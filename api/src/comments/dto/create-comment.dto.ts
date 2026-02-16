@@ -1,17 +1,17 @@
-import { IsInt, IsString, MaxLength, IsNotEmpty } from 'class-validator';
+import { IsInt, IsString, MaxLength, IsNotEmpty, IsEnum } from 'class-validator';
+import { TypeStrategy } from 'src/movies/movies.provider';
 
 export class CreateCommentDto {
-  @IsInt()
-  user_id: number;
-
-  @IsInt()
-  movie_id: number;
+  @IsString()
+  movie_id: string;
 
   @IsString()
   @MaxLength(500)
   @IsNotEmpty()
   content: string;
 
+  @IsEnum(TypeStrategy)
   @IsNotEmpty()
-  published_date: Date;
+  movieType: TypeStrategy;
+
 }

@@ -17,11 +17,18 @@ import { MovieResponseDto } from './dto/movie-response.dto';
 import { ConfigService } from '@nestjs/config';
 import { Public } from 'src/auth/decorators/public.decorator';
 import axios from "axios";
+import { LikesService } from 'src/likes/likes.service';
+import { TypeStrategy } from './movies.provider';
+import { UserParam } from 'src/auth/decorators/user-param.decorator';
 
 @Controller('movies')
 @UseInterceptors(ClassSerializerInterceptor)
 export class MoviesController {
-  constructor(private readonly moviesService: MoviesService, private readonly configService: ConfigService) { }
+  constructor(
+    private readonly moviesService: MoviesService,
+    private readonly configService: ConfigService,
+    private readonly likeService: LikesService
+  ) { }
 
   @Post()
   async create(
@@ -37,18 +44,15 @@ export class MoviesController {
     return movies.map((movie) => new MovieResponseDto(movie));
   }
 
-  // @Get(':id')
-  // async findOne(@Param('id') id: number): Promise<MovieResponseDto> {
-  //   const movie = await this.moviesService.findOne(+id);
-  //   return new MovieResponseDto(movie);
-  // }
-
-  @Public()
   @Get(':id')
-  async getMovieInfo(@Param('id') id: number, @Res() res: Response) {
+  async getMovieInfo(@Param('id') id: number, @Res() res: Response, @UserParam('userId') userId: number) {
     const TMDB_API_KEY = this.configService.get<string>('TMDB_API_KEY');
-    console.log(id)
     try {
+      const isLike = await this.likeService.findOneByMovieIdUserId(TypeStrategy.MOVIE, `${id}`, userId)
+      let like = false
+      if (isLike) {
+        like = true
+      }
       const movie_info = await axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}`)
       const genres = movie_info.data.genres.map((x) => x.name)
       const studios = movie_info.data.production_companies.slice(0, 6).map((x) => x.name)
@@ -69,7 +73,7 @@ export class MoviesController {
         note: Number((movie_info.data.vote_average).toFixed(1)),
         see: false, // todo
         download: false, // todo
-        like: false, // todo
+        like: like,
         id: movie_info.data.id,
         name: movie_info.data.original_title,
         synopsis: movie_info.data.overview,
@@ -83,20 +87,20 @@ export class MoviesController {
         studios: studios
       });
     } catch (error) {
-      console.log(error)
       return { message: 'Movie not detected successfully' }
     }
-    // return { message: 'Movie detected successfully' };
   }
 
-  @Public()
   @Get('serie/:id')
-  async getSerieInfo(@Param('id') id: number, @Res() res: Response) {
+  async getSerieInfo(@Param('id') id: number, @Res() res: Response, @UserParam('userId') userId: number) {
     const TMDB_API_KEY = this.configService.get<string>('TMDB_API_KEY');
-    console.log(id)
     try {
+      const isLike = await this.likeService.findOneByMovieIdUserId(TypeStrategy.SERIE, `${id}`, userId)
+      let like = false
+      if (isLike) {
+        like = true
+      }
       const serie_info = await axios.get(`https://api.themoviedb.org/3/tv/${id}?api_key=${TMDB_API_KEY}`)
-      console.log(serie_info.data)
       const genres = serie_info.data.genres.map((x) => x.name)
       const studios = serie_info.data.production_companies.slice(0, 6).map((x) => x.name)
       const seasons = serie_info.data.seasons.map((x) => {
@@ -116,7 +120,6 @@ export class MoviesController {
       const producers = serie_credits_info.data.crew.map((x) => {
         if (x.job == "Executive Producer" || x.job == "Producer" || x.job == "Director") { return x.name }
       }).filter((produceur) => produceur).slice(0, 6)
-      console.log(serie_credits_info.data)
       res.send({
         serie_infos: {
           id: serie_info.data.id,
@@ -129,30 +132,31 @@ export class MoviesController {
           synopsis: serie_info.data.overview,
           poster: `https://image.tmdb.org/t/p/original/${serie_info.data.poster_path}`,
           banner: `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}`,
-          like: false, // todo
+          like: like,
           genres: genres,
           actors: cast,
           producers: producers,
           screenwriters: screenwriters,
-          studios: studios
+          studios: studios,
         },
         seasons: seasons
       });
     } catch (error) {
-      console.log(error)
       return { message: 'Serie not detected successfully' }
     }
     // return { message: 'Movie detected successfully' };
   }
 
-  @Public()
   @Get('serie/:serie_id/season/:season_number')
-  async getSeasonInfo(@Param('serie_id') serie_id: number, @Param('season_number') season_number: number, @Res() res: Response) {
+  async getSeasonInfo(@Param('serie_id') serie_id: number, @Param('season_number') season_number: number, @Res() res: Response, @UserParam('userId') userId: number) {
     const TMDB_API_KEY = this.configService.get<string>('TMDB_API_KEY');
-    console.log(serie_id)
     try {
+      const isLike = await this.likeService.findOneByMovieIdUserId(TypeStrategy.SEASON, `${serie_id}_${season_number}`, userId)
+      let like = false
+      if (isLike) {
+        like = true
+      }
       const serie_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}?api_key=${TMDB_API_KEY}`)
-      console.log(serie_info.data)
 
       const genres = serie_info.data.genres.map((x) => x.name)
       const studios = serie_info.data.production_companies.slice(0, 6).map((x) => x.name)
@@ -165,7 +169,6 @@ export class MoviesController {
       const producers = serie_credits_info.data.crew.map((x) => {
         if (x.job == "Executive Producer" || x.job == "Producer" || x.job == "Director") { return x.name }
       }).filter((produceur) => produceur).slice(0, 6)
-      // console.log(serie_credits_info.data)
       const season_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/season/${season_number}?api_key=${TMDB_API_KEY}`)
       const episodes = season_info.data.episodes.map((x) => {
         let path_poster = `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}`
@@ -186,9 +189,9 @@ export class MoviesController {
           time: parseInt(x.runtime)
         }
       })
-      console.log(serie_info.data)
       res.send({
         season_infos: {
+          serie_id: serie_id,
           type: "season",
           date: parseInt(season_info.data.air_date),
           note: Number((season_info.data.vote_average).toFixed(1)),
@@ -196,7 +199,7 @@ export class MoviesController {
           id: season_info.data._id,
           season: season_info.data.season_number,
           see: false,              //todo
-          like: false,             //todo
+          like: like,
           name: serie_info.data.name,
           synopsis: season_info.data.overview,
           poster: `https://image.tmdb.org/t/p/original/${season_info.data.poster_path}`,
@@ -210,20 +213,21 @@ export class MoviesController {
         episodes: episodes
       });
     } catch (error) {
-      console.log(error)
       return { message: 'Serie not detected successfully' }
     }
     // return { message: 'Movie detected successfully' };
   }
 
-  @Public()
   @Get('serie/:serie_id/season/:season_number/episode/:episode_number')
-  async getEpisodeInfo(@Param('serie_id') serie_id: number, @Param('season_number') episode_number: number, @Param('episode_number') season_number: number, @Res() res: Response) {
+  async getEpisodeInfo(@Param('serie_id') serie_id: number, @Param('season_number') season_number: number, @Param('episode_number') episode_number: number, @Res() res: Response, @UserParam('userId') userId: number) {
     const TMDB_API_KEY = this.configService.get<string>('TMDB_API_KEY');
-    console.log(serie_id)
     try {
+      const isLike = await this.likeService.findOneByMovieIdUserId(TypeStrategy.EPISODE, `${serie_id}_${season_number}_${episode_number}`, userId)
+      let like = false
+      if (isLike) {
+        like = true
+      }
       const serie_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}?api_key=${TMDB_API_KEY}`)
-      console.log(serie_info.data)
       const genres = serie_info.data.genres.map((x) => x.name)
       const studios = serie_info.data.production_companies.slice(0, 6).map((x) => x.name)
 
@@ -241,8 +245,6 @@ export class MoviesController {
       if (episode_info.data.still_path) {
         path_poster = `https://image.tmdb.org/t/p/w500/${episode_info.data.still_path}`
       }
-      // console.log(episode_info.data)
-      console.log(serie_info.data)
       res.send({
         episode_infos: {
           type: "episode",
@@ -255,7 +257,7 @@ export class MoviesController {
           season: episode_info.data.season_number,
           see: false, // todo
           download: false, // todo
-          like: false, // todo
+          like: like, // todo
           id: episode_info.data.id,
           synopsis: episode_info.data.overview,
           poster_episode: episode_info.data.still_path, // todo
@@ -265,12 +267,12 @@ export class MoviesController {
           actors: cast,
           producers: producers,
           screenwriters: screenwriters,
-          studios: studios
+          studios: studios,
+          serie_id: serie_id
         }
       });
     } catch (error) {
-      console.log(error)
-      return { message: 'Serie not detected successfully' }
+      return { message: 'Episode not detected successfully' }
     }
     // return { message: 'Movie detected successfully' };
   }

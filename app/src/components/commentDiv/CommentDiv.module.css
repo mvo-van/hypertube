@@ -1,16 +1,17 @@
-.divComment{
+.divComment {
     position: relative;
     display: flex;
     flex-direction: row;
     align-items: fix-start;
     width: max-content;
     max-width: 100%;
+    width: 100%;
     height: max-content;
     color: white;
     align-content: stretch;
 }
 
-.imgUser{
+.imgUser {
     border-radius: 50%;
     border-style: solid;
     border-width: 2px;
@@ -20,8 +21,8 @@
     background: #E6E7ED;
     -moz-border-radius: 100%;
     -webkit-border-radius: 100%;
-    background-position:50% 50%;
-    background-repeat:no-repeat;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
     /* margin-bottom: 20px;
     margin-top: 20px; */
     color: #78BFEB;
@@ -29,67 +30,67 @@
 
 }
 
-.divComment__color_0{
+.divComment__color_0 {
     color: var(--color-blue);
     background-color: var(--color-blue-t);
 }
 
-.divComment__color_1{
+.divComment__color_1 {
     color: var(--color-blue-to-yellow-1);
     background-color: var(--color-blue-to-yellow-1-t);
 }
 
-.divComment__color_2{
+.divComment__color_2 {
     color: var(--color-blue-to-yellow-2);
     background-color: var(--color-blue-to-yellow-2-t);
 }
 
-.divComment__color_3{
+.divComment__color_3 {
     color: var(--color-blue-to-yellow-3);
     background-color: var(--color-blue-to-yellow-3-t);
 }
 
-.divComment__color_4{
+.divComment__color_4 {
     color: var(--color-yellow);
     background-color: var(--color-yellow-t);
 }
 
-.divComment__color_5{
+.divComment__color_5 {
     color: var(--color-yellow-to-red-1);
     background-color: var(--color-yellow-to-red-1-t);
 }
 
-.divComment__color_6{
+.divComment__color_6 {
     color: var(--color-yellow-to-red-2);
     background-color: var(--color-yellow-to-red-2-t);
 }
 
-.divComment__color_7{
+.divComment__color_7 {
     color: var(--color-yellow-to-red-3);
     background-color: var(--color-yellow-to-red-3-t);
 }
 
-.divComment__color_8{
+.divComment__color_8 {
     color: var(--color-red);
     background-color: var(--color-red-t);
 }
 
-.divComment__color_9{
+.divComment__color_9 {
     color: var(--color-red-to-blue-1);
     background-color: var(--color-red-to-blue-1-t);
 }
 
-.divComment__color_10{
+.divComment__color_10 {
     color: var(--color-red-to-blue-2);
     background-color: var(--color-red-to-blue-2-t);
 }
 
-.divComment__color_11{
+.divComment__color_11 {
     color: var(--color-red-to-blue-3);
     background-color: var(--color-red-to-blue-3-t);
 }
 
-.imgMovie{
+.imgMovie {
     border-radius: 10px;
     width: 94.5px;
     height: 128px;
@@ -97,9 +98,11 @@
     margin-right: 10px;
 }
 
-.divMessage{
+.divMessage {
     /* min-width: 200px; */
     height: min-content;
+    width: 100%;
+
     /* padding-bottom: 1px;  */
     /* border-style: solid; */
     border-width: 1px;
@@ -107,23 +110,24 @@
     /* padding: 5px; */
 }
 
-.divInfo{
+.divInfo {
     padding-top: 20%;
 }
 
-.name{
+.name {
     font-family: "Basic";
     font-size: 16px;
     line-height: 30px;
 }
 
-.message{
+.message {
     font-size: 16px;
     font-family: "Basic";
     line-height: 30px;
+    overflow-wrap: anywhere;
 }
 
-.line{
+.line {
     margin-left: 15%;
     height: 1px;
     background-color: #454545;

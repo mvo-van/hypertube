@@ -4,14 +4,26 @@ import { useNavigate } from "react-router";
 import IconMovie from "../iconMovie/IconMovie";
 import { useState } from "react";
 import StarIcon from '@mui/icons-material/Star';
+import { api } from "../../common/api";
 
+const getMovieId = (movie) => {
+  if (movie.type == "movie" || movie.type == "serie") {
+    return `${movie.id}`
+  }
+  if (movie.type == "season") {
+    return `${movie.serie_id}_${movie.season}`
+  }
+  if (movie.type == "episode") {
+    return `${movie.serie_id}_${movie.season}_${movie.episode}`
+  }
+}
 
 function MovieInfo({ movie = {} }) {
   const navigate = useNavigate()
   const [see, setSee] = useState(movie.see)
   const [download, setDownload] = useState(movie.download)
   const [like, setLike] = useState(movie.like)
-
+  const movieId = getMovieId(movie)
   const onClickStart = () => {
 
   }
@@ -26,8 +38,24 @@ function MovieInfo({ movie = {} }) {
 
   }
 
-  const onClickLike = () => {
-    setLike(!like)
+  const onClickLike = async () => {
+    try {
+      if (like) {
+        await api.delete(`/likes/oneMovie`, {
+          data: {
+            type: movie.type,
+            movie_id: movieId
+          }
+        });
+      } else {
+        await api.post(`/likes`, {
+          type: movie.type,
+          movie_id: movieId
+        });
+      }
+      setLike(!like)
+    } catch (e) {
+    }
   }
 
   return (
