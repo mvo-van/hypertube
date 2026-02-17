@@ -172,7 +172,6 @@ export class MoviesController {
         if (x.job == "Executive Producer" || x.job == "Producer" || x.job == "Director") { return x.name }
       }).filter((produceur) => produceur).slice(0, 6)
       const season_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/season/${season_number}?api_key=${TMDB_API_KEY}`)
-      console.log(imdb_id)
       const episodes = season_info.data.episodes.map((x) => {
         let path_poster = `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}`
         if (x.still_path) {
@@ -297,5 +296,41 @@ export class MoviesController {
   async remove(@Param('id') id: number) {
     await this.moviesService.remove(+id);
     return { message: 'Movie deleted successfully' };
+  }
+
+
+  @Get('/top/MovieSerie')
+  async getTopMovieSerie(@Res() res: Response) {
+    const TMDB_API_KEY = this.configService.get<string>('TMDB_API_KEY');
+    try {
+      const top_movie = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_API_KEY}`)
+      const top_serie = await axios.get(`https://api.themoviedb.org/3/tv/popular?api_key=${TMDB_API_KEY}`)
+      const top_movie_res = top_movie.data.results.map((elem) => {
+        return {
+          urlImg: `https://image.tmdb.org/t/p/original/${elem.poster_path}`,
+          see: false, // to do
+          date: parseInt(elem.release_date),
+          pathNavigate: `/movie/${elem.id}`,
+          name: elem.title,
+          id: elem.id
+        }
+      })
+      const top_serie_res = top_serie.data.results.map((elem) => {
+        return {
+          urlImg: `https://image.tmdb.org/t/p/original/${elem.poster_path}`,
+          see: false,
+          date: parseInt(elem.release_date),
+          pathNavigate: `/serie/${elem.id}`,
+          name: elem.name,
+          id: elem.id
+        }
+      })
+      res.send({
+        topMovie: top_movie_res,
+        topSerie: top_serie_res
+      });
+    } catch (error) {
+      return { message: 'Movie not detected successfully' }
+    }
   }
 }

@@ -6,138 +6,31 @@ import Search from "../../components/search/Search";
 import { api } from "../../common/api";
 
 function Feed() {
-	const [movies, setMovies] = useState([
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-		{
-			id: 1,
-			name: "lilo & Stitch",
-			date: "2025",
-			urlImg: "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg",
-			see: true,
-		},
-	]);
+	const [movies, setMovies] = useState([]);
+	const [series, setSeries] = useState([]);
+	const getTop = async () => {
+		try {
+			const res = await api.get(`movies/top/MovieSerie`);
+			setMovies(res.data.topMovie)
+			setSeries(res.data.topSerie)
+		} catch (e) {
+		}
+	}
 
+	useEffect(() => {
+		getTop()
+	}, [])
 	return (
 		<GenericPage>
 			<Header />
 			<Search open={true} />
 			<HorizontalScrollMovies
 				movies={movies}
-				label="Top 10 - Films les plus populaires"
+				label="Top 20 - Films les plus populaires"
 			/>
 			<HorizontalScrollMovies
-				movies={movies}
-				label="Top 10 - Series les plus populaires"
+				movies={series}
+				label="Top 20 - Series les plus populaires"
 			/>
 		</GenericPage>
 	);
