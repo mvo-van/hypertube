@@ -49,7 +49,6 @@ export class UsersController {
 
   @Get('/test')
   test(@UserParam() user: JwtUser) {
-    console.log(user);
     return user;
   }
 

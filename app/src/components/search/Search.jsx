@@ -25,7 +25,7 @@ export default function Search({ open }) {
 	const [type, setType] = useState("")
 	const [watched, setWatched] = useState(false);
 	const [downloaded, setDownloaded] = useState(false);
-	
+
 	const [searching, setSearching] = useState(open);
 	// const [serie, setSerie] = useState(true);
 	// const [movie, setMovie] = useState(true);
@@ -34,11 +34,11 @@ export default function Search({ open }) {
 
 	const [isOnSearch, setIsOnSearch] = useState(false)
 
-	const [listGenre, setListGenre] = useState(["action","aventures", "anticipation", "catastrophe", "noel"])
-	const [listMovies, setListMovies] = useState([{"inputValue":"action"},{"inputValue":"aventures"}, {"inputValue":"anticipation"}, {"inputValue":"catastrophe"}, {"inputValue":"noel"}])
+	const [listGenre, setListGenre] = useState(["action", "aventures", "anticipation", "catastrophe", "noel"])
+	const [listMovies, setListMovies] = useState([{ "inputValue": "action" }, { "inputValue": "aventures" }, { "inputValue": "anticipation" }, { "inputValue": "catastrophe" }, { "inputValue": "noel" }])
 
 
-    useEffect(() => {
+	useEffect(() => {
 		if (searchParams.get("Titre")) {
 			setTitle(searchParams.get("Titre"))
 			setIsOnSearch(true)
@@ -83,14 +83,11 @@ export default function Search({ open }) {
 			setDownloaded(searchParams.get("downloaded") === "true")
 			setIsOnSearch(true)
 		}
-    }, []);
+	}, []);
 
 
-    useEffect(() => {
-		console.log(genre)
-		console.log(minYear)
-		console.log(maxYear)
-    }, [genre]);
+	useEffect(() => {
+	}, [genre]);
 
 	const openSearch = () => {
 		setSearching((searching) => !searching);
@@ -109,29 +106,28 @@ export default function Search({ open }) {
 	};
 
 	const onChangeHandlerTitle = (e, value) => {
-		if (value){
+		if (value) {
 			setTitle(value.inputValue);
 		}
-		else{
+		else {
 			setTitle("")
 		}
 	};
 
 	const onChangeBlurTitle = (e) => {
-		// console.log(e.target.value)
 		setTitle(e.target.value);
 	};
 
-	const onChangeHandlerGenre = (e,value) => {
+	const onChangeHandlerGenre = (e, value) => {
 		setGenre(value);
 	};
-	const onChangeHandlerDistribution = (e,value) => {
+	const onChangeHandlerDistribution = (e, value) => {
 		setDistribution(value);
 	};
-	const onChangeHandlerDirector = (e,value) => {
+	const onChangeHandlerDirector = (e, value) => {
 		setDirector(value);
 	};
-	const onChangeHandlerProducer = (e,value) => {
+	const onChangeHandlerProducer = (e, value) => {
 		setProducer(value);
 	};
 	const onChangeHandlerType = (e) => {
@@ -147,19 +143,18 @@ export default function Search({ open }) {
 
 	const onSubmit = (event) => {
 		var search = {
-			"title":title,
-			"minYear":minYear,
-			"maxYear":maxYear,
-			"genre":genre,
-			"distribution":distribution,
-			"director":director,
-			"producer":producer,
-			"note":noteMinimale,
-			"type":type,
-			"watch":watched,
-			"downloaded":downloaded
+			"title": title,
+			"minYear": minYear,
+			"maxYear": maxYear,
+			"genre": genre,
+			"distribution": distribution,
+			"director": director,
+			"producer": producer,
+			"note": noteMinimale,
+			"type": type,
+			"watch": watched,
+			"downloaded": downloaded
 		}
-		console.log(search)
 		event.preventDefault();
 	};
 
@@ -194,11 +189,11 @@ export default function Search({ open }) {
 							/>
 						</div>
 						<div className={style.childBox}>
-							<InputTags 
-							label="Genre"
-							value={genre}
-							options={listGenre}
-							onChange={onChangeHandlerGenre}/>
+							<InputTags
+								label="Genre"
+								value={genre}
+								options={listGenre}
+								onChange={onChangeHandlerGenre} />
 
 							<InputTags
 								label="Distribution"
@@ -234,9 +229,9 @@ export default function Search({ open }) {
 							/> */}
 							<InputSelect label="Type"
 								value={type}
-								options={[{"label":"serie", "name":"Série"}, {"label":"movie", "name":"Film"}]}
+								options={[{ "label": "serie", "name": "Série" }, { "label": "movie", "name": "Film" }]}
 								onChange={onChangeHandlerType}
-								/>
+							/>
 							{/* <InputTags
 								label="Type"
 							/> */}

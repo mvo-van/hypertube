@@ -60,7 +60,6 @@ function Header({ }) {
       await api.get("/auth/logout");
       navigate(`/`);
     } catch (e) {
-      console.log(e)
     }
   };
 

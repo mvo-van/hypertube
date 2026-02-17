@@ -40,9 +40,6 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
-
   const mocker = app.get(MockDataService);
   await mocker.bootstrap();
 

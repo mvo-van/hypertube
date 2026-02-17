@@ -3,15 +3,14 @@ import CommentForm from "../commentForm/CommentForm";
 import style from "./Comments.module.css";
 import { useNavigate } from "react-router";
 
-function Comments({ comments, color=0, movieIcon=true , commentForm=true, onMessageSubmit={}, onMessageHeandler={}, message=""}) {
+function Comments({ comments, color = 0, movieIcon = true, commentForm = true, onMessageSubmit = {}, onMessageHeandler = {}, message = "" }) {
 
-  console.log(comments)
   return (
     <div className={style.Allcomments}>
-      <div className={`${style.line}`}/>
-      {comments.length && <div className={`${style.title}`}>Commantaires</div>}
-      {commentForm && <CommentForm onMessageSubmit={onMessageSubmit} onMessageHeandler={onMessageHeandler} message={message}/>}
-      {comments.map((comment, index) => <CommentDiv key={comment.commentId} comment={comment} color={(color+index)%12} movieIcon={movieIcon}/>)}
+      <div className={`${style.line}`} />
+      <div className={`${style.title}`}>Commantaires</div>
+      {commentForm && <CommentForm onMessageSubmit={onMessageSubmit} onMessageHeandler={onMessageHeandler} message={message} />}
+      {comments.map((comment, index) => <CommentDiv key={comment.id} comment={comment} color={(color + index) % 12} movieIcon={movieIcon} />)}
     </div>
   );
 }
