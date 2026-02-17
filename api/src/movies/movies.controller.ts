@@ -177,20 +177,21 @@ export class MoviesController {
         if (x.still_path) {
           path_poster = `https://image.tmdb.org/t/p/w500/${x.still_path}`
         }
-
-        return {
-          serie_id: serie_info.data.id,
-          seasonNbr: season_number,
-          synopsis: x.overview,
-          note: x.vote_average,
-          title: x.name,
-          see: true, // to do
-          start: 0, // to do
-          episodeNbr: x.episode_number,
-          poster: path_poster,
-          time: parseInt(x.runtime)
+        if (new Date(x.air_date) < new Date(Date.now())) {
+          return {
+            serie_id: serie_info.data.id,
+            seasonNbr: season_number,
+            synopsis: x.overview,
+            note: x.vote_average,
+            title: x.name,
+            see: true, // to do
+            start: 0, // to do
+            episodeNbr: x.episode_number,
+            poster: path_poster,
+            time: parseInt(x.runtime)
+          }
         }
-      })
+      }).filter((elem) => elem)
       res.send({
         season_infos: {
           serie_id: serie_id,
@@ -319,7 +320,7 @@ export class MoviesController {
         return {
           urlImg: `https://image.tmdb.org/t/p/original/${elem.poster_path}`,
           see: false,
-          date: parseInt(elem.release_date),
+          date: parseInt(elem.first_air_date),
           pathNavigate: `/serie/${elem.id}`,
           name: elem.name,
           id: elem.id
