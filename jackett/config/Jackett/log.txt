@@ -1,0 +1,106 @@
+2026-02-17 20:08:50.4213 Info Starting Jackett v0.24.1113
+2026-02-17 20:08:51.0501 Info Environment version: 9.0.13 (/app/Jackett/)
+2026-02-17 20:08:51.0602 Info OS version: Unix 5.10.104.0 (64bit OS) (64bit process)
+2026-02-17 20:08:51.0660 Info Jackett variant: CoreLinuxMuslArm64
+2026-02-17 20:08:51.0698 Info File /etc/issue: Welcome to Alpine Linux 3.22
+2026-02-17 20:08:51.0737 Info Running in Docker: Yes (image build: v0.24.1113-ls312)
+2026-02-17 20:08:51.0773 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2026-02-17 20:08:51.0804 Info App config/log directory: /config/Jackett
+2026-02-17 20:08:51.0874 Info Using proxy: Disabled
+2026-02-17 20:08:51.0903 Info Using FlareSolverr: No
+2026-02-17 20:08:51.0951 Info Using HTTP Client: HttpWebClient2
+2026-02-17 20:08:51.1017 Info Loading Native indexers ...
+2026-02-17 20:08:51.1484 Info Loaded 71 Native indexers.
+2026-02-17 20:08:51.1559 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2026-02-17 20:08:56.8663 Info Loaded 547 Cardigann indexers.
+2026-02-17 20:08:56.8716 Info Loaded 618 indexers in total
+2026-02-17 20:08:57.7292 Info Adding aggregate indexer ('all' indexer) ...
+2026-02-17 20:08:57.7497 Info Adding filter indexer ('type:public' indexer) ...
+2026-02-17 20:08:57.7567 Info Adding filter indexer ('type:private' indexer) ...
+2026-02-17 20:08:57.7615 Info Adding filter indexer ('type:semi-public' indexer) ...
+2026-02-17 20:08:58.0241 Warn No XML encryptor configured. Key {4f45d63f-64f9-45d7-983f-ac24866238cd} may be persisted to storage in unencrypted form.
+2026-02-17 20:08:58.1311 Info Jackett startup finished in 8.120 s
+2026-02-17 20:09:13.6386 Info Jackett stopped
+2026-02-17 20:09:18.5230 Info Starting Jackett v0.24.1113
+2026-02-17 20:09:19.1359 Info Environment version: 9.0.13 (/app/Jackett/)
+2026-02-17 20:09:19.1440 Info OS version: Unix 5.10.104.0 (64bit OS) (64bit process)
+2026-02-17 20:09:19.1512 Info Jackett variant: CoreLinuxMuslArm64
+2026-02-17 20:09:19.1557 Info File /etc/issue: Welcome to Alpine Linux 3.22
+2026-02-17 20:09:19.1597 Info Running in Docker: Yes (image build: v0.24.1113-ls312)
+2026-02-17 20:09:19.1658 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2026-02-17 20:09:19.1701 Info App config/log directory: /config/Jackett
+2026-02-17 20:09:19.1750 Info Using proxy: Disabled
+2026-02-17 20:09:19.1784 Info Using FlareSolverr: No
+2026-02-17 20:09:19.1852 Info Using HTTP Client: HttpWebClient2
+2026-02-17 20:09:19.1933 Info Loading Native indexers ...
+2026-02-17 20:09:19.2507 Info Loaded 71 Native indexers.
+2026-02-17 20:09:19.2589 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2026-02-17 20:09:23.4550 Info Loaded 547 Cardigann indexers.
+2026-02-17 20:09:23.4626 Info Loaded 618 indexers in total
+2026-02-17 20:09:24.3291 Info Adding aggregate indexer ('all' indexer) ...
+2026-02-17 20:09:24.3601 Info Adding filter indexer ('type:public' indexer) ...
+2026-02-17 20:09:24.3673 Info Adding filter indexer ('type:private' indexer) ...
+2026-02-17 20:09:24.3735 Info Adding filter indexer ('type:semi-public' indexer) ...
+2026-02-17 20:09:24.7351 Info Jackett startup finished in 6.527 s
+2026-02-17 20:11:42.1091 Error Jackett.Common.IndexerException: Exception (zktorrent): Resource temporarily unavailable
+
+[v0.24.1113.0] Jackett.Common.IndexerException: Exception (zktorrent): Resource temporarily unavailable
+ ---> System.Net.Http.HttpRequestException: Resource temporarily unavailable (www-zktorrent.com:443)
+ ---> System.Net.Sockets.SocketException (11): Resource temporarily unavailable
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.DecompressionHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 174
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1564
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2026-02-17 20:11:42.1688 Info Manual search in 1337x, TorrentDownload, TorrentProject2, World-torrent, YTS, Zamunda RIP, ZkTorrent for severance => Found 74 releases [5160ms]
+2026-02-17 20:12:53.8705 Error Jackett.Common.IndexerException: Exception (1337x): Name does not resolve
+
+[v0.24.1113.0] Jackett.Common.IndexerException: Exception (1337x): Name does not resolve
+ ---> System.Net.Http.HttpRequestException: Name does not resolve (1337x.to:443)
+ ---> System.Net.Sockets.SocketException (0xFFFDFFFF): Name does not resolve
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.DecompressionHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at FlareSolverrSharp.ClearanceHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Jackett.Common.Utils.Clients.HttpWebClient2.Run(WebRequest webRequest) in ./Jackett.Common/Utils/Clients/HttpWebClient2.cs:line 174
+   at Jackett.Common.Utils.Clients.WebClient.GetResultAsync(WebRequest request) in ./Jackett.Common/Utils/Clients/WebClient.cs:line 188
+   at Jackett.Common.Indexers.BaseWebIndexer.RequestWithCookiesAsync(String url, String cookieOverride, RequestType method, String referer, IEnumerable`1 data, Dictionary`2 headers, String rawbody, Nullable`1 emulateBrowser) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 617
+   at Jackett.Common.Indexers.Definitions.CardigannIndexer.PerformQuery(TorznabQuery query) in ./Jackett.Common/Indexers/Definitions/CardigannIndexer.cs:line 1564
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 378
+   --- End of inner exception stack trace ---
+   at Jackett.Common.Indexers.BaseIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 403
+   at Jackett.Common.Indexers.BaseWebIndexer.ResultsForQuery(TorznabQuery query, Boolean isMetaIndexer) in ./Jackett.Common/Indexers/BaseIndexer.cs:line 816
+   at Jackett.Server.Controllers.ResultsController.Results(ApiSearch requestt) in ./Jackett.Server/Controllers/ResultsController.cs:line 256
+
+2026-02-17 20:12:53.9101 Info Manual search in 1337x, TorrentDownload, TorrentProject2, World-torrent, YTS, Zamunda RIP, ZkTorrent for jacquie et michel => Found 307 releases [4065ms]
