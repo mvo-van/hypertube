@@ -11,41 +11,37 @@ import MoviePage from "./pages/moviePage/MoviePage";
 import Settings from "./pages/settings/Settings";
 import ValidateSignup from "./pages/validateSignup/ValidateSignup";
 import { AuthProvider } from "./context/userContext";
-import Error404 from "./pages/error404/Error404";
+import Test from "./pages/test/Test";
 
 function App() {
-	return (
-		<BrowserRouter>
-			<link
-				rel="stylesheet"
-				type="text/css"
-				href="//fonts.googleapis.com/css?family=Amatic+SC"
-			/>
-			<link
-				rel="stylesheet"
-				type="text/css"
-				href="//fonts.googleapis.com/css2?family=Basic&display=swap"
-			/>
-			<AuthProvider>
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/signup" element={<Signup />} />
-					<Route
-						path="/validate-signup"
-						element={<ValidateSignup />}
-					/>
-					<Route path="/feed" element={<Feed />} />
-					<Route path="/users" element={<Users />} />
-					<Route path="/user/:id" element={<ProfileUser />} />
-					<Route path="/movie/:id" element={<MoviePage />} />
-					<Route path="/settings" element={<Settings />} />
-					<Route path="/test" element={<ProfileUser />} />
-					<Route path="*" element={<Error404 />} />
-				</Routes>
-			</AuthProvider>
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="//fonts.googleapis.com/css?family=Amatic+SC"
+      />
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="//fonts.googleapis.com/css2?family=Basic&display=swap"
+      />
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/validate-signup" element={<ValidateSignup />} />
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/user/:id" element={<ProfileUser />} />
+          <Route path="/movie/:id" element={<MoviePage />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/test" element={<Test />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
 
 export default App;
