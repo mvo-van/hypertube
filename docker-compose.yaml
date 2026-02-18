@@ -98,6 +98,8 @@ services:
     ports:
       - "9117:9117"
     restart: unless-stopped
+    networks:
+      - back
 
 networks:
   front:

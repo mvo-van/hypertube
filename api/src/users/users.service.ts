@@ -26,7 +26,7 @@ export class UsersService {
     private readonly utilsService: UtilsService,
     private readonly mailerService: MailerService,
     private readonly imageService: ImageService,
-  ) { }
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
