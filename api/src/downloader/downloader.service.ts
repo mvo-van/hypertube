@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import axios from 'axios';
+import { default as axios } from 'axios';
+import { TorznabParser } from './torznab.class';
 
 @Injectable()
 export class DownloaderService {
@@ -12,17 +13,28 @@ export class DownloaderService {
     this.apiKey = configService.get<string>('JACKETT_API_KEY')!;
   }
 
-  async donwload(imdb: string) {
+  async donwload(imdbID: string) {
+    const magnet = await this.getMagnet(imdbID);
+    console.log(magnet);
+    return 0;
+  }
+
+  async getMagnet(imdbID: string) {
     const apiKey = this.apiKey;
 
-    const response = await axios.get(this.baseURL, {
-      params: {
-        apikey: apiKey,
-        t: 'search',
-        imdbid: `tt${imdb}`,
-      },
-    });
-    console.log(response.data);
-    return 0;
+    try {
+      const response = await axios.get(this.baseURL, {
+        params: {
+          apikey: apiKey,
+          t: 'search',
+          imdbid: `tt${imdbID}`,
+        },
+      });
+      return new TorznabParser(response.data).getMagnet();
+    } catch (e) {
+      console.log(e);
+    }
+
+    return '';
   }
 }

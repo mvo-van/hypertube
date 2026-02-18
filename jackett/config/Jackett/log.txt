@@ -430,3 +430,92 @@
    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
    at Jackett.Server.Middleware.CustomExceptionHandler.Invoke(HttpContext httpContext) in ./Jackett.Server/Middleware/CustomExceptionHandler.cs:line 26
 
+2026-02-18 16:10:53.6866 Info Starting Jackett v0.24.1147
+2026-02-18 16:10:54.2285 Info Environment version: 9.0.13 (/app/Jackett/)
+2026-02-18 16:10:54.2352 Info OS version: Unix 6.10.14.0 (64bit OS) (64bit process)
+2026-02-18 16:10:54.2380 Info Jackett variant: CoreLinuxMuslArm64
+2026-02-18 16:10:54.2396 Info File /etc/issue: Welcome to Alpine Linux 3.22
+2026-02-18 16:10:54.2405 Info Running in Docker: Yes (image build: v0.24.1147-ls316)
+2026-02-18 16:10:54.2413 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2026-02-18 16:10:54.2413 Info App config/log directory: /config/Jackett
+2026-02-18 16:10:54.2426 Info Using proxy: Disabled
+2026-02-18 16:10:54.2452 Info Using FlareSolverr: No
+2026-02-18 16:10:54.2470 Info Using HTTP Client: HttpWebClient2
+2026-02-18 16:10:54.2508 Info Loading Native indexers ...
+2026-02-18 16:10:54.2732 Info Loaded 71 Native indexers.
+2026-02-18 16:10:54.2756 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2026-02-18 16:10:56.4675 Info Loaded 552 Cardigann indexers.
+2026-02-18 16:10:56.4682 Info Loaded 623 indexers in total
+2026-02-18 16:10:56.4993 Info Adding aggregate indexer ('all' indexer) ...
+2026-02-18 16:10:56.5018 Info Adding filter indexer ('type:public' indexer) ...
+2026-02-18 16:10:56.5022 Info Adding filter indexer ('type:private' indexer) ...
+2026-02-18 16:10:56.5022 Info Adding filter indexer ('type:semi-public' indexer) ...
+2026-02-18 16:10:56.6803 Info Jackett startup finished in 3.328 s
+2026-02-18 16:12:07.1498 Info Jackett stopped
+2026-02-18 16:12:22.1390 Info Starting Jackett v0.24.1147
+2026-02-18 16:12:22.5191 Info Environment version: 9.0.13 (/app/Jackett/)
+2026-02-18 16:12:22.5231 Info OS version: Unix 6.10.14.0 (64bit OS) (64bit process)
+2026-02-18 16:12:22.5256 Info Jackett variant: CoreLinuxMuslArm64
+2026-02-18 16:12:22.5263 Info File /etc/issue: Welcome to Alpine Linux 3.22
+2026-02-18 16:12:22.5269 Info Running in Docker: Yes (image build: v0.24.1147-ls316)
+2026-02-18 16:12:22.5269 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2026-02-18 16:12:22.5281 Info App config/log directory: /config/Jackett
+2026-02-18 16:12:22.5294 Info Using proxy: Disabled
+2026-02-18 16:12:22.5301 Info Using FlareSolverr: No
+2026-02-18 16:12:22.5328 Info Using HTTP Client: HttpWebClient2
+2026-02-18 16:12:22.5354 Info Loading Native indexers ...
+2026-02-18 16:12:22.5517 Info Loaded 71 Native indexers.
+2026-02-18 16:12:22.5535 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2026-02-18 16:12:24.4522 Info Loaded 552 Cardigann indexers.
+2026-02-18 16:12:24.4522 Info Loaded 623 indexers in total
+2026-02-18 16:12:24.4749 Info Adding aggregate indexer ('all' indexer) ...
+2026-02-18 16:12:24.4782 Info Adding filter indexer ('type:public' indexer) ...
+2026-02-18 16:12:24.4782 Info Adding filter indexer ('type:private' indexer) ...
+2026-02-18 16:12:24.4790 Info Adding filter indexer ('type:semi-public' indexer) ...
+2026-02-18 16:12:24.5686 Info Jackett startup finished in 2.626 s
+2026-02-18 16:52:03.2891 Info Torznab search in AggregateSearch => Found 3 releases [444ms]
+2026-02-18 16:52:59.7734 Info Jackett stopped
+2026-02-18 17:03:07.2206 Info Starting Jackett v0.24.1147
+2026-02-18 17:03:07.6069 Info Environment version: 9.0.13 (/app/Jackett/)
+2026-02-18 17:03:07.6095 Info OS version: Unix 6.10.14.0 (64bit OS) (64bit process)
+2026-02-18 17:03:07.6109 Info Jackett variant: CoreLinuxMuslArm64
+2026-02-18 17:03:07.6114 Info File /etc/issue: Welcome to Alpine Linux 3.22
+2026-02-18 17:03:07.6114 Info Running in Docker: Yes (image build: v0.24.1147-ls316)
+2026-02-18 17:03:07.6126 Info ThreadPool MaxThreads: 32767 workerThreads, 1000 completionPortThreads
+2026-02-18 17:03:07.6126 Info App config/log directory: /config/Jackett
+2026-02-18 17:03:07.6145 Info Using proxy: Disabled
+2026-02-18 17:03:07.6145 Info Using FlareSolverr: No
+2026-02-18 17:03:07.6160 Info Using HTTP Client: HttpWebClient2
+2026-02-18 17:03:07.6175 Info Loading Native indexers ...
+2026-02-18 17:03:07.6424 Info Loaded 71 Native indexers.
+2026-02-18 17:03:07.6446 Info Loading Cardigann indexers from: /config/cardigann/definitions/, /etc/xdg/cardigan/definitions/, /app/Jackett/Definitions
+2026-02-18 17:03:09.0834 Info Loaded 552 Cardigann indexers.
+2026-02-18 17:03:09.0834 Info Loaded 623 indexers in total
+2026-02-18 17:03:09.0993 Info Adding aggregate indexer ('all' indexer) ...
+2026-02-18 17:03:09.1011 Info Adding filter indexer ('type:public' indexer) ...
+2026-02-18 17:03:09.1013 Info Adding filter indexer ('type:private' indexer) ...
+2026-02-18 17:03:09.1013 Info Adding filter indexer ('type:semi-public' indexer) ...
+2026-02-18 17:03:09.1778 Info Jackett startup finished in 2.175 s
+2026-02-18 17:03:23.5526 Info Torznab search in AggregateSearch => Found 3 releases [485ms]
+2026-02-18 17:03:40.9074 Info Torznab search in AggregateSearch => Found 3 releases [10ms]
+2026-02-18 17:03:58.6211 Info Torznab search in AggregateSearch => Found 3 releases [4ms]
+2026-02-18 17:04:36.6037 Info Torznab search in AggregateSearch => Found 3 releases [3ms]
+2026-02-18 17:06:57.8529 Info Torznab search in AggregateSearch => Found 3 releases [3ms]
+2026-02-18 17:09:11.9136 Info Torznab search in AggregateSearch => Found 3 releases [2ms]
+2026-02-18 17:09:57.5144 Info Torznab search in AggregateSearch => Found 3 releases [3ms]
+2026-02-18 17:10:09.6079 Info Torznab search in AggregateSearch => Found 3 releases [1ms]
+2026-02-18 17:10:18.5873 Info Torznab search in AggregateSearch => Found 3 releases [1ms]
+2026-02-18 17:15:00.9465 Info Torznab search in AggregateSearch => Found 3 releases [4ms]
+2026-02-18 17:15:41.9189 Info Torznab search in AggregateSearch => Found 3 releases [13ms]
+2026-02-18 17:15:55.2942 Info Torznab search in AggregateSearch => Found 3 releases [1ms]
+2026-02-18 17:23:05.6008 Info Torznab search in AggregateSearch => Found 3 releases [3ms]
+2026-02-18 17:23:33.1438 Info Torznab search in AggregateSearch => Found 3 releases [1ms]
+2026-02-18 17:25:22.5945 Info Torznab search in AggregateSearch => Found 3 releases [4ms]
+2026-02-18 17:25:34.5023 Info Torznab search in AggregateSearch => Found 3 releases [1ms]
+2026-02-18 17:38:38.7293 Info Torznab search in AggregateSearch => Found 3 releases [375ms]
+2026-02-18 17:38:58.0140 Info Torznab search in AggregateSearch => Found 3 releases [1ms]
+2026-02-18 17:39:08.1418 Info Torznab search in AggregateSearch => Found 3 releases [1ms]
+2026-02-18 17:39:43.1576 Info Torznab search in AggregateSearch => Found 3 releases [3ms]
+2026-02-18 17:45:43.0412 Info Torznab search in AggregateSearch => Found 3 releases [4ms]
+2026-02-18 17:45:53.9534 Info Torznab search in AggregateSearch => Found 3 releases [1ms]
+2026-02-18 17:49:03.2555 Info Torznab search in AggregateSearch => Found 3 releases [3ms]
