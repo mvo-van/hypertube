@@ -1,3 +1,4 @@
 .env
 **/static/**
 **/video/**
+./app/src/assets/videos/
