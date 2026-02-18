@@ -34,6 +34,7 @@ import * as Joi from 'joi';
         OPEN_SUBTITLE_USERNAME: Joi.string().required(),
         OPEN_SUBTITLE_PASSWORD: Joi.string().required(),
         OPEN_SUBTITLE_API_KEY: Joi.string().required(),
+        TMDB_TOKEN_ACCES: Joi.string().required(),
       }),
     }),
   ],

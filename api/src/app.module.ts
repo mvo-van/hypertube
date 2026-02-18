@@ -17,6 +17,10 @@ import { MailerService } from './mailer/mailer.service';
 import { MailerModule } from './mailer/mailer.module';
 import { ImageModule } from './image/image.module';
 import { StreamModule } from './stream/stream.module';
+import { MoviesModule } from './movies/movies.module';
+import { LikesModule } from './likes/likes.module';
+import { WatchedModule } from './watched/watched.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -31,6 +35,10 @@ import { StreamModule } from './stream/stream.module';
     MailerModule,
     ImageModule,
     StreamModule,
+    MoviesModule,
+    LikesModule,
+    WatchedModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [

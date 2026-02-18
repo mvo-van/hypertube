@@ -37,11 +37,12 @@ function Login() {
 				password: password,
 			});
 			navigate(`/feed`);
-		} catch (e) {
-			if (e.response.message == "User is not active") {
+		} catch (error) {
+			if (error.response && error.response.message && error.response.message == "User is not active") {
 				saveUser({ pseudo, password });
 				navigate(`/validate-signup`);
 			}
+			console.log(error)
 		}
 	};
 

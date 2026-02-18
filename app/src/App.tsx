@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router";
 import "./palette/colors.css";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
@@ -13,37 +13,49 @@ import ValidateSignup from "./pages/validateSignup/ValidateSignup";
 import { AuthProvider } from "./context/userContext";
 import Error404 from "./pages/error404/Error404";
 import Test from "./pages/test/Test";
+import SeriePage from "./pages/seriePage/SeriePage";
+import SeasonPage from "./pages/seasonPage/SeasonPage";
+import EpisodePage from "./pages/episodePage/EpisodePage";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="//fonts.googleapis.com/css?family=Amatic+SC"
-      />
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="//fonts.googleapis.com/css2?family=Basic&display=swap"
-      />
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/validate-signup" element={<ValidateSignup />} />
-          <Route path="/feed" element={<Feed />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/user/:id" element={<ProfileUser />} />
-          <Route path="/movie/:id" element={<MoviePage />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="*" element={<Error404 />} />
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<link
+				rel="stylesheet"
+				type="text/css"
+				href="//fonts.googleapis.com/css?family=Amatic+SC"
+			/>
+			<link
+				rel="stylesheet"
+				type="text/css"
+				href="//fonts.googleapis.com/css2?family=Basic&display=swap"
+			/>
+			<AuthProvider>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/signup" element={<Signup />} />
+					<Route path="/validate-signup" element={<ValidateSignup />} />
+					<Route path="/feed" element={<Feed />} />
+					<Route path="/users" element={<Users />} />
+					<Route path="/user/:id" element={<ProfileUser />} />
+					<Route path="/movie/:id" element={<MoviePage />} />
+					<Route path="/serie/:id" element={<SeriePage />} />
+					<Route
+						path="/serie/:serie_id/season/:season_number"
+						element={<SeasonPage />}
+					/>
+					<Route
+						path="/serie/:serie_id/season/:season_number/episode/:episode_number"
+						element={<EpisodePage />}
+					/>
+					<Route path="/settings" element={<Settings />} />
+					<Route path="/test" element={<Test />} />
+					<Route path="*" element={<Error404 />} />
+				</Routes>
+			</AuthProvider>
+		</BrowserRouter>
+	);
 }
 
 export default App;
