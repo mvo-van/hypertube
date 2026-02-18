@@ -22,6 +22,7 @@ function EpisodePage() {
     try {
       const res = await api.get(`http://localhost:3000/movies/serie/${serie_id}/season/${season_number}/episode/${episode_number}`);
       setEpisode(res.data.episode_infos)
+
       setInfo_get(true)
     } catch (e) {
     }

@@ -9,6 +9,8 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   Res,
+  Req,
+  Query,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
@@ -83,7 +85,6 @@ export class MoviesController {
         synopsis: movie_info.data.overview,
         poster: `https://image.tmdb.org/t/p/original/${movie_info.data.poster_path}`,
         banner: `https://image.tmdb.org/t/p/original/${movie_info.data.backdrop_path}`,
-        timeStart: 0, // todo sauvegarde de la minute du dernier visionage
         genres: genres,
         actors: cast,
         producers: producers,
@@ -347,5 +348,133 @@ export class MoviesController {
     } catch (error) {
       return { message: 'Movie not detected successfully' }
     }
+  }
+
+  @Get('/search/byName')
+  async getSearchByName(@Query('query') query, @Query('page') page, @Res() res: Response, @UserParam('userId') userId: number) {
+    const TMDB_API_KEY = this.configService.get<string>('TMDB_API_KEY');
+    try {
+      const resSearch = await axios.get(`https://api.themoviedb.org/3/search/multi?page=${page}&query=${query}&api_key=${TMDB_API_KEY}`)
+      const searchList = await Promise.all(resSearch.data.results.filter((elem) => (elem.media_type == 'movie' || elem.media_type == 'tv')).map(async (e) => {
+        let is_watched = false
+        if (e.media_type == 'movie') {
+          const see = await this.watchedService.findOneByUserIdMovieId(TypeStrategy.MOVIE, `${e.id}`, userId)
+          is_watched = see ? see.is_watched : false
+        }
+        let date = e.media_type == "tv" ? parseInt(e.first_air_date) : parseInt(e.release_date)
+        let name = e.media_type == "tv" ? e.name : e.title
+        let pathNavigate = e.media_type == "tv" ? `/serie/${e.id}` : `/movie/${e.id}`
+        const id = e.id
+        const urlImg = `https://image.tmdb.org/t/p/original/${e.poster_path}`
+        return {
+          see: is_watched,
+          date: date,
+          name: name,
+          id: id,
+          pathNavigate: pathNavigate,
+          urlImg: urlImg
+        }
+      }))
+
+      res.send({ resultSearch: searchList, total_pages: resSearch.data.total_pages })
+    } catch (error) {
+      return res.send({ resultSearch: [], total_pages: 1 })
+    }
+  }
+
+  @Get('/search/byFilter')
+  async getSearchByFilter(
+    @Query('tri') tri = "titre",
+    @Query('type') type = 'movie',
+    @Query('genre') genre = "",
+    @Query('maxYear') maxYear = 2026,
+    @Query('minYear') minYear = 1900,
+    @Query('note') note = 0,
+    @Query('page') page,
+    @Res() res: Response,
+    @UserParam('userId') userId: number) {
+    const TMDB_API_KEY = this.configService.get<string>('TMDB_API_KEY');
+    try {
+      if (type == "tv") {
+        const sort = { "titre": "name.asc", "date": "first_air_date.desc", "note": "vote_average.desc" }[tri]
+        const resSearch = await axios.get(`https://api.themoviedb.org/3/discover/tv?vote_average.gte=${note / 10}&page=${page}&sort_by=${sort}&with_genres=${genre}&api_key=${TMDB_API_KEY}`)
+        const searchList = await Promise.all(resSearch.data.results.map(async (e) => {
+          let date = parseInt(e.first_air_date)
+          let name = e.name
+          let pathNavigate = `/serie/${e.id}`
+          const id = e.id
+          const urlImg = `https://image.tmdb.org/t/p/original/${e.poster_path}`
+          return {
+            see: false,
+            date: date,
+            name: name,
+            id: id,
+            pathNavigate: pathNavigate,
+            urlImg: urlImg
+          }
+        }))
+        res.send({ resultSearch: searchList.filter((e) => (e.date <= maxYear && e.date >= minYear)), total_pages: resSearch.data.total_pages })
+      }
+      if (type == "movie") {
+        const sort = { "titre": "title.asc", "date": "primary_release_date.asc", "note": "vote_average.desc" }[tri]
+        const resSearch = await axios.get(`https://api.themoviedb.org/3/discover/movie?vote_average.gte=${note / 10}&page=${page}&sort_by=${sort}&with_genres=${genre}&api_key=${TMDB_API_KEY}`)
+        const searchList = await Promise.all(resSearch.data.results.map(async (e) => {
+          let date = parseInt(e.release_date)
+          let name = e.title
+          let pathNavigate = `/movie/${e.id}`
+          const id = e.id
+          const urlImg = `https://image.tmdb.org/t/p/original/${e.poster_path}`
+          const see = await this.watchedService.findOneByUserIdMovieId(TypeStrategy.MOVIE, `${e.id}`, userId)
+          const is_watched = see ? see.is_watched : false
+          return {
+            see: is_watched,
+            date: date,
+            name: name,
+            id: id,
+            pathNavigate: pathNavigate,
+            urlImg: urlImg
+          }
+        }))
+        res.send({ resultSearch: searchList.filter((e) => (e.date <= maxYear && e.date >= minYear)), total_pages: resSearch.data.total_pages })
+      }
+      // res.send({ resultSearch: searchList, total_pages: resSearch.data.total_pages })
+    } catch (error) {
+      return res.send({ resultSearch: [], total_pages: 1 })
+    }
+  }
+
+  @Get('/get/genre')
+  async getGenre(@Res() res: Response) {
+
+    const resGenre = [
+      { "label": 28, "name": 'Action' },
+      { "label": 12, "name": 'Adventure' },
+      { "label": 16, "name": 'Animation' },
+      { "label": 35, "name": 'Comedy' },
+      { "label": 80, "name": 'Crime' },
+      { "label": 99, "name": 'Documentary' },
+      { "label": 18, "name": 'Drama' },
+      { "label": 10751, "name": 'Family' },
+      { "label": 14, "name": 'Fantasy' },
+      { "label": 36, "name": 'History' },
+      { "label": 27, "name": 'Horror' },
+      { "label": 10402, "name": 'Music' },
+      { "label": 9648, "name": 'Mystery' },
+      { "label": 10749, "name": 'Romance' },
+      { "label": 878, "name": 'Science Fiction' },
+      { "label": 10770, "name": 'TV Movie' },
+      { "label": 53, "name": 'Thriller' },
+      { "label": 10752, "name": 'War' },
+      { "label": 37, "name": 'Western' },
+      { "label": 10759, "name": 'Action & Adventure' },
+      { "label": 10762, "name": 'Kids' },
+      { "label": 10763, "name": 'News' },
+      { "label": 10764, "name": 'Reality' },
+      { "label": 10765, "name": 'Sci-Fi & Fantasy' },
+      { "label": 10766, "name": 'Soap' },
+      { "label": 10767, "name": 'Talk' },
+      { "label": 10768, "name": 'War & Politics' },
+      { "label": 37, "name": 'Western' }]
+    res.send(resGenre)
   }
 }

@@ -10,7 +10,6 @@ import Button from "../button/Button";
 import { useParams, useSearchParams } from "react-router";
 import InputSelect from "../input/InputSelect";
 import InputSoloText from "../input/InputSoloText";
-
 export default function Search({ open }) {
 	const [searchParams, setSearchParams] = useSearchParams();
 
@@ -22,7 +21,7 @@ export default function Search({ open }) {
 	const [director, setDirector] = useState([])
 	const [producer, setProducer] = useState([])
 	const [noteMinimale, setNoteMinimal] = useState(0)
-	const [type, setType] = useState("")
+	const [type, setType] = useState("movie")
 	const [watched, setWatched] = useState(false);
 	const [downloaded, setDownloaded] = useState(false);
 
@@ -142,6 +141,7 @@ export default function Search({ open }) {
 	};
 
 	const onSubmit = (event) => {
+		console.log(event)
 		var search = {
 			"title": title,
 			"minYear": minYear,
@@ -171,29 +171,27 @@ export default function Search({ open }) {
 					<div className={style.form}>
 						<div className={style.childBox}>
 							{/* <Input label="Titre" /> */}
-							<InputSoloText
+							{/* <InputSoloText
 								label="Titre"
 								value={title}
 								onChange={onChangeHandlerTitle}
 								options={listMovies}
 								onBlur={onChangeBlurTitle}
-							/>
-
-							<InputRange
-								double={true}
-								label="Année"
-								min={1900}
-								max={2025}
-								value={[minYear, maxYear]}
-								onChange={handleChangeRange}
-							/>
-						</div>
-						<div className={style.childBox}>
+							/> */}
 							<InputTags
 								label="Genre"
 								value={genre}
 								options={listGenre}
 								onChange={onChangeHandlerGenre} />
+							<InputTags
+								label="Tri"
+								value={genre}
+								options={listGenre}
+								onChange={onChangeHandlerGenre} />
+
+						</div>
+						<div className={style.childBox}>
+
 
 							<InputTags
 								label="Distribution"
@@ -201,20 +199,13 @@ export default function Search({ open }) {
 								options={[]}
 								onChange={onChangeHandlerDistribution}
 							/>
-						</div>
-						<div className={style.childBox}>
-							<InputTags
-								label="Réalisateur"
-								value={director}
-								options={[]}
-								onChange={onChangeHandlerDirector}
-							/>
-
-							<InputTags
-								label="Producteur"
-								value={producer}
-								options={[]}
-								onChange={onChangeHandlerProducer}
+							<InputRange
+								double={true}
+								label="Année"
+								min={1900}
+								max={2025}
+								value={[minYear, maxYear]}
+								onChange={handleChangeRange}
 							/>
 						</div>
 						<div className={style.childBox}>
@@ -231,6 +222,7 @@ export default function Search({ open }) {
 								value={type}
 								options={[{ "label": "serie", "name": "Série" }, { "label": "movie", "name": "Film" }]}
 								onChange={onChangeHandlerType}
+								selectVoid={false}
 							/>
 							{/* <InputTags
 								label="Type"

@@ -16,6 +16,8 @@ function SeasonPage() {
   const getSeason = async () => {
     try {
       const res = await api.get(`http://localhost:3000/movies/serie/${serie_id}/season/${season_number}`);
+      console.log(res.data)
+
       setSeason(res.data.season_infos)
       setEpisodes(res.data.episodes)
       setInfo_get(true)

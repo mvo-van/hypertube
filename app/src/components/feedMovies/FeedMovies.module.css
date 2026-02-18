@@ -1,0 +1,15 @@
+.divVerticalScroll {
+  background-color: #252526;
+  padding-left: 64px;
+  padding-right: 64px;
+  width: auto;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.chargeDiv {
+  height: max-content;
+}
