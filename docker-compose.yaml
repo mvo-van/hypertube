@@ -27,8 +27,10 @@ services:
     volumes:
       - ./api:/api
       - /api/node_modules
+      - ./api/static:/static
     ports:
       - "3000:3000"
+      - "9881:9881"
     environment:
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_PORT=${POSTGRES_PORT}

@@ -1,7 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { default as axios } from 'axios';
-import { TorznabParser } from './torznab.class';
+import { TorznabParser } from './utils/torznab.class';
+import torrentStream from 'torrent-stream';
+import path from 'path';
+
+function isMovie(filename: string) {
+  const VIDEO_EXTS = ['.mp4', '.m4v', '.mkv', '.webm', '.mov'];
+  const currentExt = path.extname(filename);
+
+  return VIDEO_EXTS.includes(currentExt);
+}
 
 @Injectable()
 export class DownloaderService {
@@ -15,7 +24,37 @@ export class DownloaderService {
 
   async donwload(imdbID: string) {
     const magnet = await this.getMagnet(imdbID);
-    console.log(magnet);
+    const path = `/static/${imdbID}`;
+    const engine = torrentStream(magnet, {
+      connections: 3000,
+      path: path,
+    });
+
+    engine.on('ready', () => {
+      engine.files.forEach((file) => {
+        if (isMovie(file.name)) {
+          console.log(`Selecting: ${file.name}`);
+          console.log(`Downloading: ${path}/${file.path}`);
+          file.select();
+        } else {
+          file.deselect();
+        }
+      });
+    });
+
+    engine.on('torrent', () => {
+      console.log('Fetched metadata');
+    });
+
+    engine.on('download', (pieceIndex) => {
+      console.log(`Downloaded: ${pieceIndex}`);
+    });
+
+    engine.on('idle', () => {
+      console.log(`Download finished for ${imdbID}`);
+      engine.destroy();
+    });
+
     return 0;
   }
 
@@ -27,14 +66,12 @@ export class DownloaderService {
         params: {
           apikey: apiKey,
           t: 'search',
-          imdbid: `tt${imdbID}`,
+          imdbid: imdbID,
         },
       });
       return new TorznabParser(response.data).getMagnet();
     } catch (e) {
       console.log(e);
     }
-
-    return '';
   }
 }
