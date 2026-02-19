@@ -86,7 +86,6 @@ function Feed() {
 		}
 	}
 
-
 	const getGenre = async () => {
 		try {
 			const res = await api.get(`movies/get/genre`);
@@ -154,7 +153,9 @@ function Feed() {
 								/>
 								<InputSelect label="Tri"
 									value={tri}
-									options={[{ "label": "titre", "name": "titre" }, { "label": "note", "name": "note" }, { "label": "date", "name": "date" }]}
+									options={[{ "label": "titre", "name": "titre" },
+									{ "label": "note", "name": "note" },
+									{ "label": "date", "name": "date" }]}
 									onChange={onChangeHandlerTri}
 									selectVoid={false}
 								/>
@@ -179,7 +180,8 @@ function Feed() {
 
 								<InputSelect label="Type"
 									value={type}
-									options={[{ "label": "tv", "name": "Série" }, { "label": "movie", "name": "Film" }]}
+									options={[{ "label": "tv", "name": "Série" },
+									{ "label": "movie", "name": "Film" }]}
 									onChange={onChangeHandlerType}
 									selectVoid={false}
 								/>
@@ -189,7 +191,10 @@ function Feed() {
 				)}
 			</div>
 			{!searching && <form className={style.formTile} onSubmit={onTitleSearchSubmit}>
-				<input type="textarea" className={style.inputTitle} value={searchTitle} onChange={onTitleSearchHeandler} />
+				<input type="textarea"
+					className={style.inputTitle}
+					value={searchTitle}
+					onChange={onTitleSearchHeandler} />
 				<button
 					type="submit"
 					className={style.buttonTitle}>
@@ -207,7 +212,9 @@ function Feed() {
 			{!isSearchOff && <FeedMovies
 				movies={resSearch}
 			/>}
-			{(page < pageToCharge) && <div className={style.charge}><CircularProgress color="inherit" size="3rem" /></div>}
+			{(page < pageToCharge) && <div className={style.charge}>
+				<CircularProgress color="inherit" size="3rem" />
+			</div>}
 
 
 		</GenericPage>

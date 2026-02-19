@@ -41,8 +41,6 @@ function Settings() {
     getUserProfile()
   }, [])
 
-  // const [movies, setMovies] = useState([]);
-
   const onPseudoHandler = (e) => {
     setPseudo(e.target.value)
   }

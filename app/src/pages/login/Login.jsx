@@ -1,5 +1,4 @@
 import style from "./Login.module.css";
-// import HomeBackground from "../../components/home/HomeBackground";
 import GenericPage from "../page/GenericPage";
 import MulticoText from "../../components/Text/MulticoText";
 import BubbleBackground from "../../components/background/BubbleBackground";

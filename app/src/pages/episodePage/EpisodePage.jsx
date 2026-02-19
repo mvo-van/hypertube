@@ -2,11 +2,9 @@ import GenericPage from "../page/GenericPage";
 import { useEffect, useState } from "react";
 import Header from "../../components/header/Header";
 import style from "./EpisodePage.module.css"
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Comments from "../../components/comments/Comments";
 import MovieInfo from "../../components/movieInfo/MovieInfo";
-import DivSeasons from "../../components/divSeasons/DivSeasons";
-import DivEpisodes from "../../components/divEpisodes/DivEpisodes";
 import { api } from "../../common/api";
 import { CircularProgress } from "@mui/material";
 
@@ -43,11 +41,22 @@ function EpisodePage() {
 
   const onMessageSubmit = async (e) => {
     e.preventDefault();
-    const res = await api.post(`http://localhost:3000/comments`, { movie_id: `${serie_id}_${season_number}_${episode_number}`, movieType: "episode", content: message });
+    const res = await api.post(`http://localhost:3000/comments`,
+      {
+        movie_id: `${serie_id}_${season_number}_${episode_number}`,
+        movieType: "episode",
+        content: message
+      });
 
     if (message.trim()) {
       setMessage("")
-      setComments(comments.concat({ "userId": res.data.user.id, "userName": res.data.user.username, "imgUser": res.data.user.profile_picture_url, "id": res.data.id, "message": res.data.content }))
+      setComments(comments.concat({
+        "userId": res.data.user.id,
+        "userName": res.data.user.username,
+        "imgUser": res.data.user.profile_picture_url,
+        "id": res.data.id,
+        "message": res.data.content
+      }))
     }
   }
 
@@ -64,7 +73,12 @@ function EpisodePage() {
             <CircularProgress color="inherit" size="3rem" />
           </div>}
           {info_get && <MovieInfo movie={episode} />}
-          <Comments comments={comments} color={episode.id % 12} movieIcon={false} message={message} onMessageHeandler={onMessageHeandler} onMessageSubmit={onMessageSubmit} />
+          <Comments comments={comments}
+            color={episode.id % 12}
+            movieIcon={false}
+            message={message}
+            onMessageHeandler={onMessageHeandler}
+            onMessageSubmit={onMessageSubmit} />
         </div>
       </div>
     </GenericPage>

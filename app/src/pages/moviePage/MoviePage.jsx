@@ -43,7 +43,13 @@ function MoviePage() {
     const res = await api.post(`http://localhost:3000/comments`, { movie_id: `${id}`, movieType: "movie", content: message });
     if (message.trim()) {
       setMessage("")
-      setComments(comments.concat({ "id": res.data.user.id, "userName": res.data.user.username, "imgUser": res.data.user.profile_picture_url, "commentId": res.data.id, "message": res.data.content }))
+      setComments(comments.concat({
+        "id": res.data.user.id,
+        "userName": res.data.user.username,
+        "imgUser": res.data.user.profile_picture_url,
+        "commentId": res.data.id,
+        "message": res.data.content
+      }))
     }
   }
 
@@ -62,7 +68,12 @@ function MoviePage() {
           {info_get && <MovieInfo movie={movie} />}
           {
             (movie.type == "episode" || movie.type == "movie") &&
-            <Comments comments={comments} color={movie.id % 12} movieIcon={false} message={message} onMessageHeandler={onMessageHeandler} onMessageSubmit={onMessageSubmit} />
+            <Comments comments={comments}
+              color={movie.id % 12}
+              movieIcon={false}
+              message={message}
+              onMessageHeandler={onMessageHeandler}
+              onMessageSubmit={onMessageSubmit} />
           }
         </div>
       </div>

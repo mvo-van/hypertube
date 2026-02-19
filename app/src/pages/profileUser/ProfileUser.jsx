@@ -68,7 +68,11 @@ function ProfileUser() {
         {movies.length && <div className={style.watchlist}>
           <HorizontalScrollMovies movies={movies} label="watchlist" />
         </div>}
-        {(comments.length > 0) && <Comments comments={comments} color={user.id % 12} movieIcon={true} commentForm={false} />}
+        {(comments.length > 0) && <Comments
+          comments={comments}
+          color={user.id % 12}
+          movieIcon={true}
+          commentForm={false} />}
       </div>
     </GenericPage>
   );

@@ -2,7 +2,7 @@ import GenericPage from "../page/GenericPage";
 import { useEffect, useState } from "react";
 import Header from "../../components/header/Header";
 import style from "./SeasonPage.module.css"
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MovieInfo from "../../components/movieInfo/MovieInfo";
 import DivEpisodes from "../../components/divEpisodes/DivEpisodes";
 import { api } from "../../common/api";
