@@ -17,6 +17,9 @@ export class TorznabParser {
     if (json['error']) {
       throw new JacketError(json['error']['@_description']);
     }
+    if (!json['rss']['channel']['item']) {
+      throw new JacketError('no content found');
+    }
     const item = json.rss.channel.item[0];
     const attrs = this.parseTorznabAttrs(item['torznab:attr']);
 

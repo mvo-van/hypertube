@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { default as axios } from 'axios';
 import { TorznabParser } from './utils/torznab.class';
@@ -7,6 +7,7 @@ import path from 'path';
 import { Repository } from 'typeorm';
 import { MovieStore } from './entities/movie-store.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { DownloaderModule } from './downloader.module';
 
 function isMovie(filename: string) {
   const VIDEO_EXTS = ['.mp4', '.m4v', '.mkv', '.webm', '.mov'];
@@ -17,6 +18,8 @@ function isMovie(filename: string) {
 
 @Injectable()
 export class DownloaderService {
+  private readonly logger = new Logger(DownloaderModule.name);
+
   apiKey: string;
   baseURL: string =
     'http://jackett:9117/api/v2.0/indexers/all/results/torznab/api';
@@ -29,6 +32,7 @@ export class DownloaderService {
     this.apiKey = configService.get<string>('JACKETT_API_KEY')!;
   }
 
+  // Search for a torrent and start downloading it
   async donwload(imdbID: string) {
     const magnet = await this.getMagnet(imdbID);
     const path = `/static/${imdbID}`;
@@ -40,7 +44,7 @@ export class DownloaderService {
     engine.on('ready', () => {
       engine.files.forEach(async (file) => {
         if (isMovie(file.name)) {
-          console.log(`Downloading: ${path}/${file.path}`);
+          this.logger.log(`[${imdbID}]: downloading: ${path}/${file.path}`);
           const movieStore = this.movieStoreRepository.create({
             imdbID: imdbID,
             path: `${path}/${file.path}`
@@ -54,19 +58,18 @@ export class DownloaderService {
     });
 
     engine.on('torrent', () => {
-      console.log('Fetched metadata');
+      this.logger.log(`[${imdbID}]: metadata fetched`);
     });
 
     engine.on('download', (pieceIndex) => {
-      console.log(`Downloaded: ${pieceIndex}`);
+      this.logger.log(`[${imdbID}]: piece ${pieceIndex} downloaded`);
     });
 
-    engine.on('idle', () => {
-      console.log(`Download finished for ${imdbID}`);
+    engine.on('idle', async () => {
+      await this.movieStoreRepository.update(imdbID, { completed: true });
+      this.logger.log(`[${imdbID}]: download finished`);
       engine.destroy();
     });
-
-    return 0;
   }
 
   async getMagnet(imdbID: string) {
