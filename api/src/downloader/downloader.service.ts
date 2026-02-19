@@ -4,6 +4,9 @@ import { default as axios } from 'axios';
 import { TorznabParser } from './utils/torznab.class';
 import torrentStream from 'torrent-stream';
 import path from 'path';
+import { Repository } from 'typeorm';
+import { MovieStore } from './entities/movie-store.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 function isMovie(filename: string) {
   const VIDEO_EXTS = ['.mp4', '.m4v', '.mkv', '.webm', '.mov'];
@@ -18,7 +21,11 @@ export class DownloaderService {
   baseURL: string =
     'http://jackett:9117/api/v2.0/indexers/all/results/torznab/api';
 
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    @InjectRepository(MovieStore)
+    private readonly movieStoreRepository: Repository<MovieStore>
+  ) {
     this.apiKey = configService.get<string>('JACKETT_API_KEY')!;
   }
 
@@ -31,11 +38,15 @@ export class DownloaderService {
     });
 
     engine.on('ready', () => {
-      engine.files.forEach((file) => {
+      engine.files.forEach(async (file) => {
         if (isMovie(file.name)) {
-          console.log(`Selecting: ${file.name}`);
           console.log(`Downloading: ${path}/${file.path}`);
+          const movieStore = this.movieStoreRepository.create({
+            imdbID: imdbID,
+            path: `${path}/${file.path}`
+          });
           file.select();
+          await this.movieStoreRepository.save(movieStore);
         } else {
           file.deselect();
         }
