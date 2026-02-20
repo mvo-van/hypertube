@@ -20,6 +20,8 @@ async function bootstrap() {
   app.enableCors({
     origin: 'http://localhost:8000',
     credentials: true,
+    // allowedHeaders: '*',
+    // methods: ['GET'],
   });
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalPipes(
@@ -37,9 +39,6 @@ async function bootstrap() {
     .setDescription('Routes list')
     .setVersion('1.0')
     .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
 
   const mocker = app.get(MockDataService);
   await mocker.bootstrap();

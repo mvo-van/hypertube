@@ -24,7 +24,6 @@ function Settings() {
   const getUserProfile = async () => {
     try {
       const res = await api.get(`http://localhost:3000/users/me`);
-      console.log(res.data)
       setPseudo(res.data.username)
       setFirstName(res.data.first_name)
       setLastName(res.data.last_name)
@@ -41,8 +40,6 @@ function Settings() {
   useEffect(() => {
     getUserProfile()
   }, [])
-
-  // const [movies, setMovies] = useState([]);
 
   const onPseudoHandler = (e) => {
     setPseudo(e.target.value)
@@ -61,8 +58,6 @@ function Settings() {
   }
 
   const onImageHandler = (e) => {
-    console.log(e.target.files[0])
-    console.log(URL.createObjectURL(e.target.files[0]))
     setUpdateImage(e.target.files[0])
     setPhoto(URL.createObjectURL(e.target.files[0]))
   }
@@ -113,9 +108,7 @@ function Settings() {
       if (updateImage) {
         const data = new FormData();
         data.append("image", updateImage);
-        console.log(updateImage)
         await api.post("/users/me/upload", data);
-        console.log("here")
       }
 
       await api.patch("/users/me", {
@@ -132,7 +125,6 @@ function Settings() {
       setVisible(true);
       setTimeout(() => { setVisible(false); }, 5000);
     } catch (e) {
-      console.log(e)
       setText("Une erreur est survenue")
       setNatifColor("red")
       setVisible(true);

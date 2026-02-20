@@ -4,14 +4,18 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  Relation,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Movie } from '../../movies/entities/movie.entity';
+import { TypeStrategy } from 'src/movies/movies.provider';
+import { UserResponseDto } from 'src/users/dto/user-response.dto';
+import { SelfUserResponseDto } from 'src/users/dto/self-user-response.dto';
 
 @Entity()
 export class Comment {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: 500, nullable: false })
   content: string;
@@ -19,17 +23,17 @@ export class Comment {
   @Column({ type: 'timestamp', nullable: false })
   published_date: Date;
 
-  @Column({ type: 'int', nullable: false })
+  @ManyToOne(() => User, (user) => user.comments)
+  @JoinColumn({ name: 'user_id' })
+  user: Relation<User>;
+
+  @Column()
   user_id: number;
 
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'user_id' })
-  user: User;
+  @Column({ type: 'enum', enum: TypeStrategy, nullable: false })
+  movieType: TypeStrategy;
 
-  @Column({ type: 'int', nullable: false })
-  movie_id: number;
+  @Column({ type: 'varchar', nullable: false })
+  movie_id: string;
 
-  @ManyToOne(() => Movie)
-  @JoinColumn({ name: 'movie_id' })
-  movie: Movie;
 }

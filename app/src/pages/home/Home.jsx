@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router";
 import Button from "../../components/button/Button";
 import style from "./Home.module.css"
-// import HomeBackground from "../../components/home/HomeBackground";
 import GenericPage from "../page/GenericPage";
 import MulticoText from "../../components/Text/MulticoText"
 import BubbleBackground from "../../components/background/BubbleBackground";
@@ -17,8 +16,7 @@ function Home() {
   return (
     <GenericPage className={style.home}>
       <BubbleBackground>
-        {/* <div className={style["titre"]}>Hypertube</div> */}
-        <MulticoText className={style["titre"]} text="Hypertube"/>
+        <MulticoText className={style["titre"]} text="Hypertube" />
         <div className={style["button-box"]}>
 
           <form action="/login" onSubmit={onSubmitHandler}>

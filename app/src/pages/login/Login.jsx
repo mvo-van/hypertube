@@ -1,5 +1,4 @@
 import style from "./Login.module.css";
-// import HomeBackground from "../../components/home/HomeBackground";
 import GenericPage from "../page/GenericPage";
 import MulticoText from "../../components/Text/MulticoText";
 import BubbleBackground from "../../components/background/BubbleBackground";
@@ -37,11 +36,12 @@ function Login() {
 				password: password,
 			});
 			navigate(`/feed`);
-		} catch (e) {
-			if (e.response.message == "User is not active") {
+		} catch (error) {
+			if (error.response && error.response.message && error.response.message == "User is not active") {
 				saveUser({ pseudo, password });
 				navigate(`/validate-signup`);
 			}
+			console.log(error)
 		}
 	};
 

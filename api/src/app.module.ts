@@ -20,6 +20,11 @@ import { DownloaderModule } from './downloader/downloader.module';
 import { MediaFile } from './media-file/entities/media-file.entity';
 import { MediaFileModule } from './media-file/media-file.module';
 import { Subtitlefile } from './media-file/entities/subtitle-file.entity';
+import { StreamModule } from './stream/stream.module';
+import { MoviesModule } from './movies/movies.module';
+import { LikesModule } from './likes/likes.module';
+import { WatchedModule } from './watched/watched.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -35,6 +40,11 @@ import { Subtitlefile } from './media-file/entities/subtitle-file.entity';
     ImageModule,
     DownloaderModule,
     MediaFileModule,
+    StreamModule,
+    MoviesModule,
+    LikesModule,
+    WatchedModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [

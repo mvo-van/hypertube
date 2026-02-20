@@ -10,7 +10,7 @@ export class MoviesService {
   constructor(
     @InjectRepository(Movie)
     private movieRepository: Repository<Movie>,
-  ) {}
+  ) { }
 
   async create(createMovieDto: CreateMovieDto): Promise<Movie> {
     const movie = this.movieRepository.create(createMovieDto);

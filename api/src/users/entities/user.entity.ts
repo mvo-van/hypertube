@@ -1,6 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Relation } from 'typeorm';
 import { Lang } from '../../lang/lang';
 import { AuthStrategy } from 'src/auth/auth.provider';
+import { Like } from 'src/likes/entities/like.entity';
+import { ApiProperty } from '@nestjs/swagger';
+import { Comment } from 'src/comments/entities/comment.entity';
+import { Watched } from 'src/watched/entities/watched.entity';
 
 @Entity()
 export class User {
@@ -48,4 +52,13 @@ export class User {
 
   @Column({ type: 'boolean', default: true })
   show_watchlist: boolean;
+
+  @OneToMany(() => Like, (like) => like.user)
+  likes: Relation<Like>[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Relation<Comment>[];
+
+  @OneToMany(() => Watched, (watched) => watched.user)
+  watched: Relation<Watched>[];
 }

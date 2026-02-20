@@ -17,7 +17,6 @@ function ValidateSignup() {
 	const { getUser, deleteUser } = useAuth();
 	const navigate = useNavigate();
 
-	console.log(getUser().pseudo, getUser().password);
 
 	const onCodeHandler = (value) => {
 		let test = numRegex.test(value);
@@ -27,7 +26,7 @@ function ValidateSignup() {
 		}
 	};
 
-	const onCodeValidate = (value) => {};
+	const onCodeValidate = (value) => { };
 
 	const onClickHandlerQuit = () => {
 		deleteUser();
@@ -45,7 +44,6 @@ function ValidateSignup() {
 			navigate(`/login`);
 		} catch (e) {
 			if (e.response.message == 400) invalid_otp = true;
-			console.log(invalid_otp);
 		}
 	};
 

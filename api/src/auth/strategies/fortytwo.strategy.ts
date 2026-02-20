@@ -23,7 +23,6 @@ export class FortytwoStrategy extends PassportStrategy(Strategy, 'fortytwo') {
     done: VerifyCallback,
   ) {
     const { name, emails, _json } = profile;
-    console.log(profile)
     const user = {
       provider: AuthStrategy.FORTYTWO,
       email: emails[0].value,
