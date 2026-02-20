@@ -1,9 +1,9 @@
 import { Lang } from "src/lang/lang";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, Relation } from "typeorm";
-import { MovieStore } from "../../downloader/entities/movie-store.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation } from "typeorm";
+import { MediaFile } from "./media-file.entity";
 
 @Entity()
-export class SubtitleStore {
+export class Subtitlefile {
     @PrimaryGeneratedColumn('uuid')
     id: number;
     
@@ -16,7 +16,7 @@ export class SubtitleStore {
     @Column('varchar', { length: 4096 })
     path: string;
 
-    @ManyToOne(() => MovieStore, (movie: MovieStore) => movie.subtitles)
+    @ManyToOne(() => MediaFile, (movie: MediaFile) => movie.subtitles)
     @JoinColumn({ name: 'imdbID' })
-    movie: Relation<MovieStore>;
+    movie: Relation<MediaFile>;
 }

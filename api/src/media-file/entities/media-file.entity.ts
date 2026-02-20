@@ -1,8 +1,8 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, Relation } from "typeorm";
-import { SubtitleStore } from "../../subtitles/entities/subtitles-store.entity";
+import { Subtitlefile } from "./subtitle-file.entity";
 
 @Entity()
-export class MovieStore {
+export class MediaFile {
     @PrimaryColumn('varchar', { length: 15, unique: true })
     imdbID: string;
 
@@ -15,6 +15,6 @@ export class MovieStore {
     @Column('boolean', { default: false })
     completed: boolean = false;
 
-    @OneToMany(() => SubtitleStore, (subtitles: SubtitleStore) => subtitles.movie)
-    subtitles: Relation<SubtitleStore>[];
+    @OneToMany(() => Subtitlefile, (subtitles: Subtitlefile) => subtitles.movie)
+    subtitles: Relation<Subtitlefile>[];
 }

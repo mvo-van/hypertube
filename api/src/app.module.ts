@@ -17,9 +17,9 @@ import { MailerService } from './mailer/mailer.service'
 import { MailerModule } from './mailer/mailer.module';
 import { ImageModule } from './image/image.module';
 import { DownloaderModule } from './downloader/downloader.module';
-import { SubtitlesModule } from './subtitles/subtitles.module';
-import { MovieStore } from './downloader/entities/movie-store.entity';
-import { SubtitleStore } from './subtitles/entities/subtitles-store.entity';
+import { MediaFile } from './media-file/entities/media-file.entity';
+import { MediaFileModule } from './media-file/media-file.module';
+import { Subtitlefile } from './media-file/entities/subtitle-file.entity';
 
 @Module({
   imports: [
@@ -30,11 +30,11 @@ import { SubtitleStore } from './subtitles/entities/subtitles-store.entity';
     UtilsModule,
     AuthModule,
     MockDataModule,
-    TypeOrmModule.forFeature([User, MovieStore, SubtitleStore]),
+    TypeOrmModule.forFeature([User, MediaFile, Subtitlefile]),
     MailerModule,
     ImageModule,
     DownloaderModule,
-    SubtitlesModule,
+    MediaFileModule,
   ],
   controllers: [AppController],
   providers: [

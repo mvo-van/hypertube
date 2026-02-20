@@ -2,14 +2,12 @@ import { forwardRef, Module } from '@nestjs/common';
 import { DownloaderService } from './downloader.service';
 import { DownloaderController } from './downloader.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MovieStore } from './entities/movie-store.entity';
+import { MediaFile } from '../media-file/entities/media-file.entity';
 import { SubtitlesModule } from 'src/subtitles/subtitles.module';
+import { MediaFileModule } from 'src/media-file/media-file.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([MovieStore]), 
-    forwardRef(() => SubtitlesModule),
-  ],
+  imports: [MediaFileModule],
   providers: [DownloaderService],
   controllers: [DownloaderController],
   exports: [DownloaderService]
