@@ -2,3 +2,5 @@
 app/src/assets/videos/**
 **/static/**
 **/video/**
+# /jackett/config/Jackett/log.txt
+jackett/config/Jackett/log.txt
