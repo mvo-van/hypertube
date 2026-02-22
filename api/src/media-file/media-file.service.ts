@@ -23,4 +23,11 @@ export class MediaFileService {
     async movieFileExists(imdbID: string) {
         return this.mediaFileRepository.findOne({ where: { imdbID: imdbID } }) !== null;
     }
+
+    async getMediaFilePath(imdbID: string) : Promise<string | null> {
+        const result = await this.mediaFileRepository.findOne({ 
+            where: { imdbID: imdbID }
+        })
+        return result ? result.path : null;
+    }
 }

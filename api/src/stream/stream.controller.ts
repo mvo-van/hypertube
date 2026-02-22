@@ -1,13 +1,44 @@
-import { Controller, Get, Param, Query, Req, Res } from '@nestjs/common';
+import { Controller, Get, Logger, Param, Query, Req, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { join } from 'node:path';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { ConfigService } from '@nestjs/config';
 import OS from 'opensubtitles.com';
+import { DownloaderService } from 'src/downloader/downloader.service';
+import { MediaFileService } from 'src/media-file/media-file.service';
+import { StreamModule } from './stream.module';
 
 @Controller('stream')
 export class StreamController {
-  constructor(private readonly configService: ConfigService) { }
+  private readonly logger = new Logger(StreamModule.name);
+
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly downloadService: DownloaderService,
+    private readonly mediaFileService: MediaFileService
+  ) { }
+
+  @Get('/imdb/:imdbID')
+  @Public()
+  async streamFromImdb(@Res() res: Response, @Param('imdbID') imdbID: string) {
+    this.logger.log(`[${imdbID}]: initializing download`);
+    await this.downloadService.donwloadFromImdbId(imdbID);
+    // const filepath = join(__dirname, '..', '..', 'video', filename);
+
+    this.logger.log(`[${imdbID}]: retrieving filepath`);
+    let filepath = await this.mediaFileService.getMediaFilePath(imdbID);
+
+    while (!filepath) {
+      filepath = await this.mediaFileService.getMediaFilePath(imdbID);
+      sleep(500);
+    }
+
+    res.sendFile(filepath, (err: Error) => {
+      if (err) {
+        res.status(404).end();
+      }
+    });
+  }
 
   @Get(':filename')
   @Public()
