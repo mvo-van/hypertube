@@ -5,7 +5,7 @@ import { Public } from 'src/auth/decorators/public.decorator';
 // TODO: TESTING ONLY, remove after flight
 @Controller('download')
 export class DownloaderController {
-  constructor(private readonly downloaderService: DownloaderService) {}
+  constructor(private readonly downloaderService: DownloaderService) { }
 
   @Get(':imdb')
   @Public()
@@ -15,5 +15,6 @@ export class DownloaderController {
     //  2.a. Start the download in a specific folder, named with the imdb ID
     // 3. Notify the streaming service that the download has started
     await this.downloaderService.donwload(imdb);
+    return {}
   }
 }

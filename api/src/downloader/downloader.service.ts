@@ -35,7 +35,7 @@ export class DownloaderService {
       this.logger.warn(`[${imdbID}]: media file already exists`);
     }
     const magnet = await this.getMagnet(imdbID);
-    // await this.startDownload(imdbID, magnet);
+    await this.startDownload(imdbID, magnet);
   }
 
   private async startDownload(imdbID: string, magnet: string | undefined) {
@@ -81,7 +81,7 @@ export class DownloaderService {
       const response = await axios.get(this.baseURL, {
         params: {
           apikey: apiKey,
-          t: 'search',
+          t: 'movie',
           imdbid: imdbID,
         },
       });

@@ -36,18 +36,22 @@ export class TorznabParser {
         if (deltaSeeders === 0)
           return 0;
         if (deltaSeeders < 0)
-          return -1;
-        if (deltaSeeders > 0)
           return 1;
+        if (deltaSeeders > 0)
+          return -1;
       }
       if (deltaSize < 0) {
-        if (deltaSeeders >= 0)
+        if (deltaSeeders >= 0 || a.getSeeders() >= 50)
+          return -1;
+        return 1;
+      }
+      if (deltaSize > 0) {
+        if (deltaSeeders <= 0 || b.getSeeders() >= 50)
           return 1;
-        if (deltaSeeders <= 0)
-          return 0;
+        return -1;
       }
     });
-
+    return sorted[0].getMagnet()
   }
 
   parseTorznabAttrs(torznabAttrs: object[]): TorznabAttr[] {
