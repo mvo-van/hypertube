@@ -212,7 +212,7 @@ function Feed() {
 			{!isSearchOff && <FeedMovies
 				movies={resSearch}
 			/>}
-			{(page < pageToCharge) && <div className={style.charge}>
+			{!isSearchOff && (page < pageToCharge) && <div className={style.charge}>
 				<CircularProgress color="inherit" size="3rem" />
 			</div>}
 
