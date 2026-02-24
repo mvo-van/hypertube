@@ -1,7 +1,8 @@
 import { XMLParser } from 'fast-xml-parser';
-import { TorznabAttr } from './torznab.interface';
+import { TorznabAttr } from './torznab-attr.interface';
+import { TorznabItem } from './torznab-item.class';
 
-export class JacketError extends Error {}
+export class JacketError extends Error { }
 
 export class TorznabParser {
   torznab: object;
@@ -11,9 +12,7 @@ export class TorznabParser {
   }
 
   selectTorrent(): string {
-    const parser = new XMLParser({
-      ignoreAttributes: false,
-    });
+    const parser = new XMLParser({ ignoreAttributes: false });
     const json = parser.parse(this.torznab);
     if (json['error']) {
       throw new JacketError(json['error']['@_description']);
@@ -21,44 +20,34 @@ export class TorznabParser {
     if (!json['rss']['channel']['item']) {
       throw new JacketError('no content found');
     }
-    let items = json.rss.channel.item;
-    items = items.map((item) => this.parseTorznabAttrs(item['torznab:attr']));
-    // TODO: MAXIMISER LE NOMBRE DE SEEDERS
-    
-    // const attrs = this.parseTorznabAttrs(item['torznab:attr']);
+    let items: TorznabItem[] = json.rss.channel.item.map((item: object): TorznabItem => {
+      return new TorznabItem(
+        item['title'],
+        item['size'],
+        this.parseTorznabAttrs(item['torznab:attr'])
+      );
+    });
 
-    // const magnet = attrs.find((attr: TorznabAttr) => attr.name == 'magneturl');
+    const sorted = items.sort((a: TorznabItem, b: TorznabItem): number => {
+      const deltaSize = a.size - b.size;
+      const deltaSeeders = a.getSeeders() - b.getSeeders();
 
-    // return magnet.value;
-    return this.getMagnetByMaxSeeders(items);
-  }
-
-  getSeeders(attrs: TorznabAttr[]) : number {
-    const seeders = attrs.find((attr: TorznabAttr) => attr.name == 'seeders');
-    if (!seeders) {
-      return 0;
-    }
-    return parseInt(seeders.value);
-  }
-
-  getMagnet(attrs: TorznabAttr[]) : string | undefined {
-    return attrs.find((attr: TorznabAttr) => attr.name == 'magneturl')?.value;
-  }
-
-  getMagnetByMaxSeeders(items: TorznabAttr[][]) {
-    let maxSeeders = 0;
-    let selectedMagnet = '';
-
-    for (const item of items) {
-      const currentSeeders = this.getSeeders(item);
-      console.log(`Current seeders: ${currentSeeders}`);
-      if (currentSeeders > maxSeeders) {
-        maxSeeders = currentSeeders;
-        selectedMagnet = this.getMagnet(item);
+      if (deltaSize === 0) {
+        if (deltaSeeders === 0)
+          return 0;
+        if (deltaSeeders < 0)
+          return -1;
+        if (deltaSeeders > 0)
+          return 1;
       }
-    }
-    console.log(`Choosen seeders: ${maxSeeders}`);
-    return selectedMagnet;
+      if (deltaSize < 0) {
+        if (deltaSeeders >= 0)
+          return 1;
+        if (deltaSeeders <= 0)
+          return 0;
+      }
+    });
+
   }
 
   parseTorznabAttrs(torznabAttrs: object[]): TorznabAttr[] {
