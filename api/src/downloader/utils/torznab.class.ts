@@ -1,4 +1,5 @@
 import { XMLParser } from 'fast-xml-parser';
+import { TorznabAttr } from './torznab.interface';
 
 export class JacketError extends Error {}
 
@@ -9,7 +10,7 @@ export class TorznabParser {
     this.torznab = torznab;
   }
 
-  getMagnet(): string {
+  selectTorrent(): string {
     const parser = new XMLParser({
       ignoreAttributes: false,
     });
@@ -20,13 +21,44 @@ export class TorznabParser {
     if (!json['rss']['channel']['item']) {
       throw new JacketError('no content found');
     }
-    const item = json.rss.channel.item[0];
-    const attrs = this.parseTorznabAttrs(item['torznab:attr']);
-
+    let items = json.rss.channel.item;
+    items = items.map((item) => this.parseTorznabAttrs(item['torznab:attr']));
     // TODO: MAXIMISER LE NOMBRE DE SEEDERS
-    const magnet = attrs.find((attr: TorznabAttr) => attr.name == 'magneturl');
+    
+    // const attrs = this.parseTorznabAttrs(item['torznab:attr']);
 
-    return magnet.value;
+    // const magnet = attrs.find((attr: TorznabAttr) => attr.name == 'magneturl');
+
+    // return magnet.value;
+    return this.getMagnetByMaxSeeders(items);
+  }
+
+  getSeeders(attrs: TorznabAttr[]) : number {
+    const seeders = attrs.find((attr: TorznabAttr) => attr.name == 'seeders');
+    if (!seeders) {
+      return 0;
+    }
+    return parseInt(seeders.value);
+  }
+
+  getMagnet(attrs: TorznabAttr[]) : string | undefined {
+    return attrs.find((attr: TorznabAttr) => attr.name == 'magneturl')?.value;
+  }
+
+  getMagnetByMaxSeeders(items: TorznabAttr[][]) {
+    let maxSeeders = 0;
+    let selectedMagnet = '';
+
+    for (const item of items) {
+      const currentSeeders = this.getSeeders(item);
+      console.log(`Current seeders: ${currentSeeders}`);
+      if (currentSeeders > maxSeeders) {
+        maxSeeders = currentSeeders;
+        selectedMagnet = this.getMagnet(item);
+      }
+    }
+    console.log(`Choosen seeders: ${maxSeeders}`);
+    return selectedMagnet;
   }
 
   parseTorznabAttrs(torznabAttrs: object[]): TorznabAttr[] {
