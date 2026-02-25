@@ -37,20 +37,16 @@ function ProfileUser() {
   const getComments = async () => {
     try {
       const res = await api.get(`comments/user/${id}`)
-      console.log(res.data)
       setComments(res.data)
     } catch (e) {
-      console.log(e)
     }
   }
 
   const getWatchList = async () => {
     try {
       const res = await api.get(`watched/findWatchList/${id}`)
-      console.log(res.data)
       setMovies(res.data)
     } catch (e) {
-      console.log(e)
     }
   }
 

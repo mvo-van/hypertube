@@ -355,7 +355,8 @@ export class MoviesController {
     const TMDB_API_KEY = this.configService.get<string>('TMDB_API_KEY');
     try {
       const resSearch = await axios.get(`https://api.themoviedb.org/3/search/multi?page=${page}&query=${query}&api_key=${TMDB_API_KEY}`)
-      const searchList = await Promise.all(resSearch.data.results.filter((elem) => (elem.media_type == 'movie' || elem.media_type == 'tv')).map(async (e) => {
+      const searchList = await Promise.all(resSearch.data.results.filter((elem) => (((elem.media_type == 'movie' || elem.media_type == 'tv') && elem.vote_count > 0) && elem.poster_path)).map(async (e) => {
+        console.log(e.vote_count)
         let is_watched = false
         if (e.media_type == 'movie') {
           const see = await this.watchedService.findOneByUserIdMovieId(TypeStrategy.MOVIE, `${e.id}`, userId)
@@ -403,17 +404,18 @@ export class MoviesController {
           let name = e.name
           let pathNavigate = `/serie/${e.id}`
           const id = e.id
-          const urlImg = `https://image.tmdb.org/t/p/original/${e.poster_path}`
+          const urlImg = e.poster_path ? `https://image.tmdb.org/t/p/original/${e.poster_path}` : null
           return {
             see: false,
             date: date,
             name: name,
             id: id,
             pathNavigate: pathNavigate,
-            urlImg: urlImg
+            urlImg: urlImg,
+            vote_count: e.vote_count
           }
         }))
-        res.send({ resultSearch: searchList.filter((e) => (e.date <= maxYear && e.date >= minYear)), total_pages: resSearch.data.total_pages })
+        res.send({ resultSearch: searchList.filter((e) => (e.vote_count > 0 && e.urlImg && e.date <= maxYear && e.date >= minYear)), total_pages: resSearch.data.total_pages })
       }
       if (type == "movie") {
         const sort = { "titre": "title.asc", "date": "primary_release_date.asc", "note": "vote_average.desc" }[tri]
@@ -423,7 +425,7 @@ export class MoviesController {
           let name = e.title
           let pathNavigate = `/movie/${e.id}`
           const id = e.id
-          const urlImg = `https://image.tmdb.org/t/p/original/${e.poster_path}`
+          const urlImg = e.poster_path ? `https://image.tmdb.org/t/p/original/${e.poster_path}` : null
           const see = await this.watchedService.findOneByUserIdMovieId(TypeStrategy.MOVIE, `${e.id}`, userId)
           const is_watched = see ? see.is_watched : false
           return {
@@ -432,10 +434,11 @@ export class MoviesController {
             name: name,
             id: id,
             pathNavigate: pathNavigate,
-            urlImg: urlImg
+            urlImg: urlImg,
+            vote_count: e.vote_count
           }
         }))
-        res.send({ resultSearch: searchList.filter((e) => (e.date <= maxYear && e.date >= minYear)), total_pages: resSearch.data.total_pages })
+        res.send({ resultSearch: searchList.filter((e) => (e.vote_count > 0 && e.urlImg && e.date <= maxYear && e.date >= minYear)), total_pages: resSearch.data.total_pages })
       }
       // res.send({ resultSearch: searchList, total_pages: resSearch.data.total_pages })
     } catch (error) {

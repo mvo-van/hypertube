@@ -27,7 +27,6 @@ function MoviePage() {
   const getComments = async () => {
     try {
       const res = await api.get(`http://localhost:3000/comments/movie/movie/${id}`);
-      console.log(res.data)
       setComments(res.data)
     } catch (e) {
     }
