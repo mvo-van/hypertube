@@ -141,7 +141,6 @@ export default function Search({ open }) {
 	};
 
 	const onSubmit = (event) => {
-		console.log(event)
 		var search = {
 			"title": title,
 			"minYear": minYear,

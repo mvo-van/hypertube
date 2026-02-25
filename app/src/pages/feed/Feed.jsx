@@ -105,7 +105,6 @@ function Feed() {
 	const getGenre = async () => {
 		try {
 			const res = await api.get(`movies/get/genre`);
-			console.log(res.data)
 			setListGenre(res.data)
 		} catch (e) {
 		}
@@ -128,7 +127,6 @@ function Feed() {
 
 	const onTitleSearchSubmit = async (e) => {
 		e.preventDefault();
-		console.log("here")
 		if (searchTitle.length) {
 			setIsSearchOff(false)
 			setCurentSearch(`http://localhost:3000/movies/search/byName?query=${searchTitle}`)

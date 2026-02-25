@@ -10,7 +10,6 @@ export const VideoPlayer = () => {
   const getSubtitles = async () => {
     try {
       const res = await api.get(`http://localhost:3000/stream/tt0775431/subs`);
-      console.log(res)
     } catch (e) {
     }
   }
