@@ -33,6 +33,7 @@ export class DownloaderService {
   async donwload(imdbID: string) {
     if (await this.mediaFileService.movieFileExists(imdbID)) {
       this.logger.warn(`[${imdbID}]: media file already exists`);
+      return;
     }
     const magnet = await this.getMagnet(imdbID);
     await this.startDownload(imdbID, magnet);
@@ -68,7 +69,7 @@ export class DownloaderService {
     });
 
     engine.on('idle', async () => {
-      await this.mediaFileService.movieDownloadCompleted(imdbID);
+      await this.mediaFileService.isDownloadComplete(imdbID);
       this.logger.log(`[${imdbID}]: download finished`);
       engine.destroy();
     });
