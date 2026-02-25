@@ -11,12 +11,13 @@ import InputSelect from "../../components/input/InputSelect";
 import Form from "../../components/form/Form";
 import InputRange from "../../components/input/InputRange";
 import Button from "../../components/button/Button";
+import { isVisible } from "@testing-library/user-event/dist/utils";
 
 function Feed() {
 	const [minYear, setMinYear] = useState(1900)
-	const [maxYear, setMaxYear] = useState(2025)
+	const [maxYear, setMaxYear] = useState(2026)
 	const [genre, setGenre] = useState("")
-	const [tri, setTri] = useState("titre")
+	const [tri, setTri] = useState("titre.asc")
 	const [noteMinimale, setNoteMinimal] = useState(0)
 	const [type, setType] = useState("movie")
 	const [searching, setSearching] = useState(false);
@@ -29,6 +30,21 @@ function Feed() {
 	const [resSearch, setResSearch] = useState([])
 	const [page, setPage] = useState(1)
 	const [pageToCharge, setPageToCharge] = useState(1)
+
+	useEffect(() => {
+		if (!isSearchOff) {
+			checkIfNeedMoreContent();
+		}
+	}, [pageToCharge, page, curentSearch, resSearch]);
+
+	const checkIfNeedMoreContent = async () => {
+		const hasVerticalScroll = document.documentElement.scrollHeight > window.innerHeight;
+		if (!hasVerticalScroll && page < pageToCharge) {
+			const res = await api.get(`${curentSearch}&page=${page + 1}`);
+			setResSearch(prev => [...prev, ...res.data.resultSearch]);
+			setPage(page + 1);
+		}
+	};
 
 	const openSearch = () => {
 		setSearching((searching) => !searching);
@@ -153,9 +169,12 @@ function Feed() {
 								/>
 								<InputSelect label="Tri"
 									value={tri}
-									options={[{ "label": "titre", "name": "titre" },
-									{ "label": "note", "name": "note" },
-									{ "label": "date", "name": "date" }]}
+									options={[{ "label": "titre.asc", "name": "titre.asc" },
+									{ "label": "titre.desc", "name": "titre.desc" },
+									{ "label": "date.desc", "name": "date.desc" },
+									{ "label": "date.asc", "name": "date.asc" },
+									{ "label": "note.desc", "name": "note.desc" },
+									{ "label": "note.asc", "name": "note.asc" }]}
 									onChange={onChangeHandlerTri}
 									selectVoid={false}
 								/>
