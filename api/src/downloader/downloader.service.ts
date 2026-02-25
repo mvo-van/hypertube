@@ -31,7 +31,9 @@ export class DownloaderService {
 
   // Search for a torrent and start downloading it
   async donwload(imdbID: string) {
-    if (await this.mediaFileService.movieFileExists(imdbID)) {
+    const movieExists = await this.mediaFileService.movieFileExists(imdbID);
+
+    if (movieExists) {
       this.logger.warn(`[${imdbID}]: media file already exists`);
       return;
     }
@@ -69,7 +71,7 @@ export class DownloaderService {
     });
 
     engine.on('idle', async () => {
-      await this.mediaFileService.isDownloadComplete(imdbID);
+      await this.mediaFileService.movieDownloadCompleted(imdbID);
       this.logger.log(`[${imdbID}]: download finished`);
       engine.destroy();
     });

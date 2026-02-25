@@ -16,12 +16,19 @@ export class MediaFileService {
         await this.mediaFileRepository.save(mediaFile);
     }
 
-    async isDownloadComplete(imdbID: string) {
+    async movieDownloadCompleted(imdbID: string) {
         await this.mediaFileRepository.update(imdbID, { completed: true });
     }
 
-    async movieFileExists(imdbID: string) {
-        const result = await this.mediaFileRepository.findOne({ where: { imdbID: imdbID } });
+    async isDownloadComplete(imdbID: string) : boolean {
+        const found = await this.mediaFileRepository.findOneBy({ 
+            imdbID: imdbID
+        });
+        return found ? found.completed : false;
+    }
+
+    async movieFileExists(imdbID: string) : Promise<boolean> {
+        const result = await this.mediaFileRepository.findOneBy({ imdbID: imdbID });
         return result !== null;
     }
 

@@ -23,8 +23,6 @@ export class StreamController {
   @Get('/imdb/:imdbID')
   @Public()
   async streamFromImdb(@Req() req: Request, @Res() res: Response, @Param('imdbID') imdbID: string) {
-    this.logger.log(`[${imdbID}]: initializing download`);
-
     this.logger.log(`[${imdbID}]: retrieving filepath`);
     let filepath = await this.mediaFileService.getMediaFilePath(imdbID);
 
@@ -35,101 +33,28 @@ export class StreamController {
 
     const isComplete = await this.mediaFileService.isDownloadComplete(imdbID);
     if (isComplete) {
-      return this.streamCompletedFile(filepath, req, res);
+      res.sendFile(filepath);
     } else {
-      return this.streamIncompleteFile(filepath, res);
+      res.setHeader('Content-Type', 'video/mp4');
+
+      const fileStream = createReadStream(filepath);
+
+      ffmpeg(fileStream)
+        .format('mp4')
+        .videoCodec('libx264')
+        .audioCodec('aac')
+        .outputOptions([
+          '-movflags frag_keyframe+empty_moov',
+          '-preset veryfast',
+        ])
+        .on('error', (err) => {
+          console.error('FFmpeg error:', err);
+          if (!res.headersSent) {
+            res.sendStatus(500);
+          }
+        })
+        .pipe(res, { end: true });
     }
-    // const fileStream = createReadStream(filepath);
-
-    // ffmpeg(fileStream)
-    //   .format('mp4')
-    //   .videoCodec('libx264')
-    //   .audioCodec('aac')
-    //   .outputOptions([
-    //     '-movflags frag_keyframe+empty_moov',
-    //     '-preset veryfast',
-    //   ])
-    //   .on('start', cmd => console.log('FFmpeg command:', cmd))
-    //   .on('error', (err) => {
-    //     console.error('FFmpeg error:', err);
-    //     if (!res.headersSent) res.sendStatus(500);
-    //   })
-    //   .pipe(res, { end: true });
-  }
-
-
-  // =========================
-  // MODE 1 — FILE COMPLETE
-  // =========================
-
-  private async streamCompletedFile(
-    filepath: string,
-    req: Request,
-    res: Response,
-  ) {
-    const stat = await fs.promises.stat(filepath);
-    const fileSize = stat.size;
-    const range = req.headers.range;
-
-    res.setHeader('Content-Type', 'video/mp4');
-    res.setHeader('Accept-Ranges', 'bytes');
-
-    if (range) {
-      const parts = range.replace(/bytes=/, '').split('-');
-      const start = parseInt(parts[0], 10);
-      const end = parts[1]
-        ? parseInt(parts[1], 10)
-        : fileSize - 1;
-
-      const chunkSize = end - start + 1;
-
-      res.status(206);
-      res.setHeader(
-        'Content-Range',
-        `bytes ${start}-${end}/${fileSize}`,
-      );
-      res.setHeader('Content-Length', chunkSize);
-
-      const stream = createReadStream(filepath, {
-        start,
-        end,
-      });
-
-      stream.pipe(res);
-    } else {
-      res.status(200);
-      res.setHeader('Content-Length', fileSize);
-      fs.createReadStream(filepath).pipe(res);
-    }
-  }
-
-  // =========================
-  // MODE 2 — FILE INCOMPLETE
-  // =========================
-
-  private streamIncompleteFile(
-    filepath: string,
-    res: Response,
-  ) {
-    res.setHeader('Content-Type', 'video/mp4');
-
-    const fileStream = createReadStream(filepath);
-
-    ffmpeg(fileStream)
-      .format('mp4')
-      .videoCodec('libx264')
-      .audioCodec('aac')
-      .outputOptions([
-        '-movflags frag_keyframe+empty_moov',
-        '-preset veryfast',
-      ])
-      .on('error', (err) => {
-        console.error('FFmpeg error:', err);
-        if (!res.headersSent) {
-          res.sendStatus(500);
-        }
-      })
-      .pipe(res, { end: true });
   }
 
   @Get(':filename')
