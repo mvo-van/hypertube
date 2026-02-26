@@ -9,6 +9,9 @@ import { MediaFileService } from 'src/media-file/media-file.service';
 import { StreamModule } from './stream.module';
 import { createReadStream } from 'node:fs';
 import ffmpeg from "fluent-ffmpeg";
+import { UsersService } from 'src/users/users.service';
+import { UserParam } from 'src/auth/decorators/user-param.decorator';
+import { Lang } from 'src/lang/lang';
 
 @Controller('stream')
 export class StreamController {
@@ -17,7 +20,8 @@ export class StreamController {
   constructor(
     private readonly configService: ConfigService,
     private readonly downloadService: DownloaderService,
-    private readonly mediaFileService: MediaFileService
+    private readonly mediaFileService: MediaFileService,
+    private readonly userService: UsersService
   ) { }
 
   @Get('/imdb/:imdbID')
@@ -74,14 +78,37 @@ export class StreamController {
   async subs(
     @Res() res: Response,
     @Param('imdb_id') imdb_id: string,
+    @UserParam('userId') userId: number
   ) {
-    // Sanitize filename
-    const lang = 'fr'
+    const subtitles: any = [];
 
-    // let [basename, _] = filename.split('.');
-    // basename = basename.replaceAll('-', ' ');
-    // basename = basename.replaceAll('_', ' ');
+    const enSubtitleURL = await this.downloadSubtitle(imdb_id, Lang.ENGLISH);
+    if (enSubtitleURL) {
+      subtitles.push({ 
+        src: enSubtitleURL,
+        lang: Lang.ENGLISH
+      });
+    }
 
+    const user = await this.userService.findOne(userId);
+    let langSubtitleURL;
+
+    if (user?.language != Lang.ENGLISH) {
+      langSubtitleURL = await this.downloadSubtitle(imdb_id, user?.language as Lang);
+      if (langSubtitleURL) {
+        subtitles.push({
+          src: langSubtitleURL,
+          lang: user?.language
+        });
+      }
+    }
+    // res.json({ 
+    //   subtitles: subtitles
+    // });
+    res.json({});
+  }
+
+  private async downloadSubtitle(imdb_id: string, lang: string) : Promise<string | null> {
     console.log(imdb_id);
     const api = new OS({
       apikey: this.configService.get<string>('OPEN_SUBTITLE_API_KEY'),
@@ -100,7 +127,7 @@ export class StreamController {
     });
 
     if (!matchingSubtitles) {
-      res.status(404).json({ message: `no subtitles found language ${lang}` });
+      return null;
     }
 
     const firstMatch = matchingSubtitles[0];
@@ -110,8 +137,7 @@ export class StreamController {
     const subtitleURL = await api.download({
       file_id: firstMatch.attributes.files[0].file_id,
     });
-
-    res.json({ success: 'ok' });
+    return subtitleURL;
   }
 }
 

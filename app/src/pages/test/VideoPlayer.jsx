@@ -5,19 +5,19 @@ export const VideoPlayer = () => {
   // const thumbnail =
   //   "https://disney.images.edge.bamgrid.com/ripcut-delivery/v2/variant/disney/4a55d5e6-8e3b-4cab-a34c-e8dbe51b5cc2/compose?aspectRatio=1.78&format=webp&width=1200";
   // const [subtitles, SetSubtitles] = useState([]);
-  const movie = "http://localhost:3000/stream/imdb/tt0114709";
+  const movie = "http://localhost:3000/stream/imdb/tt0365659";
 
-  // const getSubtitles = async () => {
-  //   try {
-  //     const res = await api.get(`http://localhost:3000/stream/tt0775431/subs`);
-  //     console.log(res)
-  //   } catch (e) {
-  //   }
-  // }
+  const getSubtitles = async () => {
+    try {
+      const res = await api.get(`http://localhost:3000/stream/tt0365659/subs`);
+      console.log(res);
+    } catch (e) {
+    }
+  }
 
-  // useEffect(() => {
-  //   getSubtitles()
-  // }, [])
+  useEffect(() => {
+    getSubtitles();
+  }, [])
 
   return (
     <video
