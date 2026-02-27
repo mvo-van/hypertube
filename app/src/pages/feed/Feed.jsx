@@ -188,7 +188,7 @@ function Feed() {
 									double={true}
 									label="Année"
 									min={1900}
-									max={2025}
+									max={2026}
 									value={[minYear, maxYear]}
 									onChange={handleChangeRange}
 								/>
