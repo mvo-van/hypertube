@@ -38,7 +38,6 @@ export class LikesController {
 
   @Delete('/oneMovie')
   removeByMovieIDAndUser(@Body() deleteLikeDto: CreateLikeDto, @UserParam('userId') userId: number) {
-    console.log("here")
     return this.likesService.removeByMovieIDAndUser(deleteLikeDto, userId);
   }
 

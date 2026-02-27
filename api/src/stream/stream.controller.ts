@@ -84,7 +84,7 @@ export class StreamController {
 
     const enSubtitleURL = await this.downloadSubtitle(imdb_id, Lang.ENGLISH);
     if (enSubtitleURL) {
-      subtitles.push({ 
+      subtitles.push({
         src: enSubtitleURL,
         lang: Lang.ENGLISH
       });
@@ -102,13 +102,13 @@ export class StreamController {
         });
       }
     }
-    // res.json({ 
-    //   subtitles: subtitles
-    // });
-    res.json({});
+    res.json({
+      subtitles: subtitles
+    });
+    // res.json({});
   }
 
-  private async downloadSubtitle(imdb_id: string, lang: string) : Promise<string | null> {
+  private async downloadSubtitle(imdb_id: string, lang: string): Promise<string | null> {
     console.log(imdb_id);
     const api = new OS({
       apikey: this.configService.get<string>('OPEN_SUBTITLE_API_KEY'),
