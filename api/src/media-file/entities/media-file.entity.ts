@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, Relation } from "typeorm";
-import { Subtitlefile } from "./subtitle-file.entity";
+import { SubtitleFile } from "./subtitle-file.entity";
 
 @Entity()
 export class MediaFile {
@@ -15,6 +15,6 @@ export class MediaFile {
     @Column('boolean', { default: false })
     completed: boolean = false;
 
-    @OneToMany(() => Subtitlefile, (subtitles: Subtitlefile) => subtitles.movie)
-    subtitles: Relation<Subtitlefile>[];
+    @OneToMany(() => SubtitleFile, (subtitles: SubtitleFile) => subtitles.movie)
+    subtitles: Relation<SubtitleFile>[];
 }

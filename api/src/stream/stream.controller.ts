@@ -12,6 +12,9 @@ import ffmpeg from "fluent-ffmpeg";
 import { UsersService } from 'src/users/users.service';
 import { UserParam } from 'src/auth/decorators/user-param.decorator';
 import { Lang } from 'src/lang/lang';
+import axios from 'axios';
+import fs from "node:fs";
+import srt2vtt from "srt2vtt";
 
 @Controller('stream')
 export class StreamController {
@@ -61,55 +64,35 @@ export class StreamController {
     }
   }
 
-  @Get(':filename')
-  @Public()
-  stream(@Res() res: Response, @Param('filename') filename: string) {
-    const filepath = join(__dirname, '..', '..', 'video', filename);
-
-    res.sendFile(filepath, (err: Error) => {
-      if (err) {
-        res.status(404).end();
-      }
-    });
-  }
-
   @Get(':imdb_id/subs')
-  @Public()
   async subs(
     @Res() res: Response,
     @Param('imdb_id') imdb_id: string,
     @UserParam('userId') userId: number
   ) {
-    const subtitles: any = [];
+    const subtitles: any = {};
 
     const enSubtitleURL = await this.downloadSubtitle(imdb_id, Lang.ENGLISH);
     if (enSubtitleURL) {
-      subtitles.push({
-        src: enSubtitleURL,
-        lang: Lang.ENGLISH
-      });
+      subtitles[Lang.ENGLISH] = enSubtitleURL;
     }
-
     const user = await this.userService.findOne(userId);
+
     let langSubtitleURL;
 
     if (user?.language != Lang.ENGLISH) {
       langSubtitleURL = await this.downloadSubtitle(imdb_id, user?.language as Lang);
       if (langSubtitleURL) {
-        subtitles.push({
-          src: langSubtitleURL,
-          lang: user?.language
-        });
+        subtitles[user?.language] = langSubtitleURL;
       }
     }
     res.json({
       subtitles: subtitles
     });
-    // res.json({});
   }
 
   private async downloadSubtitle(imdb_id: string, lang: string): Promise<string | null> {
-    console.log(imdb_id);
+    this.logger.log(`[${imdb_id}]: download subtitle for language '${lang}'`);
     const api = new OS({
       apikey: this.configService.get<string>('OPEN_SUBTITLE_API_KEY'),
       useragent: 'Hypertube v0.1',
@@ -121,7 +104,6 @@ export class StreamController {
     });
 
     const response = await api.subtitles({ imdb_id: imdb_id });
-
     const matchingSubtitles = response.data.filter((movie: any) => {
       return movie.attributes.language == lang;
     });
@@ -131,16 +113,43 @@ export class StreamController {
     }
 
     const firstMatch = matchingSubtitles[0];
-    console.log(firstMatch);
 
     await sleep(5000);
     const subtitleURL = await api.download({
       file_id: firstMatch.attributes.files[0].file_id,
     });
-    return subtitleURL;
+    const subtitleResponse = await axios.get(subtitleURL.link);
+    console.log(subtitleResponse);
+    this.storeSubtitle(imdb_id, lang, subtitleResponse.data);
+
+    return subtitleURL.link;
+  }
+
+  @Get("subtitle")
+  @Public()
+  async getSubtitle(@Res() res: Response) {
+    const filepath = '/static/tt0114709/tt0114709_fr.srt';
+
+    res.sendFile(filepath);
+  }
+
+
+  private async storeSubtitle(imdbID: string, lang: string, content: any) {
+    const filepath = `/static/${imdbID}/${imdbID}.${lang}.vtt`;
+    this.logger.log(`[${imdbID}]: store subtitle: ${filepath}`);
+    try {
+      srt2vtt(content, (err, vttData) => {
+        if (err) {
+          throw new Error(err);
+        }
+        fs.writeFileSync(filepath, vttData);
+      });
+    } catch(err) {
+      this.logger.error(`[${imdbID}]: error: ${err}`);
+    }
   }
 }
 
-async function sleep(ms) {
+async function sleep(ms: number) {
   await new Promise((resolve) => setTimeout(resolve, 5000));
 }

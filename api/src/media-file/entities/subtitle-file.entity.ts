@@ -3,7 +3,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Relation
 import { MediaFile } from "./media-file.entity";
 
 @Entity()
-export class Subtitlefile {
+export class SubtitleFile {
     @PrimaryGeneratedColumn('uuid')
     id: number;
     
