@@ -87,9 +87,3 @@
     margin-bottom: 50px;
     height: 100vh;
 }
-
-.boxVideoPlayer {
-    position: relative;
-
-    z-index: 1;
-}
