@@ -25,7 +25,7 @@ function MovieInfo({ movie = {} }) {
   const [like, setLike] = useState(movie.like)
   const movieId = getMovieId(movie)
   const onClickStart = () => {
-
+    setClickStart(true)
   }
 
   const onClickSee = async () => {
@@ -42,8 +42,14 @@ function MovieInfo({ movie = {} }) {
     }
   }
 
-  const onClickDownload = () => {
-
+  const onClickDownload = async () => {
+    try {
+      console.log(movie.imdb_id)
+      await api.get(`/download/${movie.imdb_id}`)
+      setDownload(true)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const onClickLike = async () => {
@@ -66,6 +72,8 @@ function MovieInfo({ movie = {} }) {
     }
   }
 
+
+
   return (
     <div className={`${style.movieInfo}`}>
       <div className={style.banner} ><img className={style.imgBanner} src={movie.banner} /></div>
@@ -74,7 +82,7 @@ function MovieInfo({ movie = {} }) {
         <div className={style.infosDiv}>
           <div className={style.firstLine}>
             <div className={style.movieName}>{movie.name}</div>
-            <IconMovie type={movie.type} see={see} download={download} like={like} onClickStart={onClickStart} onClickSee={onClickSee} onClickDownload={onClickDownload} onClickLike={onClickLike} />
+            <IconMovie type={movie.type} see={see} imdb_id={movie.imdb_id} download={download} like={like} onClickStart={onClickStart} onClickSee={onClickSee} onClickDownload={onClickDownload} onClickLike={onClickLike} />
           </div>
           {movie.type == "episode" && <div className={style.seasonDiv}>{movie.episode_name}</div>}
           {movie.type == "episode" && <div className={style.seasonDiv}>Saison {movie.season} Episode {movie.episode}</div>}

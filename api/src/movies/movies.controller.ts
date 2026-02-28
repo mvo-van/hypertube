@@ -397,7 +397,7 @@ export class MoviesController {
     try {
       if (type == "tv") {
         const sort = { "titre.asc": "name.asc", "titre.desc": "name.desc", "date.desc": "first_air_date.desc", "date.asc": "first_air_date.asc", "note.desc": "vote_average.desc", "note.asc": "vote_average.asc" }[tri]
-        const resSearch = await axios.get(`https://api.themoviedb.org/3/discover/tv?vote_average.gte=${note / 10}&page=${page}&sort_by=${sort}&with_genres=${genre}&api_key=${TMDB_API_KEY}&vote_count.gte=10&first_air_date.gte=${minYear}-01-01&&first_air_date.lte=${maxYear}-12-31`)
+        const resSearch = await axios.get(`https://api.themoviedb.org/3/discover/tv?vote_average.gte=${note / 10}&page=${page}&sort_by=${sort}&with_genres=${genre}&api_key=${TMDB_API_KEY}&vote_count.gte=500&first_air_date.gte=${minYear}-01-01&&first_air_date.lte=${maxYear}-12-31`)
         const searchList = await Promise.all(resSearch.data.results.map(async (e) => {
           let date = parseInt(e.first_air_date)
           let name = e.name
@@ -418,7 +418,7 @@ export class MoviesController {
       }
       if (type == "movie") {
         const sort = { "titre.asc": "title.asc", "titre.desc": "title.desc", "date.desc": "primary_release_date.desc", "date.asc": "primary_release_date.asc", "note.desc": "vote_average.desc", "note.asc": "vote_average.asc" }[tri]
-        const resSearch = await axios.get(`https://api.themoviedb.org/3/discover/movie?vote_average.gte=${note / 10}&page=${page}&sort_by=${sort}&with_genres=${genre}&api_key=${TMDB_API_KEY}&vote_count.gte=10&primary_release_date.gte=${minYear}-01-01&&primary_release_date.lte=${maxYear}-12-31`)
+        const resSearch = await axios.get(`https://api.themoviedb.org/3/discover/movie?vote_average.gte=${note / 10}&page=${page}&sort_by=${sort}&with_genres=${genre}&api_key=${TMDB_API_KEY}&vote_count.gte=500&primary_release_date.gte=${minYear}-01-01&&primary_release_date.lte=${maxYear}-12-31`)
         const searchList = await Promise.all(resSearch.data.results.map(async (e) => {
           let date = parseInt(e.release_date)
           let name = e.title

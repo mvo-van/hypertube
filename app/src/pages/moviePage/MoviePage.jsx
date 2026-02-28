@@ -7,6 +7,7 @@ import Comments from "../../components/comments/Comments";
 import MovieInfo from "../../components/movieInfo/MovieInfo";
 import { api } from "../../common/api";
 import { CircularProgress } from "@mui/material";
+import VideoPlayer from "./VideoPlayer";
 
 function MoviePage() {
   const { id } = useParams();
@@ -14,6 +15,7 @@ function MoviePage() {
   const [movie, setMovie] = useState({})
   const [info_get, setInfo_get] = useState(false)
   const [comments, setComments] = useState([]);
+  const [clickStart, setClickStart] = useState(false)
 
   const getMovie = async () => {
     try {
@@ -35,6 +37,7 @@ function MoviePage() {
   useEffect(() => {
     getMovie()
     getComments()
+    setClickStart(true)
   }, [])
 
   const onMessageSubmit = async (e) => {
@@ -65,15 +68,15 @@ function MoviePage() {
             <CircularProgress color="inherit" size="3rem" />
           </div>}
           {info_get && <MovieInfo movie={movie} />}
-          {
-            (movie.type == "episode" || movie.type == "movie") &&
-            <Comments comments={comments}
-              color={movie.id % 12}
-              movieIcon={false}
-              message={message}
-              onMessageHeandler={onMessageHeandler}
-              onMessageSubmit={onMessageSubmit} />
-          }
+          {clickStart && <VideoPlayer imdbID={movie.imdb_id} />}
+
+          <Comments comments={comments}
+            color={movie.id % 12}
+            movieIcon={false}
+            message={message}
+            onMessageHeandler={onMessageHeandler}
+            onMessageSubmit={onMessageSubmit} />
+
         </div>
       </div>
     </GenericPage>
