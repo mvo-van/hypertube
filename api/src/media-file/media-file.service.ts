@@ -2,12 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { MediaFile } from './entities/media-file.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Lang } from 'src/lang/lang';
+import { SubtitleFile } from './entities/subtitle-file.entity';
 
 @Injectable()
 export class MediaFileService {
     constructor(
         @InjectRepository(MediaFile)
-        private readonly mediaFileRepository: Repository<MediaFile>
+        private readonly mediaFileRepository: Repository<MediaFile>,
+        @InjectRepository(SubtitleFile)
+        private readonly subtitleFileRepository: Repository<SubtitleFile>
     ) {}
 
     async insertMediaFile(imdbID: string, path: string) {
@@ -37,5 +41,14 @@ export class MediaFileService {
             where: { imdbID: imdbID }
         })
         return result ? result.path : null;
+    }
+
+    async createSubtitleFile(imdbID:string, language:Lang, path:string){
+        const subtitleFile = this.subtitleFileRepository.create({ imdbID, path, language });
+        await this.subtitleFileRepository.save(subtitleFile)
+    }
+
+    async findOneSubtitleFile(imdbID:string, language:Lang){
+        return this.subtitleFileRepository.findOneBy({imdbID, language})
     }
 }

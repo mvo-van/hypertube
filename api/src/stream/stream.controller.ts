@@ -70,28 +70,49 @@ export class StreamController {
     @Param('imdb_id') imdb_id: string,
     @UserParam('userId') userId: number
   ) {
-    const subtitles: any = {};
-
-    const enSubtitleURL = await this.downloadSubtitle(imdb_id, Lang.ENGLISH);
-    if (enSubtitleURL) {
-      subtitles[Lang.ENGLISH] = enSubtitleURL;
+    const subtitles: any = [];
+    const resSubTitleEn = await this.mediaFileService.findOneSubtitleFile(imdb_id, Lang.ENGLISH)
+    if (!resSubTitleEn) {
+      const enSubtitleURL = await this.downloadSubtitle(imdb_id, Lang.ENGLISH);
+      if (enSubtitleURL) {
+        subtitles.push({ lang: Lang.ENGLISH, src: enSubtitleURL });
+      }
     }
+    else {
+      subtitles.push({
+        lang: Lang.ENGLISH,
+        src: this.getSubtitleURL(imdb_id, Lang.ENGLISH)
+      });
+    }
+
+
     const user = await this.userService.findOne(userId);
 
     let langSubtitleURL;
 
     if (user?.language != Lang.ENGLISH) {
-      langSubtitleURL = await this.downloadSubtitle(imdb_id, user?.language as Lang);
-      if (langSubtitleURL) {
-        subtitles[user?.language] = langSubtitleURL;
+      const resSubTitleUserLang = await this.mediaFileService.findOneSubtitleFile(imdb_id, user?.language)
+      if (!resSubTitleUserLang) {
+        langSubtitleURL = await this.downloadSubtitle(imdb_id, user?.language as Lang);
+        if (langSubtitleURL) {
+          subtitles.push({ lang: user?.language, src: langSubtitleURL });
+        }
+      } else {
+        subtitles.push({
+          lang: user?.language,
+          src: this.getSubtitleURL(imdb_id, user?.language)
+        });
       }
+
     }
+
+
     res.json({
       subtitles: subtitles
     });
   }
 
-  private async downloadSubtitle(imdb_id: string, lang: string): Promise<string | null> {
+  private async downloadSubtitle(imdb_id: string, lang: Lang): Promise<string | null> {
     this.logger.log(`[${imdb_id}]: download subtitle for language '${lang}'`);
     const api = new OS({
       apikey: this.configService.get<string>('OPEN_SUBTITLE_API_KEY'),
@@ -122,19 +143,23 @@ export class StreamController {
     console.log(subtitleResponse);
     this.storeSubtitle(imdb_id, lang, subtitleResponse.data);
 
-    return subtitleURL.link;
+    return this.getSubtitleURL(imdb_id, lang);
   }
 
-  @Get("subtitle")
+  private getSubtitleURL(imdb_id: string, lang: Lang): string | PromiseLike<string | null> | null {
+    return `http://localhost:3000/stream/subtitle/${imdb_id}/${lang}`;
+  }
+
+  @Get("subtitle/:imdbID/:lang")
   @Public()
-  async getSubtitle(@Res() res: Response) {
-    const filepath = '/static/tt0114709/tt0114709_fr.srt';
+  async getSubtitle(@Res() res: Response, @Param("imdbID") imdbID: string, @Param("lang") lang: Lang) {
+    const filepath = `/static/${imdbID}/${imdbID}.${lang}.vtt`;
 
     res.sendFile(filepath);
   }
 
 
-  private async storeSubtitle(imdbID: string, lang: string, content: any) {
+  private async storeSubtitle(imdbID: string, lang: Lang, content: any) {
     const filepath = `/static/${imdbID}/${imdbID}.${lang}.vtt`;
     this.logger.log(`[${imdbID}]: store subtitle: ${filepath}`);
     try {
@@ -144,7 +169,8 @@ export class StreamController {
         }
         fs.writeFileSync(filepath, vttData);
       });
-    } catch(err) {
+      this.mediaFileService.createSubtitleFile(imdbID, lang, filepath)
+    } catch (err) {
       this.logger.error(`[${imdbID}]: error: ${err}`);
     }
   }
