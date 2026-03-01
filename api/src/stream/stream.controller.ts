@@ -129,10 +129,9 @@ export class StreamController {
       return movie.attributes.language == lang;
     });
 
-    if (!matchingSubtitles) {
+    if (!matchingSubtitles || matchingSubtitles.length == 0) {
       return null;
     }
-
     const firstMatch = matchingSubtitles[0];
 
     await sleep(5000);
