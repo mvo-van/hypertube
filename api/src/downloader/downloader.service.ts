@@ -25,7 +25,7 @@ export class DownloaderService {
 
   constructor(
     private readonly configService: ConfigService,
-    private readonly mediaFileService: MediaFileService
+    private readonly mediaFileService: MediaFileService,
   ) {
     this.apiKey = configService.get<string>('JACKETT_API_KEY')!;
   }
@@ -50,7 +50,9 @@ export class DownloaderService {
     });
 
     engine.on('ready', () => {
-      this.logger.log(`[${imdbID}]: connected to ${engine.swarm.wires.length} peers`);
+      this.logger.log(
+        `[${imdbID}]: connected to ${engine.swarm.wires.length} peers`,
+      );
       engine.files.forEach(async (file) => {
         if (isMovie(file.name)) {
           const filepath = `${path}/${file.path}`;
@@ -76,17 +78,23 @@ export class DownloaderService {
     engine.on('error', (err: Error) => {
       this.logger.error(`[${imdbID}]: download error: ${err}`);
       this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.ERROR);
-    })
+    });
 
     engine.on('download', (pieceIndex: number) => {
       this.logger.log(`[${imdbID}]: piece ${pieceIndex} downloaded`);
-      this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.DOWNLOADING);
+      this.mediaFileService.setMediaFileStatus(
+        imdbID,
+        MediaFileStatus.DOWNLOADING,
+      );
     });
 
     engine.on('idle', async () => {
       this.logger.log(`[${imdbID}]: download finished`);
       engine.destroy();
-      await this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.FINISHED);
+      await this.mediaFileService.setMediaFileStatus(
+        imdbID,
+        MediaFileStatus.FINISHED,
+      );
     });
   }
 
@@ -103,7 +111,26 @@ export class DownloaderService {
       });
       return new TorznabParser(response.data).selectTorrent();
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
+    }
+  }
+
+  async exists(imdbID: string) : Promise<boolean> {
+    const apiKey = this.apiKey;
+
+    try {
+      const response = await axios.get(this.baseURL, {
+        params: {
+          apikey: apiKey,
+          t: 'movie',
+          imdbid: imdbID,
+        },
+      });
+      
+      const items = new TorznabParser(response.data).getItems();
+      return items.length != 0;
+    } catch (e) {
+      return false;
     }
   }
 }
