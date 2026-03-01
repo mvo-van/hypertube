@@ -61,6 +61,10 @@ export class MediaFileService {
         return result ? result.path : null;
     }
 
+    async getMediaFile(imdbID: string): Promise<MediaFile | null> {
+        return await this.mediaFileRepository.findOneBy({ imdbID: imdbID });
+    }
+
     async createSubtitleFile(imdbID: string, language: Lang, path: string) {
         const subtitleFile = this.subtitleFileRepository.create({ imdbID, path, language });
         await this.subtitleFileRepository.save(subtitleFile)
