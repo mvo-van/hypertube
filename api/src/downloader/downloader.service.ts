@@ -6,6 +6,7 @@ import torrentStream from 'torrent-stream';
 import path from 'path';
 import { DownloaderModule } from './downloader.module';
 import { MediaFileService } from 'src/media-file/media-file.service';
+import { MediaFileStatus } from 'src/media-file/enum/media-file-status.enum';
 
 function isMovie(filename: string) {
   const VIDEO_EXTS = ['.mp4', '.m4v', '.mkv', '.webm', '.mov'];
@@ -54,8 +55,12 @@ export class DownloaderService {
           const filepath = `${path}/${file.path}`;
 
           this.logger.log(`[${imdbID}]: downloading: ${filepath}`);
+          await this.mediaFileService.insertMediaFile({
+            imdbID: imdbID,
+            path: filepath,
+            // Add language
+          });
           file.select();
-          await this.mediaFileService.insertMediaFile(imdbID, filepath);
         } else {
           file.deselect();
         }
@@ -64,15 +69,22 @@ export class DownloaderService {
 
     engine.on('torrent', () => {
       this.logger.log(`[${imdbID}]: metadata fetched`);
+      // this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.STARTED);
     });
 
-    engine.on('download', (pieceIndex) => {
+    engine.on('error', (err: Error) => {
+      this.logger.error(`[${imdbID}]: download error: ${err}`);
+      // this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.ERROR);
+    })
+
+    engine.on('download', (pieceIndex: number) => {
       this.logger.log(`[${imdbID}]: piece ${pieceIndex} downloaded`);
+      // this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.DOWNLOADING);
     });
 
     engine.on('idle', async () => {
-      await this.mediaFileService.movieDownloadCompleted(imdbID);
       this.logger.log(`[${imdbID}]: download finished`);
+      await this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.FINISHED);
       engine.destroy();
     });
   }
