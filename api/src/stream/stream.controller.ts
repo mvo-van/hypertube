@@ -38,7 +38,7 @@ export class StreamController {
       sleep(500);
     }
 
-    const isComplete = await this.mediaFileService.isDownloadComplete(imdbID);
+    const isComplete = await this.mediaFileService.isDownloadFinished(imdbID);
     if (isComplete) {
       res.sendFile(filepath);
     } else {

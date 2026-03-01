@@ -1,5 +1,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, Relation } from "typeorm";
 import { SubtitleFile } from "./subtitle-file.entity";
+import { MediaFileStatus } from "../enum/media-file-status.enum";
+import { Lang } from "src/lang/lang";
 
 @Entity()
 export class MediaFile {
@@ -12,8 +14,11 @@ export class MediaFile {
     @Column('varchar', { length: 4096 })
     path: string;
 
-    @Column('boolean', { default: false })
-    completed: boolean = false;
+    @Column({ type: 'enum', enum: MediaFileStatus, default: MediaFileStatus.PENDING, nullable: true })
+    status?: MediaFileStatus;
+
+    @Column({ type: 'enum', enum: Lang })
+    language: Lang;
 
     @OneToMany(() => SubtitleFile, (subtitles: SubtitleFile) => subtitles.movie)
     subtitles: Relation<SubtitleFile>[];
