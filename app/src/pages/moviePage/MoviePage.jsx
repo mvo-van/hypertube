@@ -16,11 +16,14 @@ function MoviePage() {
   const [info_get, setInfo_get] = useState(false)
   const [comments, setComments] = useState([]);
   const [clickStart, setClickStart] = useState(false)
+  const [download, setDownload] = useState({})
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
 
   const getMovie = async () => {
     try {
       const res = await api.get(`http://localhost:3000/movies/${id}`);
       setMovie(res.data)
+      setDownload(res.data.download)
       setInfo_get(true)
     } catch (e) {
     }
@@ -37,7 +40,6 @@ function MoviePage() {
   useEffect(() => {
     getMovie()
     getComments()
-    setClickStart(true)
   }, [])
 
   const onMessageSubmit = async (e) => {
@@ -59,6 +61,29 @@ function MoviePage() {
     setMessage(e.target.value)
   }
 
+  const onClickStart = () => {
+    setClickStart(true)
+  }
+
+  const onClickDownload = async () => {
+    try {
+      console.log("here")
+      await api.get(`/download/${movie.imdb_id}`)
+      let startValide = false
+      while (!startValide) {
+        await sleep(5000)
+        const res = await api.get(`/media-file/status/${movie.imdb_id}`)
+        console.log("here")
+        if (res.data.exists && res.data.status != "pending" && res.data.status != "started") {
+          setDownload(res.data)
+          startValide = true
+        }
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <GenericPage>
       <Header />
@@ -67,9 +92,9 @@ function MoviePage() {
           {!info_get && <div className={style.chargeDiv}>
             <CircularProgress color="inherit" size="3rem" />
           </div>}
-          {info_get && <MovieInfo movie={movie} />}
-          {clickStart && <VideoPlayer imdbID={movie.imdb_id} />}
-
+          {info_get && <MovieInfo movie={movie} download={download} onClickStart={onClickStart} onClickDownload={onClickDownload} />}
+          {clickStart && <VideoPlayer imdbID={movie.imdb_id} subtitlesAuto={movie.subtitlesAuto} />}
+          {download.exists && download.status == "error" && <div className={style.errorMovieDownload}>Ce film n'est pas disponible dans la librerie</div>}
           <Comments comments={comments}
             color={movie.id % 12}
             movieIcon={false}

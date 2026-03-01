@@ -18,15 +18,13 @@ const getMovieId = (movie) => {
   }
 }
 
-function MovieInfo({ movie = {} }) {
+function MovieInfo({ movie = {}, download = {}, onClickStart = {}, onClickDownload = {} }) {
   const navigate = useNavigate()
   const [see, setSee] = useState(movie.see)
-  const [download, setDownload] = useState(movie.download)
+  // const [download, setDownload] = useState(movie.download)
   const [like, setLike] = useState(movie.like)
   const movieId = getMovieId(movie)
-  const onClickStart = () => {
-    setClickStart(true)
-  }
+
 
   const onClickSee = async () => {
     if (see == false) {
@@ -39,16 +37,6 @@ function MovieInfo({ movie = {} }) {
       } catch (e) {
 
       }
-    }
-  }
-
-  const onClickDownload = async () => {
-    try {
-      console.log(movie.imdb_id)
-      await api.get(`/download/${movie.imdb_id}`)
-      setDownload(true)
-    } catch (e) {
-      console.log(e)
     }
   }
 

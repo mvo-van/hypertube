@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { api } from "../../common/api";
 import style from "./VideoPlayer.module.css"
 
-export const VideoPlayer = ({ imdbID }) => {
+export const VideoPlayer = ({ imdbID, subtitlesAuto = false }) => {
   // const thumbnail =
   //   "https://disney.images.edge.bamgrid.com/ripcut-delivery/v2/variant/disney/4a55d5e6-8e3b-4cab-a34c-e8dbe51b5cc2/compose?aspectRatio=1.78&format=webp&width=1200";
   const [subtitles, setSubtitles] = useState([]);
@@ -19,7 +19,6 @@ export const VideoPlayer = ({ imdbID }) => {
       }
 
     } catch (e) {
-      console.log(e);
     }
   }
 
@@ -41,7 +40,7 @@ export const VideoPlayer = ({ imdbID }) => {
           src={e.src}
           srcLang={e.lang}
           label={e.lang}
-          default={index == 0}
+          default={index == 0 && subtitlesAuto}
           key={index}
           crossOrigin="anonymous"
         />

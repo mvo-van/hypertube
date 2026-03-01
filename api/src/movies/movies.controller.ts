@@ -23,6 +23,8 @@ import { LikesService } from 'src/likes/likes.service';
 import { TypeStrategy } from './movies.provider';
 import { UserParam } from 'src/auth/decorators/user-param.decorator';
 import { WatchedService } from 'src/watched/watched.service';
+import { MediaFileService } from 'src/media-file/media-file.service';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('movies')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -32,6 +34,8 @@ export class MoviesController {
     private readonly configService: ConfigService,
     private readonly likeService: LikesService,
     private readonly watchedService: WatchedService,
+    private readonly mediaFileService: MediaFileService,
+    private readonly userService: UsersService
   ) { }
 
   @Post()
@@ -69,7 +73,16 @@ export class MoviesController {
         if (x.job == "Executive Producer" || x.job == "Producer") { return x.name }
       }).filter((produceur) => produceur).slice(0, 6)
       const see = await this.watchedService.findOneByUserIdMovieId(TypeStrategy.MOVIE, `${id}`, userId)
+      const user = await this.userService.findOne(userId)
       const is_watched = see ? see.is_watched : false
+      const mediaFile = await this.mediaFileService.getMediaFile(movie_info.data.imdb_id)
+      let downloadInfo = { exists: false, status: "" }
+      if (mediaFile) {
+        downloadInfo = {
+          exists: true,
+          status: mediaFile.status!
+        }
+      }
       res.send({
         imdb_id: movie_info.data.imdb_id,
         type: "movie",
@@ -78,7 +91,8 @@ export class MoviesController {
         note: Number((movie_info.data.vote_average).toFixed(1)),
         see: is_watched,
         start: see ? see.time : 0,
-        download: false, // todo
+        download: downloadInfo,
+        subtitlesAuto: !(movie_info.data.original_language == user?.language),
         like: like,
         id: movie_info.data.id,
         name: movie_info.data.original_title,
