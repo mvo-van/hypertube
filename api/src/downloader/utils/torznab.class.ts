@@ -1,10 +1,12 @@
 import { XMLParser } from 'fast-xml-parser';
 import { TorznabAttr } from './torznab-attr.interface';
 import { TorznabItem } from './torznab-item.class';
+import { Logger } from '@nestjs/common';
 
 export class JacketError extends Error { }
 
 export class TorznabParser {
+  private logger = new Logger(TorznabParser.name);
   torznab: object;
 
   constructor(torznab: object) {
@@ -27,7 +29,6 @@ export class TorznabParser {
         this.parseTorznabAttrs(item['torznab:attr'])
       );
     });
-
     const sorted = items.sort((a: TorznabItem, b: TorznabItem): number => {
       const deltaSize = a.size - b.size;
       const deltaSeeders = a.getSeeders() - b.getSeeders();
@@ -51,6 +52,7 @@ export class TorznabParser {
         return -1;
       }
     });
+    this.logger.log(`selected torrent with ${sorted[0].getSeeders()} seeders`);
     return sorted[0].getMagnet()
   }
 

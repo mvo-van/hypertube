@@ -45,22 +45,23 @@ export class DownloaderService {
   private async startDownload(imdbID: string, magnet: string | undefined) {
     const path = `/static/${imdbID}`;
     const engine = torrentStream(magnet, {
-      connections: 3000,
+      connections: 500,
       path: path,
     });
 
     engine.on('ready', () => {
+      this.logger.log(`[${imdbID}]: connected to ${engine.swarm.wires.length} peers`);
       engine.files.forEach(async (file) => {
         if (isMovie(file.name)) {
           const filepath = `${path}/${file.path}`;
 
           this.logger.log(`[${imdbID}]: downloading: ${filepath}`);
+          file.select();
           await this.mediaFileService.insertMediaFile({
             imdbID: imdbID,
             path: filepath,
             // Add language
           });
-          file.select();
         } else {
           file.deselect();
         }
@@ -69,23 +70,23 @@ export class DownloaderService {
 
     engine.on('torrent', () => {
       this.logger.log(`[${imdbID}]: metadata fetched`);
-      // this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.STARTED);
+      this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.STARTED);
     });
 
     engine.on('error', (err: Error) => {
       this.logger.error(`[${imdbID}]: download error: ${err}`);
-      // this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.ERROR);
+      this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.ERROR);
     })
 
     engine.on('download', (pieceIndex: number) => {
       this.logger.log(`[${imdbID}]: piece ${pieceIndex} downloaded`);
-      // this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.DOWNLOADING);
+      this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.DOWNLOADING);
     });
 
     engine.on('idle', async () => {
       this.logger.log(`[${imdbID}]: download finished`);
-      await this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.FINISHED);
       engine.destroy();
+      await this.mediaFileService.setMediaFileStatus(imdbID, MediaFileStatus.FINISHED);
     });
   }
 

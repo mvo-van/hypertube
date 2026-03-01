@@ -31,7 +31,6 @@ export class MediaFileService {
 
         if (mediaFile) {
             mediaFile.status = status;
-            console.log(mediaFile)
             await this.mediaFileRepository.update(imdbID, mediaFile);
         }
     }
