@@ -14,21 +14,7 @@ export class TorznabParser {
   }
 
   selectTorrent(): string {
-    const parser = new XMLParser({ ignoreAttributes: false });
-    const json = parser.parse(this.torznab);
-    if (json['error']) {
-      throw new JacketError(json['error']['@_description']);
-    }
-    if (!json['rss']['channel']['item']) {
-      throw new JacketError('no content found');
-    }
-    let items: TorznabItem[] = json.rss.channel.item.map((item: object): TorznabItem => {
-      return new TorznabItem(
-        item['title'],
-        item['size'],
-        this.parseTorznabAttrs(item['torznab:attr'])
-      );
-    });
+    let items: TorznabItem[] = this.getItems();
     const sorted = items.sort((a: TorznabItem, b: TorznabItem): number => {
       const deltaSize = a.size - b.size;
       const deltaSeeders = a.getSeeders() - b.getSeeders();
@@ -54,6 +40,25 @@ export class TorznabParser {
     });
     this.logger.log(`selected torrent with ${sorted[0].getSeeders()} seeders`);
     return sorted[0].getMagnet()
+  }
+
+   getItems() {
+    const parser = new XMLParser({ ignoreAttributes: false });
+    const json = parser.parse(this.torznab);
+    if (json['error']) {
+      throw new JacketError(json['error']['@_description']);
+    }
+    if (!json['rss']['channel']['item']) {
+      throw new JacketError('no content found');
+    }
+    let items: TorznabItem[] = json.rss.channel.item.map((item: object): TorznabItem => {
+      return new TorznabItem(
+        item['title'],
+        item['size'],
+        this.parseTorznabAttrs(item['torznab:attr'])
+      );
+    });
+    return items;
   }
 
   parseTorznabAttrs(torznabAttrs: object[]): TorznabAttr[] {
