@@ -73,10 +73,15 @@ export class StreamController {
     const subtitles: any = [];
     const resSubTitleEn = await this.mediaFileService.findOneSubtitleFile(imdb_id, Lang.ENGLISH)
     if (!resSubTitleEn) {
-      const enSubtitleURL = await this.downloadSubtitle(imdb_id, Lang.ENGLISH);
-      if (enSubtitleURL) {
-        subtitles.push({ lang: Lang.ENGLISH, src: enSubtitleURL });
+      try {
+        const enSubtitleURL = await this.downloadSubtitle(imdb_id, Lang.ENGLISH);
+        if (enSubtitleURL) {
+          subtitles.push({ lang: Lang.ENGLISH, src: enSubtitleURL });
+        }
+      } catch (e) {
+        this.logger.log(e)
       }
+
     }
     else {
       subtitles.push({
@@ -93,10 +98,15 @@ export class StreamController {
     if (user?.language != Lang.ENGLISH) {
       const resSubTitleUserLang = await this.mediaFileService.findOneSubtitleFile(imdb_id, user?.language)
       if (!resSubTitleUserLang) {
-        langSubtitleURL = await this.downloadSubtitle(imdb_id, user?.language as Lang);
-        if (langSubtitleURL) {
-          subtitles.push({ lang: user?.language, src: langSubtitleURL });
+        try {
+          langSubtitleURL = await this.downloadSubtitle(imdb_id, user?.language as Lang);
+          if (langSubtitleURL) {
+            subtitles.push({ lang: user?.language, src: langSubtitleURL });
+          }
+        } catch (e) {
+          this.logger.log(e)
         }
+
       } else {
         subtitles.push({
           lang: user?.language,
@@ -139,7 +149,6 @@ export class StreamController {
       file_id: firstMatch.attributes.files[0].file_id,
     });
     const subtitleResponse = await axios.get(subtitleURL.link);
-    console.log(subtitleResponse);
     this.storeSubtitle(imdb_id, lang, subtitleResponse.data);
 
     return this.getSubtitleURL(imdb_id, lang);
@@ -153,7 +162,6 @@ export class StreamController {
   @Public()
   async getSubtitle(@Res() res: Response, @Param("imdbID") imdbID: string, @Param("lang") lang: Lang) {
     const filepath = `/static/${imdbID}/${imdbID}.${lang}.vtt`;
-
     res.sendFile(filepath);
   }
 
