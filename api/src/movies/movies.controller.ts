@@ -335,6 +335,15 @@ export class MoviesController {
       const top_movie_res = await Promise.all(top_movie.data.results.map(async (elem) => {
         const see = await this.watchedService.findOneByUserIdMovieId(TypeStrategy.MOVIE, `${elem.id}`, userId)
         const is_watched = see ? see.is_watched : false
+        const getImdbId = await axios.get(`https://api.themoviedb.org/3/movie/${elem.id}/external_ids?api_key=${TMDB_API_KEY}`)
+        if (getImdbId.data.imdb_id) {
+          const isTorrentExist = await this.downloaderService.exists(getImdbId.data.imdb_id)
+          if (!isTorrentExist) {
+            return
+          }
+        } else {
+          return
+        }
         return {
           urlImg: `https://image.tmdb.org/t/p/original/${elem.poster_path}`,
           see: is_watched,
@@ -355,7 +364,7 @@ export class MoviesController {
         }
       })
       res.send({
-        topMovie: top_movie_res,
+        topMovie: top_movie_res.filter((e) => e),
         topSerie: top_serie_res
       });
     } catch (error) {

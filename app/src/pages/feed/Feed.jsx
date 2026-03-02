@@ -209,6 +209,7 @@ function Feed() {
 			</div>
 			{!searching && <form className={style.formTile} onSubmit={onTitleSearchSubmit}>
 				<input type="textarea"
+					id="titleSearch"
 					className={style.inputTitle}
 					value={searchTitle}
 					onChange={onTitleSearchHeandler} />
@@ -220,11 +221,11 @@ function Feed() {
 			</form>}
 			{isSearchOff && <HorizontalScrollMovies
 				movies={movies}
-				label="Top 20 - Films les plus populaires"
+				label="Top - Films les plus populaires"
 			/>}
 			{isSearchOff && <HorizontalScrollMovies
 				movies={series}
-				label="Top 20 - Series les plus populaires"
+				label="Top - Series les plus populaires"
 			/>}
 			{!isSearchOff && <FeedMovies
 				movies={resSearch}

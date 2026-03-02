@@ -1,3 +1,4 @@
+import Label from "../label/Label";
 import styles from "./InputSelect.module.css"
 import { MenuItem, Select } from "@mui/material";
 
@@ -8,8 +9,8 @@ export default function InputSelect({ label = "test", id = 0, color = "lighter_g
     <div className={styles.input}>
       <div className={styles[`input__label_${color}`]} >{label}</div>
       <Select
-        labelId="demo-simple-select-autowidth-label"
-        id="demo-simple-select-autowidth"
+        labelId={tagId}
+        id={tagId}
         value={value}
         onChange={onChange}
         autoWidth
