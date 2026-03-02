@@ -170,12 +170,12 @@ export class StreamController {
     const filepath = `/static/${imdbID}/${imdbID}.${lang}.vtt`;
     this.logger.log(`[${imdbID}]: store subtitle: ${filepath}`);
     try {
-      srt2vtt(content, (err, vttData) => {
-        if (err) {
-          throw new Error(err);
-        }
-        fs.writeFileSync(filepath, vttData);
-      });
+      // srt2vtt(content, (err, vttData) => {
+      //   if (err) {
+      //     throw new Error(err);
+      //   }
+      fs.writeFileSync(filepath, `WEBVTT \n\n ${content.replaceAll(",", ".")}`);
+      // });
       this.mediaFileService.createSubtitleFile(imdbID, lang, filepath)
     } catch (err) {
       this.logger.error(`[${imdbID}]: error: ${err}`);
