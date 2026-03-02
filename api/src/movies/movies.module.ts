@@ -8,9 +8,10 @@ import { UsersModule } from 'src/users/users.module';
 import { LikesModule } from 'src/likes/likes.module';
 import { WatchedModule } from 'src/watched/watched.module';
 import { MediaFileModule } from 'src/media-file/media-file.module';
+import { DownloaderModule } from 'src/downloader/downloader.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Movie]), UtilsModule, UsersModule, LikesModule, WatchedModule, MediaFileModule],
+  imports: [TypeOrmModule.forFeature([Movie]), UtilsModule, UsersModule, LikesModule, WatchedModule, MediaFileModule, DownloaderModule],
   controllers: [MoviesController],
   providers: [MoviesService],
   exports: [MoviesService],

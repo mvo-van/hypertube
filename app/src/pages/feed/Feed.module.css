@@ -79,6 +79,12 @@
     justify-content: space-evenly;
 }
 
+.noResult {
+    color: #454545;
+    text-align: center;
+    font-size: 40px;
+}
+
 @media screen and (max-width: 500px) {
     .form {
         display: flex;

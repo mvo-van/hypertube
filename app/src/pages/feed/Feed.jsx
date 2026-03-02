@@ -233,6 +233,10 @@ function Feed() {
 				<CircularProgress color="inherit" size="3rem" />
 			</div>}
 
+			{!isSearchOff && resSearch.length == 0 && <div className={style.noResult}>
+				Pas de resultat pour cette recherche
+			</div>}
+
 
 		</GenericPage>
 	);

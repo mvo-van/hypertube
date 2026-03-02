@@ -25,6 +25,7 @@ import { UserParam } from 'src/auth/decorators/user-param.decorator';
 import { WatchedService } from 'src/watched/watched.service';
 import { MediaFileService } from 'src/media-file/media-file.service';
 import { UsersService } from 'src/users/users.service';
+import { DownloaderService } from 'src/downloader/downloader.service';
 
 @Controller('movies')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -35,7 +36,8 @@ export class MoviesController {
     private readonly likeService: LikesService,
     private readonly watchedService: WatchedService,
     private readonly mediaFileService: MediaFileService,
-    private readonly userService: UsersService
+    private readonly userService: UsersService,
+    private readonly downloaderService: DownloaderService
   ) { }
 
   @Post()
@@ -134,7 +136,7 @@ export class MoviesController {
         }
       }))
       const serie_credits_info = await axios.get(`https://api.themoviedb.org/3/tv/${id}/credits?api_key=${TMDB_API_KEY}`)
-      const imdb_id = await axios.get(`https://api.themoviedb.org/3/tv/${id}/external_ids?api_key=${TMDB_API_KEY}`)
+      // const imdb_id = await axios.get(`https://api.themoviedb.org/3/tv/${id}/external_ids?api_key=${TMDB_API_KEY}`)
       const cast = serie_credits_info.data.cast.slice(0, 6).map((x) => x.name)
       const screenwriters = serie_credits_info.data.crew.map((x) => {
         if (x.department == "Writing") { return x.name }
@@ -144,7 +146,7 @@ export class MoviesController {
       }).filter((produceur) => produceur).slice(0, 6)
       res.send({
         serie_infos: {
-          imdb_id: imdb_id.data.imdb_id,
+          // imdb_id: imdb_id.data.imdb_id,
           id: serie_info.data.id,
           name: serie_info.data.name, // ou original_name
           type: "serie",
@@ -167,7 +169,6 @@ export class MoviesController {
     } catch (error) {
       return { message: 'Serie not detected successfully' }
     }
-    // return { message: 'Movie detected successfully' };
   }
 
   @Get('serie/:serie_id/season/:season_number')
@@ -242,7 +243,6 @@ export class MoviesController {
     } catch (error) {
       return { message: 'Serie not detected successfully' }
     }
-    // return { message: 'Movie detected successfully' };
   }
 
   @Get('serie/:serie_id/season/:season_number/episode/:episode_number')
@@ -262,7 +262,7 @@ export class MoviesController {
 
       const episode_info = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/season/${season_number}/episode/${episode_number}?api_key=${TMDB_API_KEY}`)
 
-      const imdb_id = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/season/${season_number}/episode/${episode_number}/external_ids?api_key=${TMDB_API_KEY}`)
+      // const imdb_id = await axios.get(`https://api.themoviedb.org/3/tv/${serie_id}/season/${season_number}/episode/${episode_number}/external_ids?api_key=${TMDB_API_KEY}`)
       const producers = episode_info.data.crew.map((x) => {
         if (x.job == "Executive Producer" || x.job == "Producer" || x.job == "Director") { return x.name }
       }).filter((produceur) => produceur).slice(0, 6)
@@ -278,7 +278,7 @@ export class MoviesController {
       const is_watched = see ? see.is_watched : false
       res.send({
         episode_infos: {
-          imdb_id: imdb_id.data.imdb_id,
+          // imdb_id: imdb_id.data.imdb_id,
           type: "episode",
           time: episode_info.data.runtime,
           date: parseInt(episode_info.data.air_date),
@@ -307,7 +307,6 @@ export class MoviesController {
     } catch (error) {
       return { message: 'Episode not detected successfully' }
     }
-    // return { message: 'Movie detected successfully' };
   }
 
 
@@ -374,6 +373,15 @@ export class MoviesController {
         if (e.media_type == 'movie') {
           const see = await this.watchedService.findOneByUserIdMovieId(TypeStrategy.MOVIE, `${e.id}`, userId)
           is_watched = see ? see.is_watched : false
+          const getImdbId = await axios.get(`https://api.themoviedb.org/3/movie/${e.id}/external_ids?api_key=${TMDB_API_KEY}`)
+          if (getImdbId.data.imdb_id) {
+            const isTorrentExist = await this.downloaderService.exists(getImdbId.data.imdb_id)
+            if (!isTorrentExist) {
+              return
+            }
+          } else {
+            return
+          }
         }
         let date = e.media_type == "tv" ? parseInt(e.first_air_date) : parseInt(e.release_date)
         let name = e.media_type == "tv" ? e.name : e.title
@@ -390,7 +398,7 @@ export class MoviesController {
         }
       }))
 
-      res.send({ resultSearch: searchList, total_pages: resSearch.data.total_pages })
+      res.send({ resultSearch: searchList.filter((e) => e), total_pages: resSearch.data.total_pages })
     } catch (error) {
       return res.send({ resultSearch: [], total_pages: 1 })
     }
@@ -441,6 +449,15 @@ export class MoviesController {
           const urlImg = e.poster_path ? `https://image.tmdb.org/t/p/original/${e.poster_path}` : null
           const see = await this.watchedService.findOneByUserIdMovieId(TypeStrategy.MOVIE, `${e.id}`, userId)
           const is_watched = see ? see.is_watched : false
+          const getImdbId = await axios.get(`https://api.themoviedb.org/3/movie/${e.id}/external_ids?api_key=${TMDB_API_KEY}`)
+          if (getImdbId.data.imdb_id) {
+            const isTorrentExist = await this.downloaderService.exists(getImdbId.data.imdb_id)
+            if (!isTorrentExist) {
+              return
+            }
+          } else {
+            return
+          }
           return {
             see: is_watched,
             date: date,
@@ -452,7 +469,7 @@ export class MoviesController {
             vote_count: e.vote_count
           }
         }))
-        res.send({ resultSearch: searchList.filter((e) => (e.urlImg && Date.parse(e.real_date) < Date.now())), total_pages: resSearch.data.total_pages })
+        res.send({ resultSearch: searchList.filter((e) => (e && e.urlImg && Date.parse(e.real_date) < Date.now())), total_pages: resSearch.data.total_pages })
       }
       // res.send({ resultSearch: searchList, total_pages: resSearch.data.total_pages })
     } catch (error) {
