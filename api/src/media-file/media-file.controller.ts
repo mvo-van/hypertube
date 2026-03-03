@@ -7,7 +7,6 @@ export class MediaFileController {
     constructor(private readonly mediaFileService: MediaFileService) {}
 
     @Get("/status/:imdbID")
-    @Public()
     async status(@Param('imdbID') imdbID: string) {
         const mediaFile = await this.mediaFileService.getMediaFile(imdbID);
 

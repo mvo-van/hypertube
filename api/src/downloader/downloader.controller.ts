@@ -8,7 +8,6 @@ export class DownloaderController {
   constructor(private readonly downloaderService: DownloaderService) {}
 
   @Get(':imdb')
-  @Public()
   async download(@Param('imdb') imdb: string) {
     // 1. Search a magnet on yts and popcorn
     // 2. Start the download with torrent-stream node package
@@ -18,7 +17,6 @@ export class DownloaderController {
   }
 
   @Get('torrent/:imdb')
-  @Public()
   async exists(@Param('imdb') imdb: string) {
     const torrentExists = await this.downloaderService.exists(imdb);
 

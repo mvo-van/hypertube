@@ -28,7 +28,6 @@ export class StreamController {
   ) { }
 
   @Get('/imdb/:imdbID')
-  @Public()
   async streamFromImdb(@Req() req: Request, @Res() res: Response, @Param('imdbID') imdbID: string) {
     this.logger.log(`[${imdbID}]: retrieving filepath`);
     let filepath = await this.mediaFileService.getMediaFilePath(imdbID);
@@ -159,7 +158,6 @@ export class StreamController {
   }
 
   @Get("subtitle/:imdbID/:lang")
-  @Public()
   async getSubtitle(@Res() res: Response, @Param("imdbID") imdbID: string, @Param("lang") lang: Lang) {
     const filepath = `/static/${imdbID}/${imdbID}.${lang}.vtt`;
     res.sendFile(filepath);
