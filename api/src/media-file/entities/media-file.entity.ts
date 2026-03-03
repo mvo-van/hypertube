@@ -20,6 +20,9 @@ export class MediaFile {
     @Column({ type: 'enum', enum: Lang })
     language: Lang;
 
+    @Column({ type: 'timestamptz', nullable: false, default: () => 'CURRENT_TIMESTAMP' })
+    lastWatchedAt: Date;
+
     @OneToMany(() => SubtitleFile, (subtitles: SubtitleFile) => subtitles.movie)
     subtitles: Relation<SubtitleFile>[];
 }

@@ -73,4 +73,13 @@ export class MediaFileService {
     async findOneSubtitleFile(imdbID: string, language: Lang) {
         return this.subtitleFileRepository.findOneBy({ imdbID, language })
     }
+
+    async watched(imdbID: string) {
+        const mediaFile = await this.mediaFileRepository.findOneBy({ imdbID: imdbID });
+
+        if (mediaFile) {
+            mediaFile.lastWatchedAt = new Date();
+            await this.mediaFileRepository.update(imdbID, mediaFile);
+        }
+    }
 }

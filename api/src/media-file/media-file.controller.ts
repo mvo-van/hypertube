@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { MediaFileService } from './media-file.service';
 import { Public } from 'src/auth/decorators/public.decorator';
 
@@ -17,5 +17,11 @@ export class MediaFileController {
             exists: true,
             status: mediaFile.status!
         };
+    }
+
+    // Set timestamp when it was last time watched
+    @Post("/watched/:imdbID")
+    async watched(@Param('imdbID') imdbID: string) {
+        await this.mediaFileService.watched(imdbID);
     }
 }
