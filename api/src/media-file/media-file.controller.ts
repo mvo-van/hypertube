@@ -1,6 +1,5 @@
 import { Controller, Get, Param, Post } from '@nestjs/common';
 import { MediaFileService } from './media-file.service';
-import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('media-file')
 export class MediaFileController {

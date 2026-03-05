@@ -102,6 +102,7 @@ export class MediaFileService {
         });
 
         await this.mediaFileRepository.delete({ imdbID: imdbID });
+        this.logger.log(`[${imdbID}]: media file deleted`);
     }
 
     async getOutdated(end: Date) : Promise<MediaFile[]> {
@@ -115,5 +116,11 @@ export class MediaFileService {
             return [];
         }
         return outdated;
+    }
+
+    async cleanOudated(end: Date) {
+        const outdated = await this.getOutdated(end);
+
+        outdated.forEach((mediaFile: MediaFile) => this.delete(mediaFile.imdbID));
     }
 }

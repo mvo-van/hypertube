@@ -25,6 +25,8 @@ import { MoviesModule } from './movies/movies.module';
 import { LikesModule } from './likes/likes.module';
 import { WatchedModule } from './watched/watched.module';
 import { CommentsModule } from './comments/comments.module';
+import { MediaRetentionModule } from './media-retention/media-retention.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -45,6 +47,8 @@ import { CommentsModule } from './comments/comments.module';
     LikesModule,
     WatchedModule,
     CommentsModule,
+    MediaRetentionModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [
