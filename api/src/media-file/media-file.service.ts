@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { MediaFile } from './entities/media-file.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,9 +6,12 @@ import { Lang } from 'src/lang/lang';
 import { SubtitleFile } from './entities/subtitle-file.entity';
 import { MediaFileStatus } from './enum/media-file-status.enum';
 import { CreateMediaFileDto } from './dto/create-media-file.dto';
+import fs from "node:fs";
 
 @Injectable()
 export class MediaFileService {
+    logger: Logger = new Logger(MediaFileService.name);
+
     constructor(
         @InjectRepository(MediaFile)
         private readonly mediaFileRepository: Repository<MediaFile>,
@@ -81,5 +84,23 @@ export class MediaFileService {
             mediaFile.lastWatchedAt = new Date();
             await this.mediaFileRepository.update(imdbID, mediaFile);
         }
+    }
+
+    async delete(imdbID: string) {
+        const found = await this.mediaFileRepository.findOneBy({ imdbID: imdbID });
+
+        if (!found) {
+            this.logger.error(`[${imdbID}]: no DB entry`);
+            return;
+        }
+        const folderpath = `/static/${imdbID}`;
+
+        fs.rm(folderpath, { recursive: true, force: true }, (err) => {
+            if (err) {
+                this.logger.error(`[${imdbID}]: ${err}`);
+            }
+        });
+
+        await this.mediaFileRepository.delete({ imdbID: imdbID });
     }
 }

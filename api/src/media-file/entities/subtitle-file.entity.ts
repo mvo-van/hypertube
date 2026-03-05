@@ -16,7 +16,7 @@ export class SubtitleFile {
     @Column('varchar', { length: 4096 })
     path: string;
 
-    @ManyToOne(() => MediaFile, (movie: MediaFile) => movie.subtitles)
+    @ManyToOne(() => MediaFile, (movie: MediaFile) => movie.subtitles, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'imdbID' })
     movie: Relation<MediaFile>;
 }
