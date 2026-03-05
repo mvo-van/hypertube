@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { MoreThanOrEqual, Repository } from 'typeorm';
 import { MediaFile } from './entities/media-file.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Lang } from 'src/lang/lang';
@@ -102,5 +102,18 @@ export class MediaFileService {
         });
 
         await this.mediaFileRepository.delete({ imdbID: imdbID });
+    }
+
+    async getOutdated(end: Date) : Promise<MediaFile[]> {
+        const outdated = await this.mediaFileRepository.find({
+            where: {
+                lastWatchedAt: MoreThanOrEqual(end)
+            }
+        });
+
+        if (!outdated) {
+            return [];
+        }
+        return outdated;
     }
 }
