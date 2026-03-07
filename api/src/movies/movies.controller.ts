@@ -131,7 +131,11 @@ export class MoviesController {
           serie_id: serie_info.data.id,
           see: is_watched,
           seasonNbr: x.season_number,
-          poster: `https://image.tmdb.org/t/p/original/${x.poster_path}`,
+          poster: x.poster_path ?
+            `https://image.tmdb.org/t/p/original/${x.poster_path}` :
+            serie_info.data.poster_path ?
+              `https://image.tmdb.org/t/p/original/${serie_info.data.poster_path}` :
+              `https://us.123rf.com/450wm/surfupvector/surfupvector1908/surfupvector190802662/129243509-denied-art-line-icon-censorship-no-photo-no-image-available-reject-or-cancel-concept-vector.jpg`,
           date: parseInt(x.air_date)
         }
       }))
@@ -230,8 +234,8 @@ export class MoviesController {
           like: like,
           name: serie_info.data.name,
           synopsis: season_info.data.overview,
-          poster: `https://image.tmdb.org/t/p/original/${season_info.data.poster_path}`,
-          banner: `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}`,
+          poster: season_info.data.poster_path ? `https://image.tmdb.org/t/p/original/${season_info.data.poster_path}` : serie_info.data.backdrop_path ? `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}` : `https://us.123rf.com/450wm/surfupvector/surfupvector1908/surfupvector190802662/129243509-denied-art-line-icon-censorship-no-photo-no-image-available-reject-or-cancel-concept-vector.jpg`,
+          banner: serie_info.data.backdrop_path ? `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}` : season_info.data.poster_path ? `https://image.tmdb.org/t/p/original/${season_info.data.poster_path}` : `https://us.123rf.com/450wm/surfupvector/surfupvector1908/surfupvector190802662/129243509-denied-art-line-icon-censorship-no-photo-no-image-available-reject-or-cancel-concept-vector.jpg`,
           genres: genres,
           actors: cast,
           producers: producers,
@@ -294,8 +298,8 @@ export class MoviesController {
           id: episode_info.data.id,
           synopsis: episode_info.data.overview,
           poster_episode: path_poster,
-          poster: `https://image.tmdb.org/t/p/original/${season_info.data.poster_path}`,
-          banner: `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}`,
+          poster: season_info.data.poster_path ? `https://image.tmdb.org/t/p/original/${season_info.data.poster_path}` : `https://us.123rf.com/450wm/surfupvector/surfupvector1908/surfupvector190802662/129243509-denied-art-line-icon-censorship-no-photo-no-image-available-reject-or-cancel-concept-vector.jpg`,
+          banner: serie_info.data.backdrop_path ? `https://image.tmdb.org/t/p/original/${serie_info.data.backdrop_path}` : season_info.data.poster_path ? `https://image.tmdb.org/t/p/original/${season_info.data.poster_path}` : `https://us.123rf.com/450wm/surfupvector/surfupvector1908/surfupvector190802662/129243509-denied-art-line-icon-censorship-no-photo-no-image-available-reject-or-cancel-concept-vector.jpg`,
           genres: genres,
           actors: cast,
           producers: producers,

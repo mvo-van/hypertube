@@ -81,11 +81,11 @@ function MovieInfo({ movie = {}, download = {}, onClickStart = {}, onClickDownlo
           <div className={style.bio}>{movie.synopsis}</div>
 
           <div className={style.subDivInfo}>
-            <pre className={style.infos}><span className={style.titleInfos}>Genre             </span>{movie.genres && movie.genres.join(", ")}</pre>
-            <pre className={style.infos}><span className={style.titleInfos}>Réalisation     </span>{movie.producers && movie.producers.join(", ")}</pre>
-            <pre className={style.infos}><span className={style.titleInfos}>Scénariste      </span>{movie.screenwriters && movie.screenwriters.join(", ")}</pre>
-            <pre className={style.infos}><span className={style.titleInfos}>Studio            </span>{movie.studios && movie.studios.join(", ")}</pre>
-            <pre className={style.infos}><span className={style.titleInfos}>Distribution    </span>{movie.actors && movie.actors.join(", ")} </pre>
+            {!!(movie.genres && movie.genres.length) && <pre className={style.infos}><span className={style.titleInfos}>Genre             </span>{movie.genres && movie.genres.join(", ")}</pre>}
+            {!!(movie.producers && movie.producers.length) && <pre className={style.infos}><span className={style.titleInfos}>Réalisation     </span>{movie.producers && movie.producers.join(", ")}</pre>}
+            {!!(movie.screenwriters && movie.screenwriters.length) && <pre className={style.infos}><span className={style.titleInfos}>Scénariste      </span>{movie.screenwriters && movie.screenwriters.join(", ")}</pre>}
+            {!!(movie.studios && movie.studios.length) && <pre className={style.infos}><span className={style.titleInfos}>Studio            </span>{movie.studios && movie.studios.join(", ")}</pre>}
+            {!!(movie.actors && movie.actors.length) && <pre className={style.infos}><span className={style.titleInfos}>Distribution    </span>{movie.actors && movie.actors.join(", ")} </pre>}
           </div>
 
         </div>
