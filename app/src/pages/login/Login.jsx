@@ -9,6 +9,7 @@ import { api } from "../../common/api";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../context/userContext";
 import Omniauth from "../../components/omniauth/Omniauth";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function Login() {
 	const [pseudo, setPseudo] = useState("");
@@ -45,11 +46,16 @@ function Login() {
 		}
 	};
 
+	const goBackHandler = () => {
+		navigate("/")
+	}
+
 	const sendOtp = async () => { };
 
 	return (
 		<GenericPage className={style.home}>
 			<BubbleBackground>
+				<ArrowBackIcon className={style.arrow} onClick={goBackHandler} />
 				<MulticoText className={style["titre"]} text="Connexion" />
 				<div className={style["button-box"]}>
 					<Form

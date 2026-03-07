@@ -22,6 +22,7 @@ import { useNavigate } from "react-router";
 import { api } from "../../common/api";
 import { useAuth } from "../../context/userContext";
 import Omniauth from "../../components/omniauth/Omniauth";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function Signup() {
 	const [email, setEmail] = useState("");
@@ -146,9 +147,14 @@ function Signup() {
 			}
 	};
 
+	const goBackHandler = () => {
+		navigate("/")
+	}
+
 	return (
 		<GenericPage className={style.home}>
 			<BubbleBackground>
+				<ArrowBackIcon className={style.arrow} onClick={goBackHandler} />
 				<MulticoText className={style["titre"]} text="Inscription" />
 				<div className={style["button-box"]}>
 					<Form
