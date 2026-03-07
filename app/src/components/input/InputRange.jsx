@@ -37,7 +37,8 @@ const InputRange = React.forwardRef(({
   if (!double) {
     return (
       <div className={styles.input}>
-        <Label label={label} htmlFor={id} className={styles["input__label"]} color={color} />
+        {/* <Label label={label} htmlFor={id} className={styles["input__label"]} color={color} /> */}
+        <div className={styles["input__label"]}>{label}</div>
         <Slider
           id={id}
           className={`${styles["input"]} ${inputColor} round`}
@@ -57,7 +58,8 @@ const InputRange = React.forwardRef(({
   else {
     return (
       <div className={styles.input}>
-        <Label label={label} htmlFor={id} className={styles["input__label"]} color={color} />
+        {/* <Label label={label} htmlFor={id} className={styles["input__label"]} color={color} /> */}
+        <div className={styles["input__label"]}>{label}</div>
         <Slider
           className={`${styles["input"]} ${inputColor} round`}
           getAriaLabel={() => "Minimum distance"}

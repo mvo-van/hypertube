@@ -11,6 +11,7 @@ export default function InputSelect({ label = "test", id = 0, color = "lighter_g
       <Select
         labelId={tagId}
         id={tagId}
+        name={tagId}
         value={value}
         onChange={onChange}
         autoWidth

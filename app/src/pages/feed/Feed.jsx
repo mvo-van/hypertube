@@ -160,12 +160,14 @@ function Feed() {
 						<div className={style.form}>
 							<div className={style.childBox}>
 								<InputSelect label="Genre"
+									id="genre"
 									value={genre}
 									options={listGenre}
 									onChange={onChangeHandlerGenre}
 									selectVoid={true}
 								/>
 								<InputSelect label="Tri"
+									id="tri"
 									value={tri}
 									options={[{ "label": "titre.asc", "name": "titre.asc" },
 									{ "label": "titre.desc", "name": "titre.desc" },
@@ -196,6 +198,7 @@ function Feed() {
 							<div className={`${style.childBox} ${style.trueFalse}`}>
 
 								<InputSelect label="Type"
+									id="type"
 									value={type}
 									options={[{ "label": "tv", "name": "Série" },
 									{ "label": "movie", "name": "Film" }]}
