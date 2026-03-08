@@ -8,7 +8,7 @@ function Comments({ comments, color = 0, movieIcon = true, commentForm = true, o
   return (
     <div className={style.Allcomments}>
       <div className={`${style.line}`} />
-      <div className={`${style.title}`}>Commantaires</div>
+      <div className={`${style.title}`}>Commentaires</div>
       {commentForm && <CommentForm onMessageSubmit={onMessageSubmit} onMessageHeandler={onMessageHeandler} message={message} />}
       {comments.map((comment, index) => <CommentDiv key={comment.id} comment={comment} color={(color + index) % 12} movieIcon={movieIcon} />)}
     </div>
