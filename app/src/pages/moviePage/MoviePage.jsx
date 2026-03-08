@@ -63,6 +63,8 @@ function MoviePage() {
 
   const onClickStart = () => {
     setClickStart(true)
+    api.post(`/media-file/watched/${movie.imdb_id}`)
+      .catch(() => { });
   }
 
   const onClickDownload = async () => {
