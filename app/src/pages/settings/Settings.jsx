@@ -120,7 +120,7 @@ function Settings() {
         show_watch: showWatch,
         show_watchlist: showWatchList
       });
-      setText("Mise a jour de votre pofile validé")
+      setText("Mise a jour de votre profile validé")
       setNatifColor("green")
       setVisible(true);
       setTimeout(() => { setVisible(false); }, 5000);
