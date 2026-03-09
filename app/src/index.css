@@ -39,9 +39,9 @@ footer {
   color: gray;
   font-family: "Basic";
   width: max-content;
-  position: sticky;
-  text-align: center;
+  /* position: sticky; */
+  position: fixed;
   bottom: 5px;
   left: 5px;
-
+  z-index: 2;
 }
