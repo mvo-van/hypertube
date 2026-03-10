@@ -16,24 +16,7 @@ function ProfileUser() {
   const [user, setUser] = useState({});
   const [comments, setComments] = useState([]);
 
-  const [movies, setMovies] = useState([{ "id": 1, "name": "lilo & Stitch", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  { "id": 1, "name": "lilo & Stitch", "date": "2025", "urlImg": "https://m.media-amazon.com/images/M/MV5BNWE5MGI3MDctMmU5Ni00YzI2LWEzMTQtZGIyZDA5MzQzNDBhXkEyXkFqcGc@._V1_SX300.jpg", "see": true },
-  ]);
+  const [movies, setMovies] = useState([]);
 
   const getUserProfile = async () => {
     const config = { withCredentials: true };
@@ -54,16 +37,23 @@ function ProfileUser() {
   const getComments = async () => {
     try {
       const res = await api.get(`comments/user/${id}`)
-      console.log(res.data)
       setComments(res.data)
     } catch (e) {
-      console.log(e)
+    }
+  }
+
+  const getWatchList = async () => {
+    try {
+      const res = await api.get(`watched/findWatchList/${id}`)
+      setMovies(res.data)
+    } catch (e) {
     }
   }
 
   useEffect(() => {
     getUserProfile()
     getComments()
+    getWatchList()
   }, [id])
 
   return (
@@ -71,11 +61,14 @@ function ProfileUser() {
       <Header />
       <div className={style.user}>
         <UserInfo user={user} me={me} />
-        {/* <div className={`${style.line} ${style[`line_color_${user.id%12}`]}`}/> */}
         {movies.length && <div className={style.watchlist}>
           <HorizontalScrollMovies movies={movies} label="watchlist" />
         </div>}
-        <Comments comments={comments} color={user.id % 12} movieIcon={true} commentForm={false} />
+        {(comments.length > 0) && <Comments
+          comments={comments}
+          color={user.id % 12}
+          movieIcon={true}
+          commentForm={false} />}
       </div>
     </GenericPage>
   );

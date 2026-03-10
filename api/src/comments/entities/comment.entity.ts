@@ -23,12 +23,9 @@ export class Comment {
   @Column({ type: 'timestamp', nullable: false })
   published_date: Date;
 
-
-
   @ManyToOne(() => User, (user) => user.comments)
   @JoinColumn({ name: 'user_id' })
   user: Relation<User>;
-
 
   @Column()
   user_id: number;

@@ -7,6 +7,7 @@
   src: url(https://fonts.gstatic.com/s/basic/v17/xfu_0WLxV2_XKTN-6FH3yg7ChL4.woff2) format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
+
 /* latin */
 @font-face {
   font-family: 'Basic';
@@ -28,4 +29,19 @@ input,
 button,
 submit {
   border: none;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+footer {
+  color: gray;
+  font-family: "Basic";
+  width: max-content;
+  position: sticky;
+  text-align: center;
+  bottom: 5px;
+  left: 5px;
+
 }

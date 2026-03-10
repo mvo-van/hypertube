@@ -1,4 +1,4 @@
-.styleBox{
+.styleBox {
     display: flex;
     width: 100%;
     height: max-content;
@@ -9,7 +9,7 @@
 }
 
 
-.feed{
+.feed {
     height: max-content;
     max-width: 932px;
     z-index: 1;
@@ -18,14 +18,14 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap:42px 92px;
+    gap: 42px 92px;
     /* justify-content: space-between; */
     /* gap:92px; */
     /* grid-template-columns: 92px; */
     /* row-gap: 92px; */
 }
 
-.filter{
+.filter {
     width: 100%;
     z-index: 1;
     position: relative;
@@ -36,7 +36,7 @@
 
 }
 
-.size_box{
+.size_box {
     width: 100%;
     padding-bottom: 33px;
     padding-top: 33px;
@@ -46,9 +46,7 @@
     /* background-color: aqua; */
 }
 
-
-
-.search{
+.search {
     width: 230px;
     height: 27px;
     border-radius: 10px;
@@ -58,13 +56,13 @@
     padding-left: 10px;
 }
 
-.searchIcon{
+.searchIcon {
     padding-left: 5px;
-    font-size:31px;
+    font-size: 31px;
     color: #454545;
 }
 
-.divNoRes{
+.divNoRes {
     color: #ffffff;
     font-size: larger;
 }

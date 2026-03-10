@@ -1,13 +1,10 @@
 import GenericPage from "../page/GenericPage";
 import { useState, useEffect } from "react";
 import Header from "../../components/header/Header";
-import MovieIcon from "../../components/movieIcon/MovieIcon";
 import style from "./Users.module.css"
-import Input from "../../components/input/Input";
 import UserIcon from "../../components/UserIcon/UserIcon";
 import { Search } from "@mui/icons-material";
 import { matchSorter } from "match-sorter";
-import axios from "axios";
 import { api } from "../../common/api";
 
 function Users() {

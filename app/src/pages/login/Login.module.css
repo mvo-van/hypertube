@@ -17,10 +17,10 @@
     /* gap: 20px; */
     /* width: 100%; */
     display: flex;
-    
+
     /* background-color: var(--color-medium-gray); */
     border-radius: 10%;
-    padding: 10px; 
+    padding: 10px;
 }
 
 .titre {
@@ -41,7 +41,7 @@
 
 .line {
     width: 80%;
-    color:  #9F9F9F;
+    color: #9F9F9F;
     background-color: #9F9F9F;
     height: 2px;
     border: 0;
@@ -59,8 +59,17 @@
     border-radius: 100%;
 }
 
-.titreOmni{
+.titreOmni {
     padding-top: 20px;
     color: var(--color-red);
     font-size: 30px;
+}
+
+.arrow {
+    color: gray;
+    width: max-content;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+
 }

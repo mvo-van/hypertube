@@ -1,5 +1,4 @@
 import style from "./Signup.module.css";
-// import HomeBackground from "../../components/home/HomeBackground";
 import GenericPage from "../page/GenericPage";
 import MulticoText from "../../components/Text/MulticoText";
 import BubbleBackground from "../../components/background/BubbleBackground";
@@ -22,8 +21,8 @@ import {
 import { useNavigate } from "react-router";
 import { api } from "../../common/api";
 import { useAuth } from "../../context/userContext";
-import axios from "axios";
 import Omniauth from "../../components/omniauth/Omniauth";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function Signup() {
 	const [email, setEmail] = useState("");
@@ -148,9 +147,14 @@ function Signup() {
 			}
 	};
 
+	const goBackHandler = () => {
+		navigate("/")
+	}
+
 	return (
 		<GenericPage className={style.home}>
 			<BubbleBackground>
+				<ArrowBackIcon className={style.arrow} onClick={goBackHandler} />
 				<MulticoText className={style["titre"]} text="Inscription" />
 				<div className={style["button-box"]}>
 					<Form
@@ -173,10 +177,10 @@ function Signup() {
 							{useError.hasThisError(
 								ERROR_INVALID_FIRST_NAME
 							) && (
-								<div className={style["invalid-alert"]}>
-									{ERROR_INVALID_FIRST_NAME}
-								</div>
-							)}
+									<div className={style["invalid-alert"]}>
+										{ERROR_INVALID_FIRST_NAME}
+									</div>
+								)}
 						</div>
 
 						<div>
@@ -260,10 +264,10 @@ function Signup() {
 							{useError.hasThisError(
 								ERROR_INVALID_CONF_PASSWORD
 							) && (
-								<div className={style["invalid-alert"]}>
-									{ERROR_INVALID_CONF_PASSWORD}
-								</div>
-							)}
+									<div className={style["invalid-alert"]}>
+										{ERROR_INVALID_CONF_PASSWORD}
+									</div>
+								)}
 						</div>
 
 						<SignupPasswordCheck
@@ -272,7 +276,7 @@ function Signup() {
 						/>
 					</Form>
 					<hr className={style.line} />
-					<Omniauth/>
+					<Omniauth />
 
 				</div>
 			</BubbleBackground>

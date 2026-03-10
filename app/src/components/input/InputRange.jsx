@@ -10,15 +10,15 @@ function valuetext(value) {
 
 const minDistance = 0;
 
-const InputRange = React.forwardRef(({ 
+const InputRange = React.forwardRef(({
   label,
   value,
-  double=false,
-  min=0,
-  max=100,
-  step=1,
-  onChange = () => {},
-  onBlur = () => {},
+  double = false,
+  min = 0,
+  max = 100,
+  step = 1,
+  onChange = () => { },
+  onBlur = () => { },
   color = "lighter_gray"
 }, ref) => {
   // const { theme } = useContext(AppContext);
@@ -37,9 +37,10 @@ const InputRange = React.forwardRef(({
   if (!double) {
     return (
       <div className={styles.input}>
-        <Label label={label} htmlFor={id} className={styles["input__label"]} color={color}/>
-        <Slider 
-          id = {id}
+        {/* <Label label={label} htmlFor={id} className={styles["input__label"]} color={color} /> */}
+        <div className={styles["input__label"]}>{label}</div>
+        <Slider
+          id={id}
           className={`${styles["input"]} ${inputColor} round`}
           name={name}
           type="range"
@@ -55,9 +56,10 @@ const InputRange = React.forwardRef(({
     );
   }
   else {
-    return(
+    return (
       <div className={styles.input}>
-        <Label label={label} htmlFor={id} className={styles["input__label"]} color={color}/>
+        {/* <Label label={label} htmlFor={id} className={styles["input__label"]} color={color} /> */}
+        <div className={styles["input__label"]}>{label}</div>
         <Slider
           className={`${styles["input"]} ${inputColor} round`}
           getAriaLabel={() => "Minimum distance"}

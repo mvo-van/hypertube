@@ -29,12 +29,14 @@ import * as Joi from 'joi';
         DISCORD_CLIENT_SECRET: Joi.string().required(),
         SPOTIFY_CLIENT_ID: Joi.string().required(),
         SPOTIFY_CLIENT_SECRET: Joi.string().required(),
+        JACKETT_API_KEY: Joi.string().required(),
         MAIL: Joi.string().required(),
         MAIL_PASSWORD: Joi.string().required(),
-        TMDB_API_KEY: Joi.string().required(),
-        TMDB_TOKEN_ACCES: Joi.string().required(),
+        OPEN_SUBTITLE_USERNAME: Joi.string().required(),
+        OPEN_SUBTITLE_PASSWORD: Joi.string().required(),
+        OPEN_SUBTITLE_API_KEY: Joi.string().required(),
       }),
     }),
   ],
 })
-export class AppConfigModule { }
+export class AppConfigModule {}

@@ -2,7 +2,7 @@ import GenericPage from "../page/GenericPage";
 import { useEffect, useState } from "react";
 import Header from "../../components/header/Header";
 import style from "./SeasonPage.module.css"
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MovieInfo from "../../components/movieInfo/MovieInfo";
 import DivEpisodes from "../../components/divEpisodes/DivEpisodes";
 import { api } from "../../common/api";
@@ -10,17 +10,14 @@ import { CircularProgress } from "@mui/material";
 
 function SeasonPage() {
   const { serie_id, season_number } = useParams();
-  // const [message, setMessage] = useState("")
-  // const [movie, setMovie] = useState({})
   const [season, setSeason] = useState({});
   const [info_get, setInfo_get] = useState(false)
-
-
   const [episodes, setEpisodes] = useState([]);
-  // const [seasons, setSeasons] = useState([])
   const getSeason = async () => {
     try {
       const res = await api.get(`http://localhost:3000/movies/serie/${serie_id}/season/${season_number}`);
+      console.log(res.data)
+
       setSeason(res.data.season_infos)
       setEpisodes(res.data.episodes)
       setInfo_get(true)

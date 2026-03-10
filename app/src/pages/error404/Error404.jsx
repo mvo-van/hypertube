@@ -1,10 +1,5 @@
 import GenericPage from "../page/GenericPage";
-import { useState } from "react";
-import Header from "../../components/header/Header";
-import MovieIcon from "../../components/movieIcon/MovieIcon";
-// import MovieIcon from "../../components/movieIcon/MovieIcon";
 import style from "./Error404.module.css"
-import IconMovie from "../../components/iconMovie/IconMovie";
 import MulticoText from "../../components/Text/MulticoText";
 import Button from "../../components/button/Button";
 import { useNavigate } from "react-router";

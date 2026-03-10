@@ -18,24 +18,26 @@ const getMovieId = (movie) => {
   }
 }
 
-function MovieInfo({ movie = {} }) {
+function MovieInfo({ movie = {}, download = {}, onClickStart = {}, onClickDownload = {} }) {
   const navigate = useNavigate()
   const [see, setSee] = useState(movie.see)
-  const [download, setDownload] = useState(movie.download)
+  // const [download, setDownload] = useState(movie.download)
   const [like, setLike] = useState(movie.like)
   const movieId = getMovieId(movie)
-  const onClickStart = () => {
 
-  }
 
-  const onClickSee = () => {
+  const onClickSee = async () => {
     if (see == false) {
-      setSee(true)
+      try {
+        await api.post(`/watched/addWatch`, {
+          "movieType": movie.type,
+          "movie_id": movieId
+        });
+        setSee(true)
+      } catch (e) {
+
+      }
     }
-  }
-
-  const onClickDownload = () => {
-
   }
 
   const onClickLike = async () => {
@@ -58,6 +60,8 @@ function MovieInfo({ movie = {} }) {
     }
   }
 
+
+
   return (
     <div className={`${style.movieInfo}`}>
       <div className={style.banner} ><img className={style.imgBanner} src={movie.banner} /></div>
@@ -66,7 +70,7 @@ function MovieInfo({ movie = {} }) {
         <div className={style.infosDiv}>
           <div className={style.firstLine}>
             <div className={style.movieName}>{movie.name}</div>
-            <IconMovie type={movie.type} see={see} download={download} like={like} onClickStart={onClickStart} onClickSee={onClickSee} onClickDownload={onClickDownload} onClickLike={onClickLike} />
+            <IconMovie type={movie.type} see={see} imdb_id={movie.imdb_id} download={download} like={like} onClickStart={onClickStart} onClickSee={onClickSee} onClickDownload={onClickDownload} onClickLike={onClickLike} />
           </div>
           {movie.type == "episode" && <div className={style.seasonDiv}>{movie.episode_name}</div>}
           {movie.type == "episode" && <div className={style.seasonDiv}>Saison {movie.season} Episode {movie.episode}</div>}
@@ -77,11 +81,11 @@ function MovieInfo({ movie = {} }) {
           <div className={style.bio}>{movie.synopsis}</div>
 
           <div className={style.subDivInfo}>
-            <pre className={style.infos}><span className={style.titleInfos}>Genre             </span>{movie.genres && movie.genres.join(", ")}</pre>
-            <pre className={style.infos}><span className={style.titleInfos}>Réalisation     </span>{movie.producers && movie.producers.join(", ")}</pre>
-            <pre className={style.infos}><span className={style.titleInfos}>Scénariste      </span>{movie.screenwriters && movie.screenwriters.join(", ")}</pre>
-            <pre className={style.infos}><span className={style.titleInfos}>Studio            </span>{movie.studios && movie.studios.join(", ")}</pre>
-            <pre className={style.infos}><span className={style.titleInfos}>Distribution    </span>{movie.actors && movie.actors.join(", ")} </pre>
+            {!!(movie.genres && movie.genres.length) && <pre className={style.infos}><span className={style.titleInfos}>Genre             </span>{movie.genres && movie.genres.join(", ")}</pre>}
+            {!!(movie.producers && movie.producers.length) && <pre className={style.infos}><span className={style.titleInfos}>Réalisation     </span>{movie.producers && movie.producers.join(", ")}</pre>}
+            {!!(movie.screenwriters && movie.screenwriters.length) && <pre className={style.infos}><span className={style.titleInfos}>Scénariste      </span>{movie.screenwriters && movie.screenwriters.join(", ")}</pre>}
+            {!!(movie.studios && movie.studios.length) && <pre className={style.infos}><span className={style.titleInfos}>Studio            </span>{movie.studios && movie.studios.join(", ")}</pre>}
+            {!!(movie.actors && movie.actors.length) && <pre className={style.infos}><span className={style.titleInfos}>Distribution    </span>{movie.actors && movie.actors.join(", ")} </pre>}
           </div>
 
         </div>

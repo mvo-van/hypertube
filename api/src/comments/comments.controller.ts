@@ -25,7 +25,6 @@ import { as } from '@faker-js/faker/dist/airline-DF6RqYmq';
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService,
     private readonly configService: ConfigService,
-
   ) { }
 
   @Post()

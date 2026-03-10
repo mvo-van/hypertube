@@ -1,5 +1,4 @@
 import style from "./Login.module.css";
-// import HomeBackground from "../../components/home/HomeBackground";
 import GenericPage from "../page/GenericPage";
 import MulticoText from "../../components/Text/MulticoText";
 import BubbleBackground from "../../components/background/BubbleBackground";
@@ -10,6 +9,7 @@ import { api } from "../../common/api";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../context/userContext";
 import Omniauth from "../../components/omniauth/Omniauth";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function Login() {
 	const [pseudo, setPseudo] = useState("");
@@ -37,19 +37,25 @@ function Login() {
 				password: password,
 			});
 			navigate(`/feed`);
-		} catch (e) {
-			if (e.response.message == "User is not active") {
+		} catch (error) {
+			if (error.response && error.response.message && error.response.message == "User is not active") {
 				saveUser({ pseudo, password });
 				navigate(`/validate-signup`);
 			}
+			console.log(error)
 		}
 	};
+
+	const goBackHandler = () => {
+		navigate("/")
+	}
 
 	const sendOtp = async () => { };
 
 	return (
 		<GenericPage className={style.home}>
 			<BubbleBackground>
+				<ArrowBackIcon className={style.arrow} onClick={goBackHandler} />
 				<MulticoText className={style["titre"]} text="Connexion" />
 				<div className={style["button-box"]}>
 					<Form

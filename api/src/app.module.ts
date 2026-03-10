@@ -13,13 +13,20 @@ import { MockDataService } from './mock-data/mock-data.service';
 import { MockDataModule } from './mock-data/mock-data.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
-import { MailerService } from './mailer/mailer.service';
+import { MailerService } from './mailer/mailer.service'
 import { MailerModule } from './mailer/mailer.module';
 import { ImageModule } from './image/image.module';
+import { DownloaderModule } from './downloader/downloader.module';
+import { MediaFile } from './media-file/entities/media-file.entity';
+import { MediaFileModule } from './media-file/media-file.module';
+import { SubtitleFile } from './media-file/entities/subtitle-file.entity';
+import { StreamModule } from './stream/stream.module';
 import { MoviesModule } from './movies/movies.module';
 import { LikesModule } from './likes/likes.module';
 import { WatchedModule } from './watched/watched.module';
 import { CommentsModule } from './comments/comments.module';
+import { MediaRetentionModule } from './media-retention/media-retention.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -30,13 +37,18 @@ import { CommentsModule } from './comments/comments.module';
     UtilsModule,
     AuthModule,
     MockDataModule,
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, MediaFile, SubtitleFile]),
     MailerModule,
     ImageModule,
+    DownloaderModule,
+    MediaFileModule,
+    StreamModule,
     MoviesModule,
     LikesModule,
     WatchedModule,
-    CommentsModule
+    CommentsModule,
+    MediaRetentionModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [
@@ -49,4 +61,4 @@ import { CommentsModule } from './comments/comments.module';
     MailerService,
   ],
 })
-export class AppModule { }
+export class AppModule {}
