@@ -22,7 +22,7 @@ function ValidateSignup() {
 		let test = numRegex.test(value);
 		if (test) {
 			setCode(value);
-			invalid_otp = false;
+			invalid_otp.current = false;
 		}
 	};
 
@@ -44,7 +44,7 @@ function ValidateSignup() {
 			deleteUser();
 			navigate(`/login`);
 		} catch (e) {
-			if (e.response.message == 400) invalid_otp = true;
+			if (e.response.message == 400) invalid_otp.current = true;
 			// bad request si pseudo non sauvegarde renvoyer sur login
 			// demander pseudo personne au lieu de stocker infos, supprimer user context qui englobe dans app.tsx (authprovider)
 		}
@@ -81,7 +81,7 @@ function ValidateSignup() {
 						maxLength={6}
 					/>
 				</Form>
-				{invalid_otp == false && <p>Le code OTP n'est pas valide.</p>}
+				{invalid_otp == true && <p>Le code OTP n'est pas valide.</p>}
 			</BubbleBackground>
 		</GenericPage>
 	);
