@@ -39,7 +39,11 @@ function Login() {
 			deleteUser();
 			navigate(`/feed`);
 		} catch (error) {
+<<<<<<< Updated upstream
 			if (error.response && error.response.message && error.response.message && error.response.data.message == "User is not active") {
+=======
+			if (error.response.data.message == "User is not active") {
+>>>>>>> Stashed changes
 				saveUser({ pseudo, password });
 				navigate(`/validate-signup`);
 			}
