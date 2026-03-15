@@ -5,6 +5,7 @@ import style from "./Settings.module.css"
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { api } from "../../common/api";
 import Notification from "../../components/notification/Notifiacation";
+import ChangePassword from "../../components/settings/ChangePassword";
 
 function Settings() {
   const [pseudo, setPseudo] = useState("")
@@ -60,14 +61,6 @@ function Settings() {
   const onImageHandler = (e) => {
     setUpdateImage(e.target.files[0])
     setPhoto(URL.createObjectURL(e.target.files[0]))
-  }
-
-  const onClickChangePwd = (e) => {
-    // todo
-  }
-
-  const onClickChangeMail = (e) => {
-    // todo
   }
 
   const onLanguageHandler = (e) => {
@@ -166,8 +159,8 @@ function Settings() {
             <div className={style.line}></div>
             <div className={style.subTitle}>Authentification</div>
             <div className={style.divAuthentication}>
-              <button className={style.buttonConnexion} onClick={onClickChangePwd}>Réinitialiser le mot de passe</button>
-              <button className={style.buttonConnexion} onClick={onClickChangeMail}>Mise a jour de mon mail </button>
+              <ChangePassword/>
+              {/* <button className={style.buttonConnexion} onClick={onClickChangeMail}>Mise a jour de mon mail </button> */}
             </div>
 
             <div className={style.line}></div>

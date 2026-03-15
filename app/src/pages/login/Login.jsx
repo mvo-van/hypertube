@@ -15,7 +15,7 @@ function Login() {
 	const [pseudo, setPseudo] = useState("");
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
-	const { saveUser } = useAuth();
+	const { saveUser, deleteUser } = useAuth();
 
 	const onPseudoHandler = (value) => {
 		setPseudo(value);
@@ -36,9 +36,10 @@ function Login() {
 				username: pseudo,
 				password: password,
 			});
+			deleteUser();
 			navigate(`/feed`);
 		} catch (error) {
-			if (error.response && error.response.message && error.response.message == "User is not active") {
+			if (error.response && error.response.message && error.response.message && error.response.data.message == "User is not active") {
 				saveUser({ pseudo, password });
 				navigate(`/validate-signup`);
 			}

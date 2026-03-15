@@ -41,9 +41,12 @@ function ValidateSignup() {
 				username: getUser().pseudo,
 				otp_code: code,
 			});
+			deleteUser();
 			navigate(`/login`);
 		} catch (e) {
 			if (e.response.message == 400) invalid_otp = true;
+			// bad request si pseudo non sauvegarde renvoyer sur login
+			// demander pseudo personne au lieu de stocker infos, supprimer user context qui englobe dans app.tsx (authprovider)
 		}
 	};
 
@@ -51,7 +54,6 @@ function ValidateSignup() {
 		<GenericPage className={style.home}>
 			<BubbleBackground>
 				<MulticoText className={style.titre} text="validation otp" />
-				{/* Ajouter bouton pour recevoir un nouveau code ?? */}
 				<div className="menu">
 					<Logout
 						sx={{ fontSize: 35, color: "#EB7879" }}
