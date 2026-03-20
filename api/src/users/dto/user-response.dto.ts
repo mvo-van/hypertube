@@ -1,6 +1,7 @@
 import { Lang } from '../../lang/lang';
 import { Exclude, Expose } from 'class-transformer';
 import { User } from '../entities/user.entity';
+import { AuthStrategy } from 'src/auth/auth.provider';
 
 @Exclude()
 export class UserResponseDto {
@@ -21,6 +22,9 @@ export class UserResponseDto {
 
   @Expose()
   language: Lang;
+
+  @Expose()
+  auth_strategy: AuthStrategy;
 
   @Expose()
   me: Boolean;
