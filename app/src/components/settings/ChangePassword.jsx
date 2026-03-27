@@ -8,7 +8,6 @@ import { api } from "../../common/api";
 
 export default function ChangePassword() {
     const [mail, setMail] = useState("");
-    // const [strategy, setStrategy] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [newPassword, setNewPassword] = useState("");
     const numRegex = /^[0-9]*$/;
@@ -21,7 +20,6 @@ export default function ChangePassword() {
         try {
             const res = await api.get(`/users/me`);
             setMail(res.data.email);
-            // setStrategy(res.data.auth_strategy);
         } catch (e) {
         }
     }

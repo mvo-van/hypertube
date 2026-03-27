@@ -8,6 +8,7 @@ import Notification from "../../components/notification/Notifiacation";
 import ChangePassword from "../../components/settings/ChangePassword";
 
 function Settings() {
+  const [strategy, setStrategy] = useState("");
   const [pseudo, setPseudo] = useState("")
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
@@ -34,6 +35,7 @@ function Settings() {
       setShowName(res.data.show_name)
       setShowWatch(res.data.show_watch)
       setShowWatchList(res.data.show_watchlist)
+      setStrategy(res.data.auth_strategy);
     } catch (e) {
     }
   }
@@ -157,13 +159,13 @@ function Settings() {
 
             </div>
             <div className={style.line}></div>
-            <div className={style.subTitle}>Authentification</div>
-            <div className={style.divAuthentication}>
+            {strategy && strategy == "local" && <div className={style.subTitle}>Authentification</div>}
+            {strategy && strategy == "local" && <div className={style.divAuthentication}>
               <ChangePassword/>
               {/* <button className={style.buttonConnexion} onClick={onClickChangeMail}>Mise a jour de mon mail </button> */}
-            </div>
+            </div>}
 
-            <div className={style.line}></div>
+            {strategy && strategy == "local" && <div className={style.line}></div>}
 
             <div className={style.subTitle}>Langue préférée</div>
 
