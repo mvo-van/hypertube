@@ -132,3 +132,11 @@
     margin-top: 15px;
     z-index: 1;
 }
+
+.movieIcon_true {
+    cursor: pointer;
+}
+
+.movieIcon_false {
+    cursor: pointer;
+}

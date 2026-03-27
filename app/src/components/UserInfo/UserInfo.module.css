@@ -28,6 +28,10 @@
     font-family: 'Basic';
 }
 
+.modify {
+    cursor: pointer;
+}
+
 .subDivInfo{
     display: flex;
     flex-direction: column;

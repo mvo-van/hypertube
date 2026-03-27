@@ -97,6 +97,7 @@
 .boxPhoto {
     width: 140px;
     height: 140px;
+    cursor: pointer;
 }
 
 .displayFalse {
@@ -122,6 +123,7 @@
     background-color: #454545;
     color: white;
     text-align: center;
+    cursor: pointer;
 }
 
 .boxDisplay {
@@ -148,6 +150,7 @@
     display: inline-block;
     line-height: 27px;
     text-align: center;
+    cursor: pointer;
 }
 
 .yes_true {
@@ -168,6 +171,7 @@
     display: inline-block;
     line-height: 27px;
     text-align: center;
+    cursor: pointer;
 }
 
 .no_true {
@@ -186,6 +190,7 @@
     font-size: 16px;
     border-radius: 10px;
     color: white;
+    cursor: pointer;
 }
 
 .saveButton {
@@ -201,6 +206,7 @@
     display: inline-block;
     line-height: 39px;
     text-align: center;
+    cursor: pointer;
 }
 
 .divAuthentication {
