@@ -5,7 +5,7 @@ function CommentForm({ comments, onMessageSubmit = {}, onMessageHeandler = {}, m
 
   return (
     <form className={styles.form} onSubmit={onMessageSubmit}>
-      <input type="textarea" className={styles.inputChat} value={message} onChange={onMessageHeandler} />
+      <input type="textarea" className={styles.inputChat} value={message} onChange={onMessageHeandler} maxLength="200"/>
       <button
         type="submit"
         className={styles.buttonChat}>
