@@ -1,4 +1,3 @@
-import Button from "../button/Button";
 import { useRef, useState, useEffect } from "react";
 import style from "./ChangePassword.module.css";
 import Input from "../input/Input";
@@ -29,10 +28,8 @@ export default function ChangePassword() {
     }, [])
 
     const onClickChangePwd = async () => {
-        console.log(isOpen)
         if (isOpen == false) {
             try {
-                console.log("try it")
                 await api.post("/auth/forgot-password", {
                     email: mail
                 });
@@ -61,8 +58,14 @@ export default function ChangePassword() {
 
     const onPasswordCheckHandler = (value) => {
         passwordIsCorrect.current = value;
-        
     };
+
+    const closeBox = () => {
+        setIsOpen(false);
+        setSuccess(true);
+        setOtpCode("");
+        setNewPassword("");
+    }
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
@@ -75,10 +78,7 @@ export default function ChangePassword() {
                     otp_code: otpCode,
                     new_password: newPassword,
                 });
-                setIsOpen(false);
-                setSuccess(true);
-                setOtpCode("");
-                setNewPassword("");
+                closeBox();
             } catch (e) {
                 if (e.response.data.status == 404) setValidOtp(false);
                 console.log(e)
@@ -89,12 +89,7 @@ export default function ChangePassword() {
     return (
         <div className={style.passwordChangeBox}>
 
-            <Button
-                className={style.buttonConnexion}
-                onClick={onClickChangePwd}
-                color="blue"
-                children="Réinitialiser le mot de passe"
-            />
+            {isOpen == false && <button className={style.buttonConnexion} onClick={onClickChangePwd}>Réinitialiser le mot de passe</button>}
             {success == true && <p>Votre mot de passe a bien ete modifie !</p>}
             {isOpen && <Form
                 className="reset-password-form"
