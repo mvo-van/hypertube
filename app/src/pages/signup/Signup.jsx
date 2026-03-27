@@ -32,7 +32,7 @@ function Signup() {
 	const [pseudo, setPseudo] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
-	const pseudoRegex = /^(?=.{3,}$)[A-Za-z]+(?:[ -][A-Za-z]+)*$/;
+	const pseudoRegex = /^(?=.{3,}$)[A-Za-z0-9]+(?:[ -][A-Za-z0-9]+)*$/;
 	const nameRegex = /^(?=.{2,}$)[A-Za-z]+(?:[ -][A-Za-z]+)*$/;
 	const mailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 	const { saveUser } = useAuth();
