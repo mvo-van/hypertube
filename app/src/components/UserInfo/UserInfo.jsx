@@ -17,8 +17,7 @@ function UserInfo({ user = {}, me = false }) {
         <div className={style.infosDiv}>
           <div className={style.pseudo}>{user.pseudo} {me && <BorderColorIcon onClick={onClickHandlerModify} className={style.modify} />}</div>
           <div className={style.subDivInfo}>
-            <div className={style.infos}>Films vus : {user.moviesNumber}</div>
-            <div className={style.infos}>Episodes vus : {user.seriesNumber}</div>
+            <div className={style.infos}>Films et saisons vus : {user.moviesCount}</div>
           </div>
         </div>
       </div>
