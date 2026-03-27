@@ -7,7 +7,6 @@ import Form from "../../components/form/Form";
 import Input from "../../components/input/Input";
 import { api } from "../../common/api";
 import { useNavigate } from "react-router";
-import { useAuth } from "../../context/userContext";
 import Omniauth from "../../components/omniauth/Omniauth";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -15,7 +14,6 @@ function Login() {
 	const [pseudo, setPseudo] = useState("");
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
-	const { saveUser, deleteUser } = useAuth();
 
 	const onPseudoHandler = (value) => {
 		setPseudo(value);
@@ -36,12 +34,10 @@ function Login() {
 				username: pseudo,
 				password: password,
 			});
-			deleteUser();
 			navigate(`/feed`);
 		} catch (error) {
 			if (error.response && error.response.message && error.response.message && error.response.data.message == "User is not active") {
-				saveUser({ pseudo, password });
-				navigate(`/validate-signup`);
+				navigate(`/validate-signup`); // check why it doesnt work anymore
 			}
 			console.log(error)
 		}

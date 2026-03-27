@@ -20,7 +20,6 @@ import {
 } from "../../common/messages";
 import { useNavigate } from "react-router";
 import { api } from "../../common/api";
-import { useAuth } from "../../context/userContext";
 import Omniauth from "../../components/omniauth/Omniauth";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -35,7 +34,6 @@ function Signup() {
 	const pseudoRegex = /^(?=.{3,}$)[A-Za-z0-9]+(?:[ -][A-Za-z0-9]+)*$/;
 	const nameRegex = /^(?=.{2,}$)[A-Za-z]+(?:[ -][A-Za-z]+)*$/;
 	const mailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-	const { saveUser } = useAuth();
 
 	const useError = useErrorManager();
 	const navigate = useNavigate();
@@ -140,7 +138,6 @@ function Signup() {
 				await api.post("/users/activate", {
 					username: pseudo,
 				});
-				saveUser({ pseudo, password });
 				navigate(`/validate-signup`);
 			} catch (error) {
 				// Ajouter cas erreur

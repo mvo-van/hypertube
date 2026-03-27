@@ -5,18 +5,29 @@ import MulticoText from "../../components/Text/MulticoText";
 import Form from "../../components/form/Form";
 import { useRef, useState } from "react";
 import Input from "../../components/input/Input";
-import { useAuth } from "../../context/userContext";
 import { Logout } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { api } from "../../common/api";
 
 function ValidateSignup() {
+	const [pseudo, setPseudo] = useState("");
 	const [code, setCode] = useState("");
 	let invalid_otp = useRef();
 	const numRegex = /^[0-9]*$/;
-	const { getUser, deleteUser } = useAuth();
+	const pseudoRegex = /^(?=.{3,}$)[A-Za-z0-9]+(?:[ -][A-Za-z0-9]+)*$/;
 	const navigate = useNavigate();
 
+
+	const onPseudoHandler = (value) => {
+		setPseudo(value);
+		// const test = pseudoRegex.test(value);
+		// TODO Verifier pseudo correct ?
+	};
+
+	const onPseudoValidate = (value) => {
+		{
+		}
+	};
 
 	const onCodeHandler = (value) => {
 		let test = numRegex.test(value);
@@ -29,7 +40,6 @@ function ValidateSignup() {
 	const onCodeValidate = (value) => { };
 
 	const onClickHandlerQuit = () => {
-		deleteUser();
 		navigate(`/`);
 	};
 
@@ -38,15 +48,12 @@ function ValidateSignup() {
 
 		try {
 			await api.post("/users/validate", {
-				username: getUser().pseudo,
+				username: pseudo,
 				otp_code: code,
 			});
-			deleteUser();
 			navigate(`/login`);
 		} catch (e) {
 			if (e.response.message == 400) invalid_otp.current = true;
-			// bad request si pseudo non sauvegarde renvoyer sur login
-			// demander pseudo personne au lieu de stocker infos, supprimer user context qui englobe dans app.tsx (authprovider)
 		}
 	};
 
@@ -70,6 +77,15 @@ function ValidateSignup() {
 					direction="row"
 					color="yellow"
 				>
+					<Input
+						label="pseudo"
+						type="string"
+						value={pseudo}
+						onChange={onPseudoHandler}
+						onBlur={onPseudoValidate}
+						color="yellow"
+						maxLength={20}
+					/>
 					<Input
 						label="code"
 						type="string"
