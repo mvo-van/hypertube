@@ -29,6 +29,9 @@ function Login() {
 
 	const onSubmitHandler = async (e) => {
 		e.preventDefault();
+		if (!pseudo || !password) {
+			return;
+		}
 		try {
 			await api.post("/auth/login", {
 				username: pseudo,

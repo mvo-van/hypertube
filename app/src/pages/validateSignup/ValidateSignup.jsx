@@ -45,7 +45,9 @@ function ValidateSignup() {
 
 	const onSubmitHandler = async (e) => {
 		e.preventDefault();
-
+		if (!pseudo || !code) {
+			return;
+		}
 		try {
 			await api.post("/users/validate", {
 				username: pseudo,
