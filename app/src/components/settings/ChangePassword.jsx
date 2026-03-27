@@ -118,13 +118,6 @@ export default function ChangePassword() {
                 />
             </Form>}
             {validOtp == false && <p>Le code OTP n'est pas valide.</p>}
-            {/* {useError.hasThisError(
-                ERROR_INVALID_CONF_PASSWORD
-            ) && (
-                    <div className={style["invalid-alert"]}>
-                        {ERROR_INVALID_CONF_PASSWORD}
-                    </div>
-                )} */}
             <SignupPasswordCheck
                 password={newPassword}
                 onChange={onPasswordCheckHandler}

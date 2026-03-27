@@ -68,6 +68,7 @@ function Login() {
 							onChange={onPseudoHandler}
 							onBlur={onPseudoValidate}
 							color="blue"
+							maxLength={20}
 						/>
 
 						<Input
@@ -77,6 +78,7 @@ function Login() {
 							onChange={onPasswordHandler}
 							onBlur={onPassWordValidate}
 							color="blue"
+							maxLength={64}
 						/>
 						<a
 							href="#"
