@@ -1,29 +1,56 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { api } from "../../common/api";
-import style from "./VideoPlayer.module.css"
+import style from "./VideoPlayer.module.css";
 
-export const VideoPlayer = ({ imdbID, subtitlesAuto = false }) => {
-  // const thumbnail =
-  //   "https://disney.images.edge.bamgrid.com/ripcut-delivery/v2/variant/disney/4a55d5e6-8e3b-4cab-a34c-e8dbe51b5cc2/compose?aspectRatio=1.78&format=webp&width=1200";
+export const VideoPlayer = ({ imdbID, tmdbID,subtitlesAuto = false, startTime, runTime  }) => {
   const [subtitles, setSubtitles] = useState([]);
-  console.log(imdbID)
   const movie = `http://localhost:3000/stream/imdb/${imdbID}`;
+  const videoPlayerRef = useRef(null);
 
   const getSubtitles = async () => {
     try {
       if (imdbID) {
-        const res = await api.get(`http://localhost:3000/stream/${imdbID}/subs`);
+        const res = await api.get(`/stream/${imdbID}/subs`);
 
         setSubtitles(res.data.subtitles);
-        console.log(res);
       }
-
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   useEffect(() => {
     getSubtitles();
+
+    if (videoPlayerRef.current) {
+      videoPlayerRef.current.currentTime = startTime;
+    }
+
+    const intervalId = setInterval(() => {
+      if (videoPlayerRef.current) {
+        const currentTime = videoPlayerRef.current.currentTime;
+
+        if((runTime - 4) <= Math.floor(currentTime/60)){
+          api.post("/watched/timeWatchedUpdate", {
+          movie_id: tmdbID,
+          movieType: 'movie',
+          time: 0
+        });
+        api.post(`/watched/addWatch`, {
+          "movieType": 'movie',
+          "movie_id": tmdbID
+        });
+        }else{
+          api.post("/watched/timeWatchedUpdate", {
+          movie_id: tmdbID,
+          movieType: 'movie',
+          time: Math.floor(currentTime)
+        });
+        }
+        
+      }
+
+    }, 5000);
+
+    return () => { clearInterval(intervalId) }
   }, [imdbID])
 
   return (
@@ -33,6 +60,7 @@ export const VideoPlayer = ({ imdbID, subtitlesAuto = false }) => {
       preload="auto"
       autoPlay
       crossOrigin="anonymous"
+      ref={videoPlayerRef}
     >
       {subtitles.reverse().map((e, index) =>
         <track

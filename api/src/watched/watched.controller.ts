@@ -33,12 +33,8 @@ export class WatchedController {
   async createTimeWatchedUpdate(@Body() createWatchedDto: CreateWatchedDto, @UserParam('userId') userId: number) {
     const resLike = await this.watchedService.findOneByUserIdMovieId(createWatchedDto.movieType, createWatchedDto.movie_id, userId);
     if (resLike) {
-      if (!resLike.is_watched) {
-        if (createWatchedDto.time) {
-          resLike.time = createWatchedDto.time;
-        }
+        resLike.time = createWatchedDto.time;
         return this.watchedService.update(resLike)
-      }
     }
     else {
       return this.watchedService.create(createWatchedDto, userId);
@@ -93,9 +89,13 @@ export class WatchedController {
     }
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.watchedService.findOne(+id);
+  @Get('/time/:imdbID')
+  async findOneGetTime(@Param('imdbID') imdbID: string) {
+    const result = await this.watchedService.findOneByImdbId(imdbID);
+    console.log(result);
+    return {
+      time: (result) ? result.time : 0
+    }
   }
 
   // @Patch(':id')

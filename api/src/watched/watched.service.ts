@@ -50,8 +50,12 @@ export class WatchedService {
     })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} watched`;
+  findOneByImdbId(imdbID: string) {
+    return this.watchedRepository.findOne({
+      where: {
+        movie_id: imdbID
+      }
+    })
   }
 
   async update(updateWatched: Watched) {

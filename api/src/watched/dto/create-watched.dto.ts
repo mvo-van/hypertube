@@ -12,5 +12,5 @@ export class CreateWatchedDto {
 
     @IsInt()
     @IsOptional()
-    time?: number = +0;
+    time?: number = 0;
 }
