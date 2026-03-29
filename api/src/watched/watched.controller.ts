@@ -25,7 +25,7 @@ export class WatchedController {
       }
     }
     else {
-      return this.watchedService.create(createWatchedDto, userId);
+      return this.watchedService.create(createWatchedDto, userId, true);
     }
   }
 
@@ -33,11 +33,11 @@ export class WatchedController {
   async createTimeWatchedUpdate(@Body() createWatchedDto: CreateWatchedDto, @UserParam('userId') userId: number) {
     const resLike = await this.watchedService.findOneByUserIdMovieId(createWatchedDto.movieType, createWatchedDto.movie_id, userId);
     if (resLike) {
-        resLike.time = createWatchedDto.time;
-        return this.watchedService.update(resLike)
+      resLike.time = createWatchedDto.time;
+      return this.watchedService.update(resLike)
     }
     else {
-      return this.watchedService.create(createWatchedDto, userId);
+      return this.watchedService.create(createWatchedDto, userId, false);
     }
   }
 
