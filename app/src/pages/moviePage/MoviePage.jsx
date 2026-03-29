@@ -44,16 +44,18 @@ function MoviePage() {
 
   const onMessageSubmit = async (e) => {
     e.preventDefault();
-    const res = await api.post(`http://localhost:3000/comments`, { movie_id: `${id}`, movieType: "movie", content: message });
-    if (message.trim()) {
-      setMessage("")
-      setComments(comments.concat({
-        "id": res.data.user.id,
-        "userName": res.data.user.username,
-        "imgUser": res.data.user.profile_picture_url,
-        "commentId": res.data.id,
-        "message": res.data.content
-      }))
+    if (message) {
+      const res = await api.post(`http://localhost:3000/comments`, { movie_id: `${id}`, movieType: "movie", content: message });
+      if (message.trim()) {
+        setMessage("")
+        setComments(comments.concat({
+          "id": res.data.user.id,
+          "userName": res.data.user.username,
+          "imgUser": res.data.user.profile_picture_url,
+          "commentId": res.data.id,
+          "message": res.data.content
+        }))
+      }
     }
   }
 

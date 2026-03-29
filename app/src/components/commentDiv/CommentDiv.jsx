@@ -18,7 +18,7 @@ function CommentDiv({ comment, movieIcon = true, color = 0 }) {
   }
   return (
     <div className={`${style.divComment}`} >
-      <div className={`${style[`movieIcone_${movieIcon}`]} `}>
+      <div className={`${style[`movieIcon_${movieIcon}`]} `}>
         {movieIcon && <img onClick={onClickHandlerIconMovie} className={style.imgMovie} src={comment.urlImg} />}
         {!movieIcon && <img onClick={onClickHandlerIconUser} className={style.imgUser} src={comment.imgUser} />}
       </div>

@@ -1,8 +1,23 @@
 import { useEffect, useRef } from "react";
 import style from "./BubbleBackground.module.css";
+import { useNavigate } from "react-router";
+import { api } from "../../common/api";
 
 function BubbleBackground({ children }) {
   const canvasRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await api.get("/auth/connected");
+        navigate("/feed");
+      } catch (e) {
+      }
+    };
+
+    checkAuth();
+  }, [navigate]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
