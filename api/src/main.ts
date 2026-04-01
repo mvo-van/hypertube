@@ -11,6 +11,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { MockDataService } from './mock-data/mock-data.service';
 import cookieParser from 'cookie-parser';
 import { existsSync, mkdirSync } from 'fs';
+import { GlobalHttpExceptionFilter } from './errors/errors.filter';
 
 const logger: Logger = new Logger('Bootstrap');
 
@@ -31,6 +32,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.useGlobalFilters(new GlobalHttpExceptionFilter(app.get(Reflector)));
   ensureStatic(app);
   app.use(cookieParser());
 

@@ -7,7 +7,7 @@ import { HealthModule } from './health/health.module';
 import { UsersModule } from './users/users.module';
 import { UtilsModule } from './utils/utils.module';
 import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { MockDataService } from './mock-data/mock-data.service';
 import { MockDataModule } from './mock-data/mock-data.module';
@@ -27,6 +27,7 @@ import { WatchedModule } from './watched/watched.module';
 import { CommentsModule } from './comments/comments.module';
 import { MediaRetentionModule } from './media-retention/media-retention.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ErrorsModule } from './errors/errors.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     CommentsModule,
     MediaRetentionModule,
     ScheduleModule.forRoot(),
+    ErrorsModule,
   ],
   controllers: [AppController],
   providers: [
@@ -61,4 +63,4 @@ import { ScheduleModule } from '@nestjs/schedule';
     MailerService,
   ],
 })
-export class AppModule {}
+export class AppModule { }

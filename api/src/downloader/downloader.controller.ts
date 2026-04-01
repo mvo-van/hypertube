@@ -5,7 +5,7 @@ import { Public } from 'src/auth/decorators/public.decorator';
 // TODO: TESTING ONLY, remove after flight
 @Controller('download')
 export class DownloaderController {
-  constructor(private readonly downloaderService: DownloaderService) {}
+  constructor(private readonly downloaderService: DownloaderService) { }
 
   @Get(':imdb')
   async download(@Param('imdb') imdb: string) {
