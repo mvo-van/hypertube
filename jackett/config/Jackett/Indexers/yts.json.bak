@@ -9,17 +9,19 @@
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-<<<<<<< HEAD
     "value": "PHPSESSID=fujsism2d69ln0t608pfqk9hbd"
-=======
-    "value": "PHPSESSID=uhequpc9r372s3vapoei3bnedl"
->>>>>>> 8d76b9ef91d4945e5973c123d9e2fb05828f713b
   },
   {
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
     "value": null
+  },
+  {
+    "id": "apiurl",
+    "type": "inputstring",
+    "name": "API URL",
+    "value": "movies-api.accel.li"
   },
   {
     "id": "tags",
