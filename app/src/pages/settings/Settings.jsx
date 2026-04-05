@@ -69,22 +69,6 @@ function Settings() {
     setLanguage(e.target.value)
   }
 
-  const onClickShowNameYes = () => {
-    setShowName(true)
-  }
-
-  const onClickShowNameNo = () => {
-    setShowName(false)
-  }
-
-  const onClickShowWatchYes = () => {
-    setShowWatch(true)
-  }
-
-  const onClickShowWatchNo = () => {
-    setShowWatch(false)
-  }
-
   const onClickShowWatchListYes = () => {
     setShowWatchList(true)
   }
@@ -161,7 +145,7 @@ function Settings() {
             <div className={style.line}></div>
             {strategy && strategy == "local" && <div className={style.subTitle}>Authentification</div>}
             {strategy && strategy == "local" && <div className={style.divAuthentication}>
-              <ChangePassword/>
+              <ChangePassword />
               {/* <button className={style.buttonConnexion} onClick={onClickChangeMail}>Mise a jour de mon mail </button> */}
             </div>}
 
@@ -204,23 +188,8 @@ function Settings() {
             <div className={style.line}></div>
 
             <div className={style.subTitle}>Confidentialité du profil</div>
-
-            <div className={style.boxDisplay}>
-              <div className={style.display}>Afficher prénom/nom </div>
-              <div>
-                <button className={`${style[`yes_${showName}`]} ${style.yes}`} onClick={onClickShowNameYes}>oui</button>
-                <button className={`${style[`no_${showName}`]} ${style.no}`} onClick={onClickShowNameNo}>non</button>
-              </div>
-            </div>
             <div className={style.boxDisplay}>
               <div className={style.display}>Afficher films/séries vus </div>
-              <div>
-                <button className={`${style[`yes_${showWatch}`]} ${style.yes}`} onClick={onClickShowWatchYes}>oui</button>
-                <button className={`${style[`no_${showWatch}`]} ${style.no}`} onClick={onClickShowWatchNo}>non</button>
-              </div>
-            </div>
-            <div className={style.boxDisplay}>
-              <div className={style.display}>Afficher favoris </div>
               <div><button className={`${style[`yes_${showWatchList}`]} ${style.yes}`} onClick={onClickShowWatchListYes}>oui</button>
                 <button className={`${style[`no_${showWatchList}`]} ${style.no}`} onClick={onClickShowWatchListNo}>non</button>
               </div>
