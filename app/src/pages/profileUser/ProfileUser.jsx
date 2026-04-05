@@ -46,7 +46,8 @@ function ProfileUser() {
     try {
       const res = await api.get(`watched/findWatchList/${id}`)
       setMovies(res.data)
-      setUser(prev => ({...prev,
+      setUser(prev => ({
+        ...prev,
         moviesCount: res.data.length
       }))
     } catch (e) {
@@ -64,7 +65,7 @@ function ProfileUser() {
       <Header />
       <div className={style.user}>
         <UserInfo user={user} me={me} />
-        {movies.length && <div className={style.watchlist}>
+        {(movies.length > 0) && <div className={style.watchlist}>
           <HorizontalScrollMovies movies={movies} label="watchlist" />
         </div>}
         {(comments.length > 0) && <Comments
