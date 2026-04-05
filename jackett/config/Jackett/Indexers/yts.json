@@ -9,13 +9,23 @@
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
+<<<<<<< Updated upstream
     "value": "PHPSESSID=se33p5gqpb8nchsqrp64pc6kb5"
+=======
+    "value": "PHPSESSID=2nl4ab3supcv5ifum0ho4nllum"
+>>>>>>> Stashed changes
   },
   {
     "id": "lasterror",
     "type": "hiddendata",
     "name": "LastError",
     "value": null
+  },
+  {
+    "id": "apiurl",
+    "type": "inputstring",
+    "name": "API URL",
+    "value": "movies-api.accel.li"
   },
   {
     "id": "tags",
