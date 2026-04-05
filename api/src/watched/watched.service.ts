@@ -15,10 +15,10 @@ export class WatchedService {
     private readonly usersService: UsersService,
 
   ) { }
-  async create(createWatchedDto: CreateWatchedDto, userId: number): Promise<WatchedResponseDto> {
+  async create(createWatchedDto: CreateWatchedDto, userId: number, is_watched: boolean=false): Promise<WatchedResponseDto> {
     const watch = this.watchedRepository.create(createWatchedDto);
     const user = await this.usersService.findOne(userId);
-    watch.is_watched = true
+    watch.is_watched = is_watched
     if (user) {
       watch.user = user;
       return new WatchedResponseDto(await this.watchedRepository.save(watch));
@@ -50,8 +50,12 @@ export class WatchedService {
     })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} watched`;
+  findOneByImdbId(imdbID: string) {
+    return this.watchedRepository.findOne({
+      where: {
+        movie_id: imdbID
+      }
+    })
   }
 
   async update(updateWatched: Watched) {

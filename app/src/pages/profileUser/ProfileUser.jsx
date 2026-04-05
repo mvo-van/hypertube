@@ -46,6 +46,9 @@ function ProfileUser() {
     try {
       const res = await api.get(`watched/findWatchList/${id}`)
       setMovies(res.data)
+      setUser(prev => ({...prev,
+        moviesCount: res.data.length
+      }))
     } catch (e) {
     }
   }

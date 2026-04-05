@@ -41,22 +41,24 @@ function EpisodePage() {
 
   const onMessageSubmit = async (e) => {
     e.preventDefault();
-    const res = await api.post(`http://localhost:3000/comments`,
-      {
-        movie_id: `${serie_id}_${season_number}_${episode_number}`,
-        movieType: "episode",
-        content: message
-      });
+    if (message) {
+      const res = await api.post(`http://localhost:3000/comments`,
+        {
+          movie_id: `${serie_id}_${season_number}_${episode_number}`,
+          movieType: "episode",
+          content: message
+        });
 
-    if (message.trim()) {
-      setMessage("")
-      setComments(comments.concat({
-        "userId": res.data.user.id,
-        "userName": res.data.user.username,
-        "imgUser": res.data.user.profile_picture_url,
-        "id": res.data.id,
-        "message": res.data.content
-      }))
+      if (message.trim()) {
+        setMessage("")
+        setComments(comments.concat({
+          "userId": res.data.user.id,
+          "userName": res.data.user.username,
+          "imgUser": res.data.user.profile_picture_url,
+          "id": res.data.id,
+          "message": res.data.content
+        }))
+      }
     }
   }
 

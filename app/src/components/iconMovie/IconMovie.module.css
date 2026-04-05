@@ -1,6 +1,7 @@
 .iconButton{
     background-color: transparent;
     color: #CFCFCF;
+    cursor: pointer;
 }
 
 .divIconMovie{

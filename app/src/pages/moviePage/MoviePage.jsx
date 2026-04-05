@@ -17,6 +17,7 @@ function MoviePage() {
   const [comments, setComments] = useState([]);
   const [clickStart, setClickStart] = useState(false)
   const [download, setDownload] = useState({})
+  const [startTime, setStartTime] = useState(0);
   const sleep = ms => new Promise(r => setTimeout(r, ms));
 
   const getMovie = async () => {
@@ -25,6 +26,7 @@ function MoviePage() {
       setMovie(res.data)
       setDownload(res.data.download)
       setInfo_get(true)
+      setStartTime(res.data.start)
     } catch (e) {
     }
   }
@@ -44,16 +46,18 @@ function MoviePage() {
 
   const onMessageSubmit = async (e) => {
     e.preventDefault();
-    const res = await api.post(`http://localhost:3000/comments`, { movie_id: `${id}`, movieType: "movie", content: message });
-    if (message.trim()) {
-      setMessage("")
-      setComments(comments.concat({
-        "id": res.data.user.id,
-        "userName": res.data.user.username,
-        "imgUser": res.data.user.profile_picture_url,
-        "commentId": res.data.id,
-        "message": res.data.content
-      }))
+    if (message) {
+      const res = await api.post(`http://localhost:3000/comments`, { movie_id: `${id}`, movieType: "movie", content: message });
+      if (message.trim()) {
+        setMessage("")
+        setComments(comments.concat({
+          "id": res.data.user.id,
+          "userName": res.data.user.username,
+          "imgUser": res.data.user.profile_picture_url,
+          "commentId": res.data.id,
+          "message": res.data.content
+        }))
+      }
     }
   }
 
@@ -61,7 +65,7 @@ function MoviePage() {
     setMessage(e.target.value)
   }
 
-  const onClickStart = () => {
+  const onClickStart = async () => {
     setClickStart(true)
     api.post(`/media-file/watched/${movie.imdb_id}`)
       .catch(() => { });
@@ -69,21 +73,17 @@ function MoviePage() {
 
   const onClickDownload = async () => {
     try {
-      console.log("here")
       await api.get(`/download/${movie.imdb_id}`)
       let startValide = false
       while (!startValide) {
         await sleep(5000)
         const res = await api.get(`/media-file/status/${movie.imdb_id}`)
-        console.log("here")
         if (res.data.exists && res.data.status != "pending" && res.data.status != "started") {
           setDownload(res.data)
           startValide = true
         }
       }
-    } catch (e) {
-      console.log(e)
-    }
+    } catch (e) {}
   }
 
   return (
@@ -95,7 +95,7 @@ function MoviePage() {
             <CircularProgress color="inherit" size="3rem" />
           </div>}
           {info_get && <MovieInfo movie={movie} download={download} onClickStart={onClickStart} onClickDownload={onClickDownload} />}
-          {clickStart && <VideoPlayer imdbID={movie.imdb_id} subtitlesAuto={movie.subtitlesAuto} />}
+          {clickStart && <VideoPlayer imdbID={movie.imdb_id} tmdbID={id} subtitlesAuto={movie.subtitlesAuto} startTime={startTime} runTime={movie.time}/>}
           {download.exists && download.status == "error" && <div className={style.errorMovieDownload}>Ce film n'est pas disponible dans la librerie</div>}
           <Comments comments={comments}
             color={movie.id % 12}

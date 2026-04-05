@@ -10,7 +10,6 @@ import ProfileUser from "./pages/profileUser/ProfileUser";
 import MoviePage from "./pages/moviePage/MoviePage";
 import Settings from "./pages/settings/Settings";
 import ValidateSignup from "./pages/validateSignup/ValidateSignup";
-import { AuthProvider } from "./context/userContext";
 import Error404 from "./pages/error404/Error404";
 import Test from "./pages/test/Test";
 import SeriePage from "./pages/seriePage/SeriePage";
@@ -30,30 +29,28 @@ function App() {
 				type="text/css"
 				href="//fonts.googleapis.com/css2?family=Basic&display=swap"
 			/>
-			<AuthProvider>
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/signup" element={<Signup />} />
-					<Route path="/validate-signup" element={<ValidateSignup />} />
-					<Route path="/feed" element={<Feed />} />
-					<Route path="/users" element={<Users />} />
-					<Route path="/user/:id" element={<ProfileUser />} />
-					<Route path="/movie/:id" element={<MoviePage />} />
-					<Route path="/serie/:id" element={<SeriePage />} />
-					<Route
-						path="/serie/:serie_id/season/:season_number"
-						element={<SeasonPage />}
-					/>
-					<Route
-						path="/serie/:serie_id/season/:season_number/episode/:episode_number"
-						element={<EpisodePage />}
-					/>
-					<Route path="/settings" element={<Settings />} />
-					<Route path="/test" element={<Test />} />
-					<Route path="*" element={<Error404 />} />
-				</Routes>
-			</AuthProvider>
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/signup" element={<Signup />} />
+				<Route path="/validate-signup" element={<ValidateSignup />} />
+				<Route path="/feed" element={<Feed />} />
+				<Route path="/users" element={<Users />} />
+				<Route path="/user/:id" element={<ProfileUser />} />
+				<Route path="/movie/:id" element={<MoviePage />} />
+				<Route path="/serie/:id" element={<SeriePage />} />
+				<Route
+					path="/serie/:serie_id/season/:season_number"
+					element={<SeasonPage />}
+				/>
+				<Route
+					path="/serie/:serie_id/season/:season_number/episode/:episode_number"
+					element={<EpisodePage />}
+				/>
+				<Route path="/settings" element={<Settings />} />
+				<Route path="/test" element={<Test />} />
+				<Route path="*" element={<Error404 />} />
+			</Routes>
 		</BrowserRouter>
 	);
 }

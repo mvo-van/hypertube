@@ -23,6 +23,7 @@
     width: 217px;
     border-radius: 10px;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .name{

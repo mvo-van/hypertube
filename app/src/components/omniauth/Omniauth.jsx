@@ -10,7 +10,6 @@ function Omniauth({ className, label, onSubmit, disabled = false, children, colo
 
   return (
     <div className={styles.omniauthDiv}>
-      <p className={styles.titreOmni}>Omniauth</p>
       <div className={styles.omniauthIconeDiv}>
         <form action="http://localhost:3000/auth/google" method="get">
           <button className={styles.buttonOauth} type="submit"><img className={styles.imgOauth} src={google}/></button>
