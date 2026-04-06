@@ -5,7 +5,7 @@ import BubbleBackground from "../../components/background/BubbleBackground";
 import { useRef, useState } from "react";
 import Form from "../../components/form/Form";
 import Input from "../../components/input/Input";
-import SignupPasswordCheck from "../../components/SignupPasswordCheck/SignupPasswordCheck";
+import SignupPasswordCheck from "../../components/SignupCheck/SignupPasswordCheck";
 import useErrorManager from "../../hooks/useErrorManager";
 import {
 	ERROR_ALREADY_USED_MAIL,

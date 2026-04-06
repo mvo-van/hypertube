@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import style from "./ChangePassword.module.css";
 import Input from "../input/Input";
-import SignupPasswordCheck from "../SignupPasswordCheck/SignupPasswordCheck";
+import SignupPasswordCheck from "../SignupCheck/SignupPasswordCheck";
 import Form from "../form/Form";
 import { api } from "../../common/api";
 
