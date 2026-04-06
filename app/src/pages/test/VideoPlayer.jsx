@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { api } from "../../common/api";
+import { checkAuthConnected } from "../../common/checkAuth";
 
 export const VideoPlayer = () => {
   // const thumbnail =
@@ -10,10 +11,13 @@ export const VideoPlayer = () => {
 
   const getSubtitles = async () => {
     try {
-      const res = await api.get(`http://localhost:3000/stream/tt0088763/subs`);
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        const res = await api.get(`http://localhost:3000/stream/tt0088763/subs`);
 
-      setSubtitles(res.data.subtitles);
-      console.log(res);
+        setSubtitles(res.data.subtitles);
+        console.log(res);
+      }
     } catch (e) {
       console.log(e);
     }

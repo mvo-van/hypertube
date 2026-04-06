@@ -7,6 +7,7 @@ import Comments from "../../components/comments/Comments";
 import MovieInfo from "../../components/movieInfo/MovieInfo";
 import { api } from "../../common/api";
 import { CircularProgress } from "@mui/material";
+import { checkAuthConnected } from "../../common/checkAuth";
 
 function EpisodePage() {
   const { serie_id, season_number, episode_number } = useParams();
@@ -18,18 +19,24 @@ function EpisodePage() {
 
   const getEpisode = async () => {
     try {
-      const res = await api.get(`http://localhost:3000/movies/serie/${serie_id}/season/${season_number}/episode/${episode_number}`);
-      setEpisode(res.data.episode_infos)
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        const res = await api.get(`http://localhost:3000/movies/serie/${serie_id}/season/${season_number}/episode/${episode_number}`);
+        setEpisode(res.data.episode_infos)
 
-      setInfo_get(true)
+        setInfo_get(true)
+      }
     } catch (e) {
     }
   }
 
   const getComments = async () => {
     try {
-      const res = await api.get(`http://localhost:3000/comments/movie/episode/${serie_id}_${season_number}_${episode_number}`);
-      setComments(res.data)
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        const res = await api.get(`http://localhost:3000/comments/movie/episode/${serie_id}_${season_number}_${episode_number}`);
+        setComments(res.data)
+      }
     } catch (e) {
     }
   }
@@ -41,23 +48,26 @@ function EpisodePage() {
 
   const onMessageSubmit = async (e) => {
     e.preventDefault();
-    if (message) {
-      const res = await api.post(`http://localhost:3000/comments`,
-        {
-          movie_id: `${serie_id}_${season_number}_${episode_number}`,
-          movieType: "episode",
-          content: message
-        });
+    const resAuthConnected = await checkAuthConnected();
+    if (resAuthConnected) {
+      if (message) {
+        const res = await api.post(`http://localhost:3000/comments`,
+          {
+            movie_id: `${serie_id}_${season_number}_${episode_number}`,
+            movieType: "episode",
+            content: message
+          });
 
-      if (message.trim()) {
-        setMessage("")
-        setComments(comments.concat({
-          "userId": res.data.user.id,
-          "userName": res.data.user.username,
-          "imgUser": res.data.user.profile_picture_url,
-          "id": res.data.id,
-          "message": res.data.content
-        }))
+        if (message.trim()) {
+          setMessage("")
+          setComments(comments.concat({
+            "userId": res.data.user.id,
+            "userName": res.data.user.username,
+            "imgUser": res.data.user.profile_picture_url,
+            "id": res.data.id,
+            "message": res.data.content
+          }))
+        }
       }
     }
   }

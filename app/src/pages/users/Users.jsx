@@ -6,6 +6,7 @@ import UserIcon from "../../components/UserIcon/UserIcon";
 import { Search } from "@mui/icons-material";
 import { matchSorter } from "match-sorter";
 import { api } from "../../common/api";
+import { checkAuthConnected } from "../../common/checkAuth";
 
 function Users() {
   const [users, setUsers] = useState([])
@@ -15,21 +16,24 @@ function Users() {
 
   const getAllUsersProfile = async () => {
     try {
-      const res = await api.get(`http://localhost:3000/users`);
-      setSearchUsers(res.data.map(elem => {
-        return ({
-          id: elem.id,
-          name: elem.username,
-          urlImg: elem.profile_picture_url
-        })
-      }))
-      setUsers(res.data.map(elem => {
-        return ({
-          id: elem.id,
-          name: elem.username,
-          urlImg: elem.profile_picture_url
-        })
-      }))
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        const res = await api.get(`http://localhost:3000/users`);
+        setSearchUsers(res.data.map(elem => {
+          return ({
+            id: elem.id,
+            name: elem.username,
+            urlImg: elem.profile_picture_url
+          })
+        }))
+        setUsers(res.data.map(elem => {
+          return ({
+            id: elem.id,
+            name: elem.username,
+            urlImg: elem.profile_picture_url
+          })
+        }))
+      }
     } catch (e) {
     }
   }

@@ -6,6 +6,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { api } from "../../common/api";
 import Notification from "../../components/notification/Notifiacation";
 import ChangePassword from "../../components/settings/ChangePassword";
+import { checkAuthConnected } from "../../common/checkAuth";
 
 function Settings() {
   const [strategy, setStrategy] = useState("");
@@ -25,17 +26,20 @@ function Settings() {
 
   const getUserProfile = async () => {
     try {
-      const res = await api.get(`http://localhost:3000/users/me`);
-      setPseudo(res.data.username)
-      setFirstName(res.data.first_name)
-      setLastName(res.data.last_name)
-      setMail(res.data.email)
-      setLanguage(res.data.language)
-      setPhoto(res.data.profile_picture_url)
-      setShowName(res.data.show_name)
-      setShowWatch(res.data.show_watch)
-      setShowWatchList(res.data.show_watchlist)
-      setStrategy(res.data.auth_strategy);
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        const res = await api.get(`http://localhost:3000/users/me`);
+        setPseudo(res.data.username)
+        setFirstName(res.data.first_name)
+        setLastName(res.data.last_name)
+        setMail(res.data.email)
+        setLanguage(res.data.language)
+        setPhoto(res.data.profile_picture_url)
+        setShowName(res.data.show_name)
+        setShowWatch(res.data.show_watch)
+        setShowWatchList(res.data.show_watchlist)
+        setStrategy(res.data.auth_strategy);
+      }
     } catch (e) {
     }
   }

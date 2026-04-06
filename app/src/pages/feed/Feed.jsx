@@ -12,6 +12,7 @@ import Form from "../../components/form/Form";
 import InputRange from "../../components/input/InputRange";
 import Button from "../../components/button/Button";
 import { isVisible } from "@testing-library/user-event/dist/utils";
+import { checkAuthConnected } from "../../common/checkAuth";
 
 function Feed() {
 	const [minYear, setMinYear] = useState(1900)
@@ -40,9 +41,12 @@ function Feed() {
 	const checkIfNeedMoreContent = async () => {
 		const hasVerticalScroll = document.documentElement.scrollHeight > window.innerHeight;
 		if (!hasVerticalScroll && page < pageToCharge) {
-			const res = await api.get(`${curentSearch}&page=${page + 1}`);
-			setResSearch(prev => [...prev, ...res.data.resultSearch]);
-			setPage(page + 1);
+			const resAuthConnected = await checkAuthConnected();
+			if (resAuthConnected) {
+				const res = await api.get(`${curentSearch}&page=${page + 1}`);
+				setResSearch(prev => [...prev, ...res.data.resultSearch]);
+				setPage(page + 1);
+			}
 		}
 	};
 
@@ -76,9 +80,12 @@ function Feed() {
 		const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
 		if (bottom) {
 			if (page < pageToCharge) {
-				const res = await api.get(`${curentSearch}&page=${page + 1}`);
-				setResSearch(resSearch.concat(res.data.resultSearch))
-				setPage(page + 1)
+				const resAuthConnected = await checkAuthConnected();
+				if (resAuthConnected) {
+					const res = await api.get(`${curentSearch}&page=${page + 1}`);
+					setResSearch(resSearch.concat(res.data.resultSearch))
+					setPage(page + 1)
+				}
 			}
 		}
 	};
@@ -95,17 +102,23 @@ function Feed() {
 
 	const getTop = async () => {
 		try {
-			const res = await api.get(`movies/top/MovieSerie`);
-			setMovies(res.data.topMovie)
-			setSeries(res.data.topSerie)
+			const resAuthConnected = await checkAuthConnected();
+			if (resAuthConnected) {
+				const res = await api.get(`movies/top/MovieSerie`);
+				setMovies(res.data.topMovie)
+				setSeries(res.data.topSerie)
+			}
 		} catch (e) {
 		}
 	}
 
 	const getGenre = async () => {
 		try {
-			const res = await api.get(`movies/get/genre`);
-			setListGenre(res.data)
+			const resAuthConnected = await checkAuthConnected();
+			if (resAuthConnected) {
+				const res = await api.get(`movies/get/genre`);
+				setListGenre(res.data)
+			}
 		} catch (e) {
 		}
 	}
@@ -116,24 +129,30 @@ function Feed() {
 	}, [])
 
 	const onSubmit = async (e) => {
-		e.preventDefault();
-		setIsSearchOff(false)
-		setCurentSearch(`http://localhost:3000/movies/search/byFilter?minYear=${minYear}&maxYear=${maxYear}&genre=${genre}&note=${noteMinimale}&type=${type}&tri=${tri}`)
-		const res = await api.get(`http://localhost:3000/movies/search/byFilter?minYear=${minYear}&maxYear=${maxYear}&genre=${genre}&note=${noteMinimale}&type=${type}&tri=${tri}&page=${1}`);
-		setPage(1)
-		setResSearch(res.data.resultSearch)
-		setPageToCharge(res.data.total_pages)
+		const resAuthConnected = await checkAuthConnected();
+		if (resAuthConnected) {
+			e.preventDefault();
+			setIsSearchOff(false)
+			setCurentSearch(`http://localhost:3000/movies/search/byFilter?minYear=${minYear}&maxYear=${maxYear}&genre=${genre}&note=${noteMinimale}&type=${type}&tri=${tri}`)
+			const res = await api.get(`http://localhost:3000/movies/search/byFilter?minYear=${minYear}&maxYear=${maxYear}&genre=${genre}&note=${noteMinimale}&type=${type}&tri=${tri}&page=${1}`);
+			setPage(1)
+			setResSearch(res.data.resultSearch)
+			setPageToCharge(res.data.total_pages)
+		}
 	};
 
 	const onTitleSearchSubmit = async (e) => {
 		e.preventDefault();
 		if (searchTitle.length) {
-			setIsSearchOff(false)
-			setCurentSearch(`http://localhost:3000/movies/search/byName?query=${searchTitle}`)
-			const res = await api.get(`http://localhost:3000/movies/search/byName?query=${searchTitle}&page=${1}`);
-			setPage(1)
-			setResSearch(res.data.resultSearch)
-			setPageToCharge(res.data.total_pages)
+			const resAuthConnected = await checkAuthConnected();
+			if (resAuthConnected) {
+				setIsSearchOff(false)
+				setCurentSearch(`http://localhost:3000/movies/search/byName?query=${searchTitle}`)
+				const res = await api.get(`http://localhost:3000/movies/search/byName?query=${searchTitle}&page=${1}`);
+				setPage(1)
+				setResSearch(res.data.resultSearch)
+				setPageToCharge(res.data.total_pages)
+			}
 		} else {
 			setIsSearchOff(true)
 		}

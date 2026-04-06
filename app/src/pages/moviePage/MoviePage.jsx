@@ -8,6 +8,7 @@ import MovieInfo from "../../components/movieInfo/MovieInfo";
 import { api } from "../../common/api";
 import { CircularProgress } from "@mui/material";
 import VideoPlayer from "./VideoPlayer";
+import { checkAuthConnected } from "../../common/checkAuth";
 
 function MoviePage() {
   const { id } = useParams();
@@ -22,19 +23,25 @@ function MoviePage() {
 
   const getMovie = async () => {
     try {
-      const res = await api.get(`http://localhost:3000/movies/${id}`);
-      setMovie(res.data)
-      setDownload(res.data.download)
-      setInfo_get(true)
-      setStartTime(res.data.start)
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        const res = await api.get(`http://localhost:3000/movies/${id}`);
+        setMovie(res.data)
+        setDownload(res.data.download)
+        setInfo_get(true)
+        setStartTime(res.data.start)
+      }
     } catch (e) {
     }
   }
 
   const getComments = async () => {
     try {
-      const res = await api.get(`http://localhost:3000/comments/movie/movie/${id}`);
-      setComments(res.data)
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        const res = await api.get(`http://localhost:3000/comments/movie/movie/${id}`);
+        setComments(res.data)
+      }
     } catch (e) {
     }
   }
@@ -46,17 +53,20 @@ function MoviePage() {
 
   const onMessageSubmit = async (e) => {
     e.preventDefault();
-    if (message) {
-      const res = await api.post(`http://localhost:3000/comments`, { movie_id: `${id}`, movieType: "movie", content: message });
-      if (message.trim()) {
-        setMessage("")
-        setComments(comments.concat({
-          "id": res.data.user.id,
-          "userName": res.data.user.username,
-          "imgUser": res.data.user.profile_picture_url,
-          "commentId": res.data.id,
-          "message": res.data.content
-        }))
+    const resAuthConnected = await checkAuthConnected();
+    if (resAuthConnected) {
+      if (message) {
+        const res = await api.post(`http://localhost:3000/comments`, { movie_id: `${id}`, movieType: "movie", content: message });
+        if (message.trim()) {
+          setMessage("")
+          setComments(comments.concat({
+            "id": res.data.user.id,
+            "userName": res.data.user.username,
+            "imgUser": res.data.user.profile_picture_url,
+            "commentId": res.data.id,
+            "message": res.data.content
+          }))
+        }
       }
     }
   }
@@ -66,24 +76,30 @@ function MoviePage() {
   }
 
   const onClickStart = async () => {
-    setClickStart(true)
-    api.post(`/media-file/watched/${movie.imdb_id}`)
-      .catch(() => { });
+    const resAuthConnected = await checkAuthConnected();
+    if (resAuthConnected) {
+      setClickStart(true)
+      api.post(`/media-file/watched/${movie.imdb_id}`)
+        .catch(() => { });
+    }
   }
 
   const onClickDownload = async () => {
     try {
-      await api.get(`/download/${movie.imdb_id}`)
-      let startValide = false
-      while (!startValide) {
-        await sleep(5000)
-        const res = await api.get(`/media-file/status/${movie.imdb_id}`)
-        if (res.data.exists && res.data.status != "pending" && res.data.status != "started") {
-          setDownload(res.data)
-          startValide = true
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        await api.get(`/download/${movie.imdb_id}`)
+        let startValide = false
+        while (!startValide) {
+          await sleep(5000)
+          const res = await api.get(`/media-file/status/${movie.imdb_id}`)
+          if (res.data.exists && res.data.status != "pending" && res.data.status != "started") {
+            setDownload(res.data)
+            startValide = true
+          }
         }
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   return (
@@ -95,7 +111,7 @@ function MoviePage() {
             <CircularProgress color="inherit" size="3rem" />
           </div>}
           {info_get && <MovieInfo movie={movie} download={download} onClickStart={onClickStart} onClickDownload={onClickDownload} />}
-          {clickStart && <VideoPlayer imdbID={movie.imdb_id} tmdbID={id} subtitlesAuto={movie.subtitlesAuto} startTime={startTime} runTime={movie.time}/>}
+          {clickStart && <VideoPlayer imdbID={movie.imdb_id} tmdbID={id} subtitlesAuto={movie.subtitlesAuto} startTime={startTime} runTime={movie.time} />}
           {download.exists && download.status == "error" && <div className={style.errorMovieDownload}>Ce film n'est pas disponible dans la librerie</div>}
           <Comments comments={comments}
             color={movie.id % 12}
