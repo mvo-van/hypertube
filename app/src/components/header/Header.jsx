@@ -5,7 +5,7 @@ import { Movie, People, Settings, Logout, AccountCircle } from '@mui/icons-mater
 import { useNavigate } from "react-router";
 import { api } from "../../common/api";
 import { useState, useEffect } from "react";
-
+import { checkAuthConnected } from "../../common/checkAuth";
 function Header({ }) {
   const img = null
   const navigate = useNavigate()
@@ -13,10 +13,9 @@ function Header({ }) {
 
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        await api.get("/auth/connected");
-      } catch (e) {
-        navigate("/");
+      const resAuthConnected = await checkAuthConnected();
+      if (!resAuthConnected) {
+        navigate('/')
       }
     };
 
@@ -26,8 +25,11 @@ function Header({ }) {
   useEffect(() => {
     const getId = async () => {
       try {
-        const res = await api.get("/users/me");
-        setMyId(res.data.id)
+        const resAuthConnected = await checkAuthConnected();
+        if (resAuthConnected) {
+          const res = await api.get("/users/me");
+          setMyId(res.data.id)
+        }
       } catch (e) {
       }
     };
@@ -57,7 +59,10 @@ function Header({ }) {
 
   const onClickHandlerQuit = async () => {
     try {
-      await api.get("/auth/logout");
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        await api.get("/auth/logout");
+      }
       navigate(`/`);
     } catch (e) {
     }
