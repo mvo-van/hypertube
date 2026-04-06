@@ -94,14 +94,19 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   @Get('google/redirect')
   async googleAuthRedirect(@Req() req: Request, @Res() res: Response) {
-    this.logger.log('[google-redirect]');
-    const { access_token } = await this.authService.googleLogin(req);
-    res.cookie('access_token', access_token, {
-      httpOnly: true,
-      maxAge: 10800000,
-      sameSite: true,
-    });
-    return res.redirect('http://localhost:8000/feed')
+    try {
+      this.logger.log('[google-redirect]');
+      const { access_token } = await this.authService.googleLogin(req);
+      res.cookie('access_token', access_token, {
+        httpOnly: true,
+        maxAge: 10800000,
+        sameSite: true,
+      });
+      res.redirect('http://localhost:8000/feed')
+    } catch {
+      res.redirect('http://localhost:8000?error=true')
+
+    }
   }
 
   // ========================= 42 =========================
@@ -116,14 +121,19 @@ export class AuthController {
   @UseGuards(FortytwoAuthGuard)
   @Get('fortytwo/redirect')
   async fortytwoAuthRedirect(@Req() req: Request, @Res() res: Response) {
-    this.logger.log('[oauth-fortytwo-redirect]');
-    const { access_token } = await this.authService.fortytwoLogin(req);
-    res.cookie('access_token', access_token, {
-      httpOnly: true,
-      maxAge: 10800000,
-      sameSite: true,
-    });
-    return res.redirect('http://localhost:8000/feed')
+    try {
+      this.logger.log('[oauth-fortytwo-redirect]');
+      const { access_token } = await this.authService.fortytwoLogin(req);
+      res.cookie('access_token', access_token, {
+        httpOnly: true,
+        maxAge: 10800000,
+        sameSite: true,
+      });
+      res.redirect('http://localhost:8000/feed')
+    } catch {
+      res.redirect('http://localhost:8000?error=true')
+
+    }
   }
 
   // ========================= Github =========================
@@ -138,14 +148,19 @@ export class AuthController {
   @UseGuards(GithubAuthGuard)
   @Get('github/callback')
   async githubAuthRedirect(@Req() req: Request, @Res() res: Response) {
-    this.logger.log('[oauth-github-redirect]');
-    const { access_token } = await this.authService.githubLogin(req);
-    res.cookie('access_token', access_token, {
-      httpOnly: true,
-      maxAge: 10800000,
-      sameSite: true,
-    });
-    return res.redirect('http://localhost:8000/feed')
+    try {
+      this.logger.log('[oauth-github-redirect]');
+      const { access_token } = await this.authService.githubLogin(req);
+      res.cookie('access_token', access_token, {
+        httpOnly: true,
+        maxAge: 10800000,
+        sameSite: true,
+      });
+      res.redirect('http://localhost:8000/feed')
+    } catch {
+      res.redirect('http://localhost:8000?error=true')
+
+    }
   }
 
   // ========================= Gitlab =========================
@@ -160,15 +175,20 @@ export class AuthController {
   @UseGuards(GitlabAuthGuard)
   @Get('gitlab/callback')
   async gitlabAuthRedirect(@Req() req: Request, @Res() res: Response) {
-    this.logger.log('[oauth-gitlab]');
-    const { access_token } = await this.authService.gitlabLogin(req);
+    try {
+      this.logger.log('[oauth-gitlab]');
+      const { access_token } = await this.authService.gitlabLogin(req);
 
-    res.cookie('access_token', access_token, {
-      httpOnly: true,
-      maxAge: 10800000,
-      sameSite: true,
-    });
-    return res.redirect('http://localhost:8000/feed')
+      res.cookie('access_token', access_token, {
+        httpOnly: true,
+        maxAge: 10800000,
+        sameSite: true,
+      });
+      res.redirect('http://localhost:8000/feed')
+    } catch {
+      res.redirect('http://localhost:8000?error=true')
+
+    }
   }
 
   // ========================= Discord =========================
@@ -183,14 +203,19 @@ export class AuthController {
   @UseGuards(DiscordAuthGuard)
   @Get('discord/callback')
   async discordAuthRedirect(@Req() req: Request, @Res() res: Response) {
-    this.logger.log('[oauth-discord-redirect]');
-    const { access_token } = await this.authService.discordLogin(req);
-    res.cookie('access_token', access_token, {
-      httpOnly: true,
-      maxAge: 10800000,
-      sameSite: true,
-    });
-    return res.redirect('http://localhost:8000/feed')
+    try {
+      this.logger.log('[oauth-discord-redirect]');
+      const { access_token } = await this.authService.discordLogin(req);
+      res.cookie('access_token', access_token, {
+        httpOnly: true,
+        maxAge: 10800000,
+        sameSite: true,
+      });
+      res.redirect('http://localhost:8000/feed')
+    } catch {
+      res.redirect('http://localhost:8000?error=true')
+
+    }
   }
 
   // ========================= Spotify =========================
@@ -205,13 +230,18 @@ export class AuthController {
   @UseGuards(SpotifyAuthGuard)
   @Get('spotify/callback')
   async spotifyAuthRedirect(@Req() req: Request, @Res() res: Response) {
-    this.logger.log('[oauth-discord]');
-    const { access_token } = await this.authService.spotifyLogin(req);
-    res.cookie('access_token', access_token, {
-      httpOnly: true,
-      maxAge: 10800000,
-      sameSite: true,
-    });
-    return res.redirect('http://localhost:8000/feed')
+    try {
+      this.logger.log('[oauth-discord]');
+      const { access_token } = await this.authService.spotifyLogin(req);
+      res.cookie('access_token', access_token, {
+        httpOnly: true,
+        maxAge: 10800000,
+        sameSite: true,
+      });
+      return res.redirect('http://localhost:8000/feed')
+    } catch {
+      res.redirect('http://localhost:8000?error=true')
+
+    }
   }
 }
