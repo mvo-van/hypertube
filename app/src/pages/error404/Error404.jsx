@@ -8,10 +8,11 @@ import { api } from "../../common/api";
 function Error404() {
   const navigate = useNavigate();
   const onClickHandler = async () => {
-    try {
-      await api.get("/auth/connected");
+
+    const res = await checkAuthConnected();
+    if (res) {
       navigate("/feed");
-    } catch (e) {
+    } else {
       navigate("/");
     }
   };
