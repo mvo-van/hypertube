@@ -9,10 +9,9 @@ function BubbleBackground({ children }) {
 
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        await api.get("/auth/connected");
+      const res = await api.get("/auth/connected");
+      if (res.data.connected) {
         navigate("/feed");
-      } catch (e) {
       }
     };
 

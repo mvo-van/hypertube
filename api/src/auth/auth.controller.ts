@@ -22,15 +22,32 @@ import { RestPasswordDto } from './dto/reset-password.dto';
 import { UserDto } from './dto/user.dto';
 import { Request, Response } from 'express';
 import { AuthModule } from './auth.module';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('auth')
 export class AuthController {
   private readonly logger = new Logger(AuthModule.name);
 
-  constructor(private readonly authService: AuthService) { }
+  constructor(
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService
+  ) { }
 
+  @Public()
   @Get('/connected')
-  connected() { }
+  async connected(@Req() req: Request) {
+    if (!req.cookies.access_token) {
+      return { connected: false };
+    }
+    const data = req.cookies.access_token.split(".")[1];
+    const tokenPayload = JSON.parse(atob(data));
+
+    const user = await this.usersService.findOne(tokenPayload.sub);
+
+    return {
+      connected: user && user.is_active
+    };
+  }
 
   @Get('/logout')
   logout(@Res() res: Response) {

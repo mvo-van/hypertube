@@ -13,10 +13,9 @@ function Header({ }) {
 
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        await api.get("/auth/connected");
-      } catch (e) {
-        navigate("/");
+      const res = await api.get("/auth/connected");
+      if (!res.data.connected) {
+        navigate('/')
       }
     };
 

@@ -40,7 +40,24 @@ export class StreamController {
 
     const isComplete = await this.mediaFileService.isDownloadFinished(imdbID);
     if (isComplete) {
-      res.sendFile(filepath);
+      // res.sendFile(filepath);
+      const fileStream = createReadStream(filepath);
+
+      ffmpeg(fileStream)
+        .format('mp4')
+        .videoCodec('libx264')
+        .audioCodec('aac')
+        .outputOptions([
+          '-movflags frag_keyframe+empty_moov',
+          '-preset veryfast',
+        ])
+        .on('error', (err) => {
+          console.error('FFmpeg error:', err);
+          if (!res.headersSent) {
+            res.sendStatus(500);
+          }
+        })
+        .pipe(res, { end: true });
     } else {
       res.setHeader('Content-Type', 'video/mp4');
 
