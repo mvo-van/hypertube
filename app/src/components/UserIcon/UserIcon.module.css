@@ -1,10 +1,10 @@
-.userIcon{
+.userIcon {
     /* position: relative; */
     display: flex;
     flex-direction: column;
     align-items: center;
     /* align-content: space-around; */
-    
+
     width: 163px;
     height: 217px;
     /* margin: 20px;  */
@@ -17,13 +17,15 @@
     cursor: pointer;
 }
 
-.imgUser{
+.imgUser {
     border-radius: 50%;
     /* display: flex; */
     /* display: block; */
     width: 128px;
     height: 128px;
     background: #E6E7ED;
+    object-fit: cover;
+
     /* -moz-border-radius: 100%; */
     /* -webkit-border-radius: 100%; */
     /* background-position:50% 50%; */
@@ -31,12 +33,12 @@
     /* margin-bottom: 20px; */
 }
 
-.userName{
+.userName {
     align-items: center;
     display: flex;
     font-size: 30px;
     text-align: center;
-    line-height:1em;
+    line-height: 1em;
     text-overflow: ellipsis;
     justify-content: center;
     /* margin: 10px; */
@@ -46,10 +48,10 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
     overflow: hidden;
-    text-overflow: clip ellipsis; 
+    text-overflow: clip ellipsis;
 }
 
-.divInfo{
+.divInfo {
     /* padding-top: 20%; */
     display: flex;
     width: 100%;
