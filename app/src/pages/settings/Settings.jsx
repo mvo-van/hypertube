@@ -150,7 +150,6 @@ function Settings() {
             {strategy && strategy == "local" && <div className={style.subTitle}>Authentification</div>}
             {strategy && strategy == "local" && <div className={style.divAuthentication}>
               <ChangePassword />
-              {/* <button className={style.buttonConnexion} onClick={onClickChangeMail}>Mise a jour de mon mail </button> */}
             </div>}
 
             {strategy && strategy == "local" && <div className={style.line}></div>}

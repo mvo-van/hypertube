@@ -15,7 +15,6 @@
     align-items: center;
     display: flex;
     max-width: 457px;
-    /* background-color: var(--color-medium-gray); */
     border-radius: 10px;
     padding: 10px;
 }

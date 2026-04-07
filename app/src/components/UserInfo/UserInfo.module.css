@@ -1,4 +1,4 @@
-.imgUser{
+.imgUser {
     border-radius: 50%;
     width: 140px;
     height: 140px;
@@ -10,19 +10,17 @@
 }
 
 
-.divAllInfo{
-    /* margin-top: 10%; */
+.divAllInfo {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* margin-bottom: 5%; */
     margin-top: 100px;
     color: white;
 }
 
-.pseudo{
+.pseudo {
     font-size: 36px;
     height: 36px;
     font-family: 'Basic';
@@ -32,20 +30,20 @@
     cursor: pointer;
 }
 
-.subDivInfo{
+.subDivInfo {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
 }
 
-.infos{
+.infos {
 
     font-size: 24px;
     font-family: 'Basic';
 }
 
-.infosDiv{
+.infosDiv {
     display: flex;
     flex-direction: column;
     align-items: center;

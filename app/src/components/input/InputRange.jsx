@@ -1,7 +1,5 @@
 import React, { useContext, useImperativeHandle, useRef } from "react";
 import styles from "./InputRange.module.css";
-// import AppContext from "../../../store/AppContext";
-import Label from "../label/Label";
 import { Slider } from "@mui/material";
 
 function valuetext(value) {
@@ -21,7 +19,6 @@ const InputRange = React.forwardRef(({
   onBlur = () => { },
   color = "lighter_gray"
 }, ref) => {
-  // const { theme } = useContext(AppContext);
   const onChangeHandler = (event) => {
     onChange(event.target.value);
   }
@@ -31,13 +28,11 @@ const InputRange = React.forwardRef(({
   const name = label.replace(/ /g, "_");
   const id = `input-${name}`;
 
-  // const [value1, setValue1] = React.useState([min, max]);
 
 
   if (!double) {
     return (
       <div className={styles.input}>
-        {/* <Label label={label} htmlFor={id} className={styles["input__label"]} color={color} /> */}
         <div className={styles["input__label"]}>{label}</div>
         <Slider
           id={id}
@@ -58,7 +53,6 @@ const InputRange = React.forwardRef(({
   else {
     return (
       <div className={styles.input}>
-        {/* <Label label={label} htmlFor={id} className={styles["input__label"]} color={color} /> */}
         <div className={styles["input__label"]}>{label}</div>
         <Slider
           className={`${styles["input"]} ${inputColor} round`}

@@ -1,15 +1,10 @@
 .userIcon {
-    /* position: relative; */
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* align-content: space-around; */
 
     width: 163px;
     height: 217px;
-    /* margin: 20px;  */
-    /* padding-bottom: 1px; */
-    /* flex-wrap: wrap; */
     border-radius: 10px;
     color: #ffffff;
     background-color: #454545;
@@ -19,18 +14,10 @@
 
 .imgUser {
     border-radius: 50%;
-    /* display: flex; */
-    /* display: block; */
     width: 128px;
     height: 128px;
     background: #E6E7ED;
     object-fit: cover;
-
-    /* -moz-border-radius: 100%; */
-    /* -webkit-border-radius: 100%; */
-    /* background-position:50% 50%; */
-    /* background-repeat:no-repeat; */
-    /* margin-bottom: 20px; */
 }
 
 .userName {
@@ -41,8 +28,6 @@
     line-height: 1em;
     text-overflow: ellipsis;
     justify-content: center;
-    /* margin: 10px; */
-    /* height: 60px; */
     padding-top: 23px;
     width: 100%;
     word-wrap: break-word;
@@ -52,7 +37,6 @@
 }
 
 .divInfo {
-    /* padding-top: 20%; */
     display: flex;
     width: 100%;
     height: 100%;

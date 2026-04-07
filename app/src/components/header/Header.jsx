@@ -75,7 +75,7 @@ function Header({ }) {
       <div className={style.menu}>
         <Movie sx={{ fontSize: 35, color: "#ffffff" }} onClick={onClickHandlerMovie} className={style.movie} />
         <People sx={{ fontSize: 35, color: "#ffffff" }} onClick={onClickHandlerUsers} className={style.people} />
-        {img && <IconButton src={iconPseudo} label="Pseudo" color="blue" onClick={onClickHandlerMe} className={style.user} />} {/*TODO css quand on a image */}
+        {img && <IconButton src={iconPseudo} label="Pseudo" color="blue" onClick={onClickHandlerMe} className={style.user} />}
         {!img && <AccountCircle sx={{ fontSize: 35, color: "#ffffff" }} onClick={onClickHandlerMe} className={style.user} />}
         <Settings sx={{ fontSize: 35, color: "#ffffff" }} onClick={onClickHandlerSettings} className={style.settings} />
         <Logout sx={{ fontSize: 35, color: "#EB7879" }} onClick={onClickHandlerQuit} className={style.logout} />
