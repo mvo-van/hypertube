@@ -15,7 +15,7 @@ import Test from "./pages/test/Test";
 import SeriePage from "./pages/seriePage/SeriePage";
 import SeasonPage from "./pages/seasonPage/SeasonPage";
 import EpisodePage from "./pages/episodePage/EpisodePage";
-import ResetPasswordLogin from "./pages/resetPassword/ResetPassword";
+import ResetPasswordLogin from "./pages/resetPassword/ResetPasswordLogin";
 
 function App() {
 	return (

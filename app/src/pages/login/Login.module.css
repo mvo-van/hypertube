@@ -32,6 +32,7 @@
     font-family: 'Basic';
     justify-content: right;
     margin-top: -15px;
+    cursor: pointer;
 }
 
 .line {

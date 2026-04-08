@@ -1,6 +1,6 @@
 import GenericPage from "../page/GenericPage";
 import BubbleBackground from "../../components/background/BubbleBackground";
-import style from "./ResetPassword.module.css";
+import style from "./ResetPasswordLogin.module.css";
 import MulticoText from "../../components/Text/MulticoText";
 import Form from "../../components/form/Form";
 import { useRef, useState } from "react";
@@ -162,7 +162,7 @@ function ResetPasswordLogin() {
                         </div>
                     )}
                 </Form>
-                {success == true && <p>Votre mot de passe a bien ete modifie !</p>}
+                {success == true && <p>Votre mot de passe a bien été modifié !</p>}
                 <SignupPasswordCheck
                     password={newPassword}
                     onChange={onPasswordCheckHandler}

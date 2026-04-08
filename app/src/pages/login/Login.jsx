@@ -61,12 +61,15 @@ function Login() {
 			}
 			else
 				useError.addInputError(ERROR_INVALID_PASSWORD);
-			console.log(error)
 		}
 	}
 
 	const goBackHandler = () => {
 		navigate("/")
+	}
+
+	const resetPassword = () => {
+		navigate("/reset-password")
 	}
 
 	return (
@@ -111,7 +114,7 @@ function Login() {
 							</div>
 						)}
 						<a
-							href="/reset-password"
+							onClick={resetPassword}
 							className={style.pwdlink}
 						>
 							Mot de Passe oublié
