@@ -22,6 +22,7 @@ import { useNavigate } from "react-router";
 import { api } from "../../common/api";
 import Omniauth from "../../components/omniauth/Omniauth";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { alreadyUsedUsername, alreadyUsedMail } from "../../components/SignupCheck/SignupUserCheck";
 
 function Signup() {
 	const [email, setEmail] = useState("");
@@ -65,12 +66,10 @@ function Signup() {
 		const test = mailRegex.test(value);
 		if (test == false) useError.addInputError(ERROR_INVALID_MAIL);
 		else useError.removeError(ERROR_INVALID_MAIL);
+		useError.removeError(ERROR_ALREADY_USED_MAIL);
 	};
 
 	const onMailValidate = (value) => {
-		{
-			/* verifier mail n'existe pas deja base (recommandé par mayeni) */
-		}
 		if (!value) useError.addInputError(ERROR_INVALID_MAIL);
 	};
 
@@ -79,12 +78,10 @@ function Signup() {
 		const test = pseudoRegex.test(value);
 		if (test == false) useError.addInputError(ERROR_INVALID_NICK);
 		else useError.removeError(ERROR_INVALID_NICK);
+		useError.removeError(ERROR_NICKNAME);
 	};
 
 	const onPseudoValidate = (value) => {
-		{
-			/* verifier pseudo n'existe pas deja base (recommandé par mayeni) */
-		}
 		if (!value) useError.addInputError(ERROR_INVALID_NICK);
 	};
 
@@ -115,33 +112,43 @@ function Signup() {
 
 	const onSubmitHandler = async (e) => {
 		e.preventDefault();
+
 		if (
-			firstName &&
-			lastName &&
-			email &&
-			pseudo &&
-			password &&
-			confPassword &&
-			validPassword.current &&
-			!useError.hasInputErrors()
+			!firstName ||
+			!lastName ||
+			!email ||
+			!pseudo ||
+			!password ||
+			!confPassword ||
+			!validPassword.current ||
+			useError.hasInputErrors()
 		)
-			try {
-				await api.post("/users", {
-					username: pseudo,
-					first_name: firstName,
-					last_name: lastName,
-					email,
-					password,
-					auth_strategy: "local",
-					language: navigator.language.split("-")[0] || null,
-				});
-				await api.post("/users/activate", {
-					username: pseudo,
-				});
-				navigate(`/validate-signup`);
-			} catch (error) {
-				// Ajouter cas erreur
-			}
+			return;
+		// if (alreadyUsedMail(email)) {
+		// 	useError.addInputError(ERROR_ALREADY_USED_MAIL);
+		// 	return
+		// }
+		// if (alreadyUsedUsername(pseudo)) {
+		// 	useError.addInputError(ERROR_NICKNAME);
+		// 	return
+		// } // TODO faire fonctionner ici
+		try {
+			await api.post("/users", {
+				username: pseudo,
+				first_name: firstName,
+				last_name: lastName,
+				email,
+				password,
+				auth_strategy: "local",
+				language: navigator.language.split("-")[0] || null,
+			});
+			await api.post("/users/activate", {
+				username: pseudo,
+			});
+			navigate(`/validate-signup`);
+		} catch (error) {
+			useError.addInputError(ERROR_UNKNOWN);
+		}
 	};
 
 	const goBackHandler = () => {
@@ -154,6 +161,11 @@ function Signup() {
 				<ArrowBackIcon className={style.arrow} onClick={goBackHandler} />
 				<MulticoText className={style["titre"]} text="Inscription" />
 				<div className={style["button-box"]}>
+					{useError.hasThisError(ERROR_UNKNOWN) && (
+						<div className={style["invalid-alert"]}>
+							{ERROR_UNKNOWN}
+						</div>
+					)}
 					<Form
 						className="login-form"
 						onSubmit={onSubmitHandler}
@@ -171,13 +183,11 @@ function Signup() {
 								color="yellow"
 								maxLength={20}
 							/>
-							{useError.hasThisError(
-								ERROR_INVALID_FIRST_NAME
-							) && (
-									<div className={style["invalid-alert"]}>
-										{ERROR_INVALID_FIRST_NAME}
-									</div>
-								)}
+							{useError.hasThisError(ERROR_INVALID_FIRST_NAME) && (
+								<div className={style["invalid-alert"]}>
+									{ERROR_INVALID_FIRST_NAME}
+								</div>
+							)}
 						</div>
 
 						<div>
@@ -199,7 +209,7 @@ function Signup() {
 
 						<div>
 							<Input
-								label="mail"
+								label="adresse mail"
 								type="email"
 								value={email}
 								onChange={onMailHandler}
@@ -210,6 +220,11 @@ function Signup() {
 							{useError.hasThisError(ERROR_INVALID_MAIL) && (
 								<div className={style["invalid-alert"]}>
 									{ERROR_INVALID_MAIL}
+								</div>
+							)}
+							{useError.hasThisError(ERROR_ALREADY_USED_MAIL) && (
+								<div className={style["invalid-alert"]}>
+									{ERROR_ALREADY_USED_MAIL}
 								</div>
 							)}
 						</div>
@@ -227,6 +242,11 @@ function Signup() {
 							{useError.hasThisError(ERROR_INVALID_NICK) && (
 								<div className={style["invalid-alert"]}>
 									{ERROR_INVALID_NICK}
+								</div>
+							)}
+							{useError.hasThisError(ERROR_NICKNAME) && (
+								<div className={style["invalid-alert"]}>
+									{ERROR_NICKNAME}
 								</div>
 							)}
 						</div>
