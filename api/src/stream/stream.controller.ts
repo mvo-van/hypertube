@@ -15,6 +15,7 @@ import { Lang } from 'src/lang/lang';
 import axios from 'axios';
 import fs from "node:fs";
 import srt2vtt from "srt2vtt";
+import { changeExtension } from 'src/utils/utils.service';
 
 @Controller('stream')
 export class StreamController {
@@ -38,6 +39,8 @@ export class StreamController {
       sleep(500);
     }
 
+    console.log(changeExtension(filepath, 'mp4'));
+
     const isComplete = await this.mediaFileService.isDownloadFinished(imdbID);
     if (isComplete) {
       res.sendFile(filepath);
@@ -45,6 +48,7 @@ export class StreamController {
       res.setHeader('Content-Type', 'video/mp4');
 
       const fileStream = createReadStream(filepath);
+
 
       ffmpeg(fileStream)
         .format('mp4')
@@ -55,7 +59,7 @@ export class StreamController {
           '-preset veryfast',
         ])
         .on('error', (err) => {
-          console.error('FFmpeg error:', err);
+          this.logger.error('FFmpeg error: ', err);
           if (!res.headersSent) {
             res.sendStatus(500);
           }

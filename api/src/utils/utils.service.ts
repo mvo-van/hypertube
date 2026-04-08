@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { genSalt, hash } from 'bcryptjs';
+import path from 'path';
 
 @Injectable()
 export class UtilsService {
@@ -46,4 +47,15 @@ export class UtilsService {
 
     return date.getTime() > expiryDate.getTime();
   }
+}
+
+export function changeExtension(filepath: string, newExtension: string) : string {
+  const dirname = path.dirname(filepath);
+  const filename = path.basename(filepath, path.extname(filepath));
+
+  if (newExtension.startsWith('.')) {
+    newExtension = newExtension.slice(1);
+  }
+
+  return path.join(dirname, `${filename}.${newExtension}`);
 }

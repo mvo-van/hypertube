@@ -7,6 +7,9 @@ import path from 'path';
 import { DownloaderModule } from './downloader.module';
 import { MediaFileService } from 'src/media-file/media-file.service';
 import { MediaFileStatus } from 'src/media-file/enum/media-file-status.enum';
+import { changeExtension } from 'src/utils/utils.service';
+import { createReadStream } from 'node:fs';
+import ffmpeg from "fluent-ffmpeg";
 
 function isMovie(filename: string) {
   const VIDEO_EXTS = ['.mp4', '.m4v', '.mkv', '.webm', '.mov'];
@@ -91,6 +94,28 @@ export class DownloaderService {
     engine.on('idle', async () => {
       this.logger.log(`[${imdbID}]: download finished`);
       engine.destroy();
+      const fileStream = createReadStream(path);
+      
+      const transcodedFilepath: string = changeExtension(path, "mp4");
+
+      this.logger.log(`[${transcodedFilepath}]: beginning transcoding`);
+      ffmpeg(fileStream)
+        .format('mp4')
+        .videoCodec('libx264')
+        .audioCodec('aac')
+        .outputOptions([
+          '-movflags frag_keyframe+empty_moov',
+          '-preset veryfast',
+        ])
+        .on('error', (err) => {
+          this.logger.error('FFmpeg error: ', err);
+          // On fait quoi ici ? 
+          // ??????????
+        })
+        .on('end', () => {
+          this.logger.log(`[${transcodedFilepath}]: transcoding finished`);
+        })
+        .save(transcodedFilepath);
       await this.mediaFileService.setMediaFileStatus(
         imdbID,
         MediaFileStatus.FINISHED,
