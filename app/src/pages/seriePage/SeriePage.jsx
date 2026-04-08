@@ -7,6 +7,7 @@ import MovieInfo from "../../components/movieInfo/MovieInfo";
 import DivSeasons from "../../components/divSeasons/DivSeasons";
 import { api } from "../../common/api";
 import { CircularProgress } from "@mui/material";
+import { checkAuthConnected } from "../../common/checkAuth";
 
 function SeriePage() {
   const { id } = useParams();
@@ -15,10 +16,13 @@ function SeriePage() {
   const [seasons, setSeasons] = useState([])
   const getSerie = async () => {
     try {
-      const res = await api.get(`http://localhost:3000/movies/serie/${id}`);
-      setSerie(res.data.serie_infos)
-      setSeasons(res.data.seasons)
-      setInfo_get(true)
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        const res = await api.get(`http://localhost:3000/movies/serie/${id}`);
+        setSerie(res.data.serie_infos)
+        setSeasons(res.data.seasons)
+        setInfo_get(true)
+      }
     } catch (e) {
     }
   }

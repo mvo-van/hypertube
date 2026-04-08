@@ -12,14 +12,14 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class MockDataService {
   private readonly logger = new Logger(MockDataService.name);
-  private readonly total_row = 10;
+  private readonly total_row = 100;
 
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private readonly usersService: UsersService,
     private readonly utilsService: UtilsService,
-  ) {}
+  ) { }
 
   async bootstrap() {
     await this.seedUsers();
@@ -57,7 +57,7 @@ export class MockDataService {
       firstName: firstName,
       lastName: lastName,
     });
-    const profilePicture: string = faker.system.commonFileName('jpeg');
+    const profilePicture: string = faker.image.urlLoremFlickr({ category: 'nature' });
 
     return {
       first_name: firstName,
@@ -65,7 +65,7 @@ export class MockDataService {
       username: username,
       password: password,
       email: email,
-      profile_picture: profilePicture,
+      profile_picture_url: profilePicture,
       auth_strategy: AuthStrategy.LOCAL,
     };
   }

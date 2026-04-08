@@ -5,6 +5,7 @@ import IconMovie from "../iconMovie/IconMovie";
 import { useState } from "react";
 import StarIcon from '@mui/icons-material/Star';
 import { api } from "../../common/api";
+import { checkAuthConnected } from "../../common/checkAuth";
 
 const getMovieId = (movie) => {
   if (movie.type == "movie" || movie.type == "serie") {
@@ -29,11 +30,14 @@ function MovieInfo({ movie = {}, download = {}, onClickStart = {}, onClickDownlo
   const onClickSee = async () => {
     if (see == false) {
       try {
-        await api.post(`/watched/addWatch`, {
-          "movieType": movie.type,
-          "movie_id": movieId
-        });
-        setSee(true)
+        const resAuthConnected = await checkAuthConnected();
+        if (resAuthConnected) {
+          await api.post(`/watched/addWatch`, {
+            "movieType": movie.type,
+            "movie_id": movieId
+          });
+          setSee(true)
+        }
       } catch (e) {
 
       }
@@ -42,20 +46,23 @@ function MovieInfo({ movie = {}, download = {}, onClickStart = {}, onClickDownlo
 
   const onClickLike = async () => {
     try {
-      if (like) {
-        await api.delete(`/likes/oneMovie`, {
-          data: {
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        if (like) {
+          await api.delete(`/likes/oneMovie`, {
+            data: {
+              type: movie.type,
+              movie_id: movieId
+            }
+          });
+        } else {
+          await api.post(`/likes`, {
             type: movie.type,
             movie_id: movieId
-          }
-        });
-      } else {
-        await api.post(`/likes`, {
-          type: movie.type,
-          movie_id: movieId
-        });
+          });
+        }
+        setLike(!like)
       }
-      setLike(!like)
     } catch (e) {
     }
   }

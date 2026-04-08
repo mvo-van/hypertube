@@ -19,10 +19,6 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 42px 92px;
-    /* justify-content: space-between; */
-    /* gap:92px; */
-    /* grid-template-columns: 92px; */
-    /* row-gap: 92px; */
 }
 
 .filter {
@@ -43,7 +39,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: aqua; */
 }
 
 .search {

@@ -8,6 +8,7 @@ import Comments from "../../components/comments/Comments";
 import HorizontalScrollMovies from "../../components/horizontalScrollMovies/HorizontalScrollMovies";
 import axios from "axios";
 import { api } from "../../common/api";
+import { checkAuthConnected } from "../../common/checkAuth";
 
 function ProfileUser() {
   const { id } = useParams();
@@ -21,35 +22,44 @@ function ProfileUser() {
   const getUserProfile = async () => {
     const config = { withCredentials: true };
     try {
-      const res = await axios.get(`http://localhost:3000/users/` + id, config);
-      setUser({
-        id: res.data.id,
-        pseudo: res.data.username,
-        urlImg: res.data.profile_picture_url,
-        firstName: res.data.first_name,
-        lastName: res.data.last_name
-      })
-      setMe(res.data.me)
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        const res = await axios.get(`http://localhost:3000/users/` + id, config);
+        setUser({
+          id: res.data.id,
+          pseudo: res.data.username,
+          urlImg: res.data.profile_picture_url,
+          firstName: res.data.first_name,
+          lastName: res.data.last_name
+        })
+        setMe(res.data.me)
+      }
     } catch (e) {
     }
   }
 
   const getComments = async () => {
     try {
-      const res = await api.get(`comments/user/${id}`)
-      setComments(res.data)
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        const res = await api.get(`comments/user/${id}`)
+        setComments(res.data)
+      }
     } catch (e) {
     }
   }
 
   const getWatchList = async () => {
     try {
-      const res = await api.get(`watched/findWatchList/${id}`)
-      setMovies(res.data)
-      setUser(prev => ({
-        ...prev,
-        moviesCount: res.data.length
-      }))
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        const res = await api.get(`watched/findWatchList/${id}`)
+        setMovies(res.data)
+        setUser(prev => ({
+          ...prev,
+          moviesCount: res.data.length
+        }))
+      }
     } catch (e) {
     }
   }

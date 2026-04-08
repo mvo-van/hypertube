@@ -169,14 +169,6 @@ export default function Search({ open }) {
 				<Form label="rechercher" color="red" direction="row" onSubmit={onSubmit}>
 					<div className={style.form}>
 						<div className={style.childBox}>
-							{/* <Input label="Titre" /> */}
-							{/* <InputSoloText
-								label="Titre"
-								value={title}
-								onChange={onChangeHandlerTitle}
-								options={listMovies}
-								onBlur={onChangeBlurTitle}
-							/> */}
 							<InputTags
 								label="Genre"
 								value={genre}
@@ -213,19 +205,12 @@ export default function Search({ open }) {
 								value={noteMinimale}
 								onChange={onChangeHandlerNote}
 							/>
-
-							{/* <InputChoice 
-								label="Type"
-							/> */}
 							<InputSelect label="Type"
 								value={type}
 								options={[{ "label": "serie", "name": "Série" }, { "label": "movie", "name": "Film" }]}
 								onChange={onChangeHandlerType}
 								selectVoid={false}
 							/>
-							{/* <InputTags
-								label="Type"
-							/> */}
 						</div>
 						<div className={`${style.childBox} ${style.trueFalse}`}>
 							<ButtonTrueFalse
@@ -240,7 +225,6 @@ export default function Search({ open }) {
 								onClick={onClickHandlerDownloaded}
 							/>
 						</div>
-						{/* <Input label="Utilisateur" color="blue"/> */}
 					</div>
 				</Form>
 			)}
