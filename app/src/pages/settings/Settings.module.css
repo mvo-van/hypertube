@@ -182,7 +182,7 @@
     background-color: #963D3D;
 }
 
-.deletButton {
+.deleteButton {
     height: 34px;
     width: 166px;
     background-color: #963D3D;
@@ -214,4 +214,11 @@
     flex-direction: column;
     gap: 10px;
     flex-wrap: wrap;
+}
+
+
+.invalid-alert {
+    font-family: 'Basic';
+    color: #dd1533;
+    font-size: 15px;
 }

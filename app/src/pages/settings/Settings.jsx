@@ -8,6 +8,8 @@ import Notification from "../../components/notification/Notifiacation";
 import ChangePassword from "../../components/settings/ChangePassword";
 import { checkAuthConnected } from "../../common/checkAuth";
 import ChangeEmail from "../../components/settings/ChangeEmail";
+import useErrorManager from "../../hooks/useErrorManager";
+import { ERROR_INVALID_FIRST_NAME, ERROR_INVALID_LAST_NAME, ERROR_INVALID_NICK, ERROR_NICKNAME } from "../../common/messages";
 
 function Settings() {
   const [strategy, setStrategy] = useState("");
@@ -24,6 +26,9 @@ function Settings() {
   const [text, setText] = useState("")
   const [notifColor, setNatifColor] = useState("red")
   const [updateImage, setUpdateImage] = useState(null)
+  const pseudoRegex = /^(?=.{3,20}$)[A-Za-z0-9]+(?:[ -][A-Za-z0-9]+)*$/;
+  const nameRegex = /^(?=.{2,20}$)[A-Za-z]+(?:[ -][A-Za-z]+)*$/;
+  const useError = useErrorManager();
 
   const getUserProfile = async () => {
     try {
@@ -51,14 +56,24 @@ function Settings() {
 
   const onPseudoHandler = (e) => {
     setPseudo(e.target.value)
+    const test = pseudoRegex.test(e.target.value);
+    if (test == false) useError.addInputError(ERROR_INVALID_NICK);
+    else useError.removeError(ERROR_INVALID_NICK);
+    useError.removeError(ERROR_NICKNAME);
   }
 
   const onFirstNameHandler = (e) => {
     setFirstName(e.target.value)
+    const test = nameRegex.test(e.target.value);
+    if (test == false) useError.addInputError(ERROR_INVALID_FIRST_NAME);
+    else useError.removeError(ERROR_INVALID_FIRST_NAME);
   }
 
   const onLastNameHandler = (e) => {
     setLastName(e.target.value)
+    const test = nameRegex.test(e.target.value);
+    if (test == false) useError.addInputError(ERROR_INVALID_LAST_NAME);
+    else useError.removeError(ERROR_INVALID_LAST_NAME);
   }
 
   const onMailHandler = (e) => {
@@ -96,6 +111,12 @@ function Settings() {
 
   const onClickSaveProfil = async (e) => {
     e.preventDefault();
+    if (useError.hasInputErrors())
+      return;
+    // if (alreadyUsedUsername(pseudo)) {
+    //     useError.addInputError(ERROR_NICKNAME);
+    //     return
+    // } TODO faire fonctionner ici
     try {
       if (updateImage) {
         const data = new FormData();
@@ -138,11 +159,15 @@ function Settings() {
               <div className={style.nameInfo}>
                 <div className={style.subNameInfo}>
                   <div className={style.subSubTitle}>Pseudo</div>
-                  <input className={style.inputText} type="text" id="pseudo" value={pseudo} onChange={onPseudoHandler} />
+                  <input className={style.inputText} type="text" id="pseudo" value={pseudo} onChange={onPseudoHandler} maxLength="20" />
+                  {useError.hasThisError(ERROR_INVALID_NICK) && (<div className={style["invalid-alert"]}> {ERROR_INVALID_NICK} </div>)}
+                  {useError.hasThisError(ERROR_NICKNAME) && (<div className={style["invalid-alert"]}> {ERROR_NICKNAME} </div>)}
                   <div className={style.subSubTitle}>Prénom</div>
-                  <input className={style.inputText} type="text" id="firstName" value={firstName} onChange={onFirstNameHandler} />
+                  <input className={style.inputText} type="text" id="firstName" value={firstName} onChange={onFirstNameHandler} maxLength="20" />
+                  {useError.hasThisError(ERROR_INVALID_FIRST_NAME) && (<div className={style["invalid-alert"]}> {ERROR_INVALID_FIRST_NAME} </div>)}
                   <div className={style.subSubTitle}>Nom</div>
-                  <input className={style.inputText} type="text" id="lastName" value={lastName} onChange={onLastNameHandler} />
+                  <input className={style.inputText} type="text" id="lastName" value={lastName} onChange={onLastNameHandler} maxLength="20" />
+                  {useError.hasThisError(ERROR_INVALID_LAST_NAME) && (<div className={style["invalid-alert"]}> {ERROR_INVALID_LAST_NAME} </div>)}
                 </div>
                 <div >
                   <label htmlFor="photo" className={style.boxPhoto}>
@@ -211,7 +236,7 @@ function Settings() {
             <div className={style.line}></div>
 
             <div className={style.subTitle}>Suppression</div>
-            <button onClick={onClickDeleteProfile} className={style.deletButton}>Supprimer mon profil</button>
+            <button onClick={onClickDeleteProfile} className={style.deleteButton}>Supprimer mon profil</button>
           </div>
 
           <button className={style.saveButton} onClick={onClickSaveProfil}>Sauvegarder</button>
