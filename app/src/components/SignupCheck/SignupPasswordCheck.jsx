@@ -5,7 +5,7 @@ export default function SignupPasswordCheck ({ password, onChange = () => {}}) {
 	if (!password)
 		return;
 	// const passwordRegexNumber = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,24}$/;
-	const lengthRegex = /^.{12,24}$/;
+	const lengthRegex = /^.{12,72}$/;
 	const uppercaseRegex = /[A-Z]/;
 	const lowercaseRegex = /[a-z]/;
 	const digitRegex = /\d/;

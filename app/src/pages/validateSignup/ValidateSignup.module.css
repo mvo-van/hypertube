@@ -33,3 +33,9 @@
 	color: white;
 	font-family: "Basic";
 }
+
+.invalid-alert {
+    font-family: 'Basic';
+    color: #dd1533;
+    font-size: 15px;
+}

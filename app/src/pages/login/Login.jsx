@@ -79,7 +79,7 @@ function Login() {
 							onChange={onPasswordHandler}
 							onBlur={onPassWordValidate}
 							color="blue"
-							maxLength={64}
+							maxLength={72}
 						/>
 						<a
 							href="/reset-password"
