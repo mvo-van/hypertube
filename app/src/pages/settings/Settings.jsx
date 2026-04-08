@@ -7,6 +7,7 @@ import { api } from "../../common/api";
 import Notification from "../../components/notification/Notifiacation";
 import ChangePassword from "../../components/settings/ChangePassword";
 import { checkAuthConnected } from "../../common/checkAuth";
+import ChangeEmail from "../../components/settings/ChangeEmail";
 
 function Settings() {
   const [strategy, setStrategy] = useState("");
@@ -81,7 +82,15 @@ function Settings() {
     setShowWatchList(false)
   }
 
-  const onClickDeletProfil = () => {
+  const onClickDeleteProfile = async () => {
+    // try {
+    //   const resAuthConnected = await checkAuthConnected();
+    //   if (resAuthConnected) {
+    //     await api.get("/auth/logout");
+    //   }
+    //   navigate(`/`);
+    // } catch (e) {
+    // }
     //TODO
   }
 
@@ -150,6 +159,7 @@ function Settings() {
             {strategy && strategy == "local" && <div className={style.subTitle}>Authentification</div>}
             {strategy && strategy == "local" && <div className={style.divAuthentication}>
               <ChangePassword />
+              <ChangeEmail />
             </div>}
 
             {strategy && strategy == "local" && <div className={style.line}></div>}
@@ -201,7 +211,7 @@ function Settings() {
             <div className={style.line}></div>
 
             <div className={style.subTitle}>Suppression</div>
-            <button onClick={onClickDeletProfil} className={style.deletButton}>Supprimer mon profil</button>
+            <button onClick={onClickDeleteProfile} className={style.deletButton}>Supprimer mon profil</button>
           </div>
 
           <button className={style.saveButton} onClick={onClickSaveProfil}>Sauvegarder</button>

@@ -1,0 +1,29 @@
+.changeEmailForm {
+    max-width: 215px;
+}
+
+.buttonConnexion {
+    height: 39px;
+    padding: 0 10px 0 10px;
+    background-color: #686868;
+    color: white;
+    font-family: 'Basic';
+    font-size: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    line-height: 39px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.success {
+    font-size: 14px;
+    color: greenyellow;
+    font-family: 'Basic';
+}
+
+.invalid-alert {
+    font-family: 'Basic';
+    color: #dd1533;
+    font-size: 15px;
+}

@@ -86,6 +86,8 @@ export default function ChangePassword() {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
+        if (useError.hasInputErrors())
+            return;
         if (mail && otpCode && otpCode.length == 6 && passwordIsCorrect.current) {
 
             try {
@@ -103,9 +105,9 @@ export default function ChangePassword() {
         <div className={style.passwordChangeBox}>
 
             {isOpen == false && <button className={style.buttonConnexion} onClick={onClickChangePwd}>Réinitialiser le mot de passe</button>}
-            {success == true && <p className={style.success}>Votre mot de passe a bien ete modifié !</p>}
+            {success == true && <p className={style.success}>Votre mot de passe a bien été modifié !</p>}
             {isOpen && <Form
-                className="reset-password-form"
+                className={style.resetPasswordForm}
                 onSubmit={onSubmitHandler}
                 label="Reinitialiser"
                 color="blue"
@@ -127,7 +129,7 @@ export default function ChangePassword() {
                     value={otpCode}
                     onChange={onCodeHandler}
                     onBlur={onCodeValidate}
-                    color="yellow"
+                    color="blue"
                     maxLength={6}
                 />
                 {useError.hasThisError(ERROR_INVALID_OTP_CODE) && (
@@ -141,7 +143,7 @@ export default function ChangePassword() {
                     value={newPassword}
                     onChange={onNewPasswordHandler}
                     onBlur={onNewPasswordValidate}
-                    color="yellow"
+                    color="blue"
                     maxLength={64}
                 />
                 {useError.hasThisError(ERROR_INVALID_PASSWORD) && (
