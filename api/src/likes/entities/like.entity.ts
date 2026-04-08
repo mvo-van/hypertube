@@ -9,7 +9,7 @@ export class Like {
     @PrimaryGeneratedColumn('increment')
     id: number;
 
-    @ManyToOne(() => User, (user) => user.likes)
+    @ManyToOne(() => User, (user) => user.likes, { onDelete: 'CASCADE' })
     user: Relation<User>;
 
     @Column({ type: 'varchar', length: 20, nullable: false })

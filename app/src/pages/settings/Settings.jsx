@@ -11,6 +11,7 @@ import ChangeEmail from "../../components/settings/ChangeEmail";
 import useErrorManager from "../../hooks/useErrorManager";
 import { ERROR_INVALID_FIRST_NAME, ERROR_INVALID_LAST_NAME, ERROR_INVALID_NICK, ERROR_NICKNAME } from "../../common/messages";
 import { alreadyUsedUsername } from "../../components/SignupCheck/SignupUserCheck";
+import { useNavigate } from "react-router";
 
 function Settings() {
   const [strategy, setStrategy] = useState("");
@@ -30,6 +31,7 @@ function Settings() {
   const pseudoRegex = /^(?=.{3,20}$)[A-Za-z0-9]+(?:[ -][A-Za-z0-9]+)*$/;
   const nameRegex = /^(?=.{2,20}$)[A-Za-z]+(?:[ -][A-Za-z]+)*$/;
   const useError = useErrorManager();
+  const navigate = useNavigate();
 
   const getUserProfile = async () => {
     try {

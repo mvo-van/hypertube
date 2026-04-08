@@ -247,17 +247,23 @@ export class UsersService {
   }
 
   private async deletePicture(id: number) {
-    const { profile_picture_url: previousProfilePictureUrl } =
-      await this.userRepository.findOne({
-        select: {
-          profile_picture_url: true,
-        },
-        where: {
-          id: id,
-        },
-      });
-    if (previousProfilePictureUrl) {
-      this.imageService.removeFromUrl(previousProfilePictureUrl);
+    const found = await this.userRepository.findOne({
+      select: {
+        profile_picture_url: true,
+      },
+      where: {
+        id: id,
+      },
+    });
+    if (!found) {
+      return;
+    }
+
+    if (found.profile_picture_url) {
+      const { profile_picture_url: previousProfilePictureUrl } = found;
+      if (previousProfilePictureUrl) {
+        this.imageService.removeFromUrl(previousProfilePictureUrl);
+      }
     }
   }
 }

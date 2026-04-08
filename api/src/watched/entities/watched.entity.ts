@@ -10,7 +10,7 @@ export class Watched {
     @Column()
     user_id: number;
 
-    @ManyToOne(() => User, (user) => user.watched)
+    @ManyToOne(() => User, (user) => user.watched, { onDelete: 'CASCADE' } )
     @JoinColumn({ name: 'user_id' })
     user: Relation<User>;
 

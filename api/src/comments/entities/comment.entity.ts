@@ -23,7 +23,7 @@ export class Comment {
   @Column({ type: 'timestamp', nullable: false })
   published_date: Date;
 
-  @ManyToOne(() => User, (user) => user.comments)
+  @ManyToOne(() => User, (user) => user.comments, { onDelete: 'CASCADE' } )
   @JoinColumn({ name: 'user_id' })
   user: Relation<User>;
 
