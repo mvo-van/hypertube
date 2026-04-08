@@ -144,7 +144,7 @@ export default function ChangePassword() {
                     onChange={onNewPasswordHandler}
                     onBlur={onNewPasswordValidate}
                     color="blue"
-                    maxLength={64}
+                    maxLength={72}
                 />
                 {useError.hasThisError(ERROR_INVALID_PASSWORD) && (
                     <div className={style["invalid-alert"]}>
