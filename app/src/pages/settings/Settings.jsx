@@ -10,6 +10,7 @@ import { checkAuthConnected } from "../../common/checkAuth";
 import ChangeEmail from "../../components/settings/ChangeEmail";
 import useErrorManager from "../../hooks/useErrorManager";
 import { ERROR_INVALID_FIRST_NAME, ERROR_INVALID_LAST_NAME, ERROR_INVALID_NICK, ERROR_NICKNAME } from "../../common/messages";
+import { alreadyUsedUsername } from "../../components/SignupCheck/SignupUserCheck";
 
 function Settings() {
   const [strategy, setStrategy] = useState("");
@@ -98,14 +99,14 @@ function Settings() {
   }
 
   const onClickDeleteProfile = async () => {
-    // try {
-    //   const resAuthConnected = await checkAuthConnected();
-    //   if (resAuthConnected) {
-    //     await api.get("/auth/logout");
-    //   }
-    //   navigate(`/`);
-    // } catch (e) {
-    // }
+    try {
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        await api.delete("/users/me");
+        navigate(`/`);
+      }
+    } catch (e) {
+    }
     //TODO
   }
 
@@ -118,25 +119,28 @@ function Settings() {
     //     return
     // } TODO faire fonctionner ici
     try {
-      if (updateImage) {
-        const data = new FormData();
-        data.append("image", updateImage);
-        await api.post("/users/me/upload", data);
-      }
+      const resAuthConnected = await checkAuthConnected();
+      if (resAuthConnected) {
+        if (updateImage) {
+          const data = new FormData();
+          data.append("image", updateImage);
+          await api.post("/users/me/upload", data);
+        }
 
-      await api.patch("/users/me", {
-        username: pseudo,
-        first_name: firstName,
-        last_name: lastName,
-        language: language,
-        show_name: showName,
-        show_watch: showWatch,
-        show_watchlist: showWatchList
-      });
-      setText("Mise a jour de votre profile validé")
-      setNatifColor("green")
-      setVisible(true);
-      setTimeout(() => { setVisible(false); }, 5000);
+        await api.patch("/users/me", {
+          username: pseudo,
+          first_name: firstName,
+          last_name: lastName,
+          language: language,
+          show_name: showName,
+          show_watch: showWatch,
+          show_watchlist: showWatchList
+        });
+        setText("Mise a jour de votre profile validé")
+        setNatifColor("green")
+        setVisible(true);
+        setTimeout(() => { setVisible(false); }, 5000);
+      }
     } catch (e) {
       setText("Une erreur est survenue")
       setNatifColor("red")

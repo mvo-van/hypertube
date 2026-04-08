@@ -9,6 +9,8 @@ import {
     ERROR_UNKNOWN,
     ERROR_ALREADY_USED_MAIL,
 } from "../../common/messages";
+import { checkAuthConnected } from "../../common/checkAuth";
+import { alreadyUsedMail } from "../SignupCheck/SignupUserCheck";
 
 export default function ChangeEmail() {
     const [newMail, setNewMail] = useState("");
@@ -54,10 +56,13 @@ export default function ChangeEmail() {
         if (newMail) {
 
             try {
-                await api.patch("/users/me", {
-                    email: newMail,
-                });
-                closeBox();
+                const resAuthConnected = await checkAuthConnected();
+                if (resAuthConnected) {
+                    await api.patch("/users/me", {
+                        email: newMail,
+                    });
+                    closeBox();
+                }
             } catch (e) { useError.addInputError(ERROR_INVALID_MAIL); }
         }
     };

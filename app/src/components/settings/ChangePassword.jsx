@@ -11,6 +11,7 @@ import {
     ERROR_INVALID_OTP_CODE,
     ERROR_UNKNOWN,
 } from "../../common/messages";
+import { checkAuthConnected } from "../../common/checkAuth";
 
 export default function ChangePassword() {
     const [mail, setMail] = useState("");
@@ -25,8 +26,11 @@ export default function ChangePassword() {
 
     const getUserProfile = async () => {
         try {
-            const res = await api.get(`/users/me`);
-            setMail(res.data.email);
+            const resAuthConnected = await checkAuthConnected();
+            if (resAuthConnected) {
+                const res = await api.get(`/users/me`);
+                setMail(res.data.email);
+            }
         } catch (e) {
             useError.addInputError(ERROR_UNKNOWN);
         }
@@ -40,9 +44,12 @@ export default function ChangePassword() {
         if (isOpen == false) {
             setSuccess(false);
             try {
-                await api.post("/auth/forgot-password", {
-                    email: mail
-                });
+                const resAuthConnected = await checkAuthConnected();
+                if (resAuthConnected) {
+                    await api.post("/auth/forgot-password", {
+                        email: mail
+                    });
+                }
             }
             catch (error) { useError.addInputError(ERROR_INVALID_MAIL); }
         }
@@ -91,12 +98,15 @@ export default function ChangePassword() {
         if (mail && otpCode && otpCode.length == 6 && passwordIsCorrect.current) {
 
             try {
-                await api.post("/auth/reset-password", {
-                    email: mail,
-                    otp_code: otpCode,
-                    new_password: newPassword,
-                });
-                closeBox();
+                const resAuthConnected = await checkAuthConnected();
+                if (resAuthConnected) {
+                    await api.post("/auth/reset-password", {
+                        email: mail,
+                        otp_code: otpCode,
+                        new_password: newPassword,
+                    });
+                    closeBox();
+                }
             } catch (e) { useError.addInputError(ERROR_INVALID_OTP_CODE); }
         }
     };
