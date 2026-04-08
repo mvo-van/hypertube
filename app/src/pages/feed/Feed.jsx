@@ -129,9 +129,9 @@ function Feed() {
 	}, [])
 
 	const onSubmit = async (e) => {
+		e.preventDefault();
 		const resAuthConnected = await checkAuthConnected();
 		if (resAuthConnected) {
-			e.preventDefault();
 			setIsSearchOff(false)
 			setCurentSearch(`http://localhost:3000/movies/search/byFilter?minYear=${minYear}&maxYear=${maxYear}&genre=${genre}&note=${noteMinimale}&type=${type}&tri=${tri}`)
 			const res = await api.get(`http://localhost:3000/movies/search/byFilter?minYear=${minYear}&maxYear=${maxYear}&genre=${genre}&note=${noteMinimale}&type=${type}&tri=${tri}&page=${1}`);
