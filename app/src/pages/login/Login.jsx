@@ -50,8 +50,6 @@ function Login() {
 		navigate("/")
 	}
 
-	const sendOtp = async () => { };
-
 	return (
 		<GenericPage className={style.home}>
 			<BubbleBackground>
@@ -84,8 +82,7 @@ function Login() {
 							maxLength={64}
 						/>
 						<a
-							href="#"
-							onClick={() => sendOtp()}
+							href="/reset-password"
 							className={style.pwdlink}
 						>
 							Mot de Passe oublié

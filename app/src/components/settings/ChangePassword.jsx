@@ -13,7 +13,7 @@ export default function ChangePassword() {
     const [otpCode, setOtpCode] = useState("");
     const passwordIsCorrect = useRef();
     const [validOtp, setValidOtp] = useState(true);
-    const [success, setSuccess] = useState("false");
+    const [success, setSuccess] = useState(false);
 
     const getUserProfile = async () => {
         try {
@@ -69,7 +69,6 @@ export default function ChangePassword() {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        console.log(passwordIsCorrect);
         if (passwordIsCorrect.current) {
 
             try {

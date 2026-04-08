@@ -8,4 +8,6 @@ export const ERROR_INVALID_NICK = "Veuillez entrer un pseudo valide.";
 export const ERROR_INVALID_PASSWORD = "Veuillez entrer un mot de passe.";
 export const ERROR_INVALID_CONF_PASSWORD = "Le mot de passe est différent.";
 
+export const ERROR_INVALID_OTP_CODE = "Veuillez entrer un code otp valide.";
+
 export const ERROR_UNKNOWN = "Une erreur est survenue.";

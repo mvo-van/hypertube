@@ -15,6 +15,7 @@ import Test from "./pages/test/Test";
 import SeriePage from "./pages/seriePage/SeriePage";
 import SeasonPage from "./pages/seasonPage/SeasonPage";
 import EpisodePage from "./pages/episodePage/EpisodePage";
+import ResetPasswordLogin from "./pages/resetPassword/ResetPassword";
 
 function App() {
 	return (
@@ -34,6 +35,7 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/signup" element={<Signup />} />
 				<Route path="/validate-signup" element={<ValidateSignup />} />
+				<Route path="/reset-password" element={<ResetPasswordLogin />} />
 				<Route path="/feed" element={<Feed />} />
 				<Route path="/users" element={<Users />} />
 				<Route path="/user/:id" element={<ProfileUser />} />
