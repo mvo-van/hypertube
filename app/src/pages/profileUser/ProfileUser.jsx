@@ -57,7 +57,7 @@ function ProfileUser() {
         setMovies(res.data)
         setUser(prev => ({
           ...prev,
-          moviesCount: res.data.length
+          moviesCount: res.data.filter((elem) => elem.see).length
         }))
       }
     } catch (e) {
