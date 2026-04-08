@@ -124,14 +124,14 @@ function Signup() {
 			useError.hasInputErrors()
 		)
 			return;
-		// if (alreadyUsedMail(email)) {
-		// 	useError.addInputError(ERROR_ALREADY_USED_MAIL);
-		// 	return
-		// }
-		// if (alreadyUsedUsername(pseudo)) {
-		// 	useError.addInputError(ERROR_NICKNAME);
-		// 	return
-		// } // TODO faire fonctionner ici
+		if (await alreadyUsedMail(email) == true) {
+			useError.addInputError(ERROR_ALREADY_USED_MAIL);
+			return;
+		}
+		if (await alreadyUsedUsername(pseudo) == true) {
+			useError.addInputError(ERROR_NICKNAME);
+			return;
+		}
 		try {
 			await api.post("/users", {
 				username: pseudo,

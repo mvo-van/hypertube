@@ -16,6 +16,7 @@ import { useNavigate } from "react-router";
 function Settings() {
   const [strategy, setStrategy] = useState("");
   const [pseudo, setPseudo] = useState("")
+  const [oldPseudo, setOldPseudo] = useState("");
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [mail, setMail] = useState("")
@@ -39,6 +40,7 @@ function Settings() {
       if (resAuthConnected) {
         const res = await api.get(`http://localhost:3000/users/me`);
         setPseudo(res.data.username)
+        setOldPseudo(res.data.username)
         setFirstName(res.data.first_name)
         setLastName(res.data.last_name)
         setMail(res.data.email)
@@ -116,10 +118,10 @@ function Settings() {
     e.preventDefault();
     if (useError.hasInputErrors())
       return;
-    // if (alreadyUsedUsername(pseudo)) {
-    //     useError.addInputError(ERROR_NICKNAME);
-    //     return
-    // } TODO faire fonctionner ici
+    if (await alreadyUsedUsername(pseudo) == true && pseudo != oldPseudo) {
+        useError.addInputError(ERROR_NICKNAME);
+        return;
+    }
     try {
       const resAuthConnected = await checkAuthConnected();
       if (resAuthConnected) {

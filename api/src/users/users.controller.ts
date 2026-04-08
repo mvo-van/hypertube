@@ -95,21 +95,19 @@ export class UsersController {
   }
 
   @Public()
-  @Head('/username/:username')
+  @Get('/username/:username/exists')
   async usernameExist(@Param('username') username: string) {
     const user = await this.usersService.findOneByUsername(username);
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+
+    return { exists: !!user }
   }
 
   @Public()
-  @Head('/email/:email')
+  @Get('/email/:email/exists')
   async emailExist(@Param('email') email: string) {
     const user = await this.usersService.findOneByEmail(email);
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+    
+    return { exists: !!user }
   }
 
   @Public()

@@ -2,8 +2,9 @@ import { api } from "../../common/api";
 
 export async function alreadyUsedUsername(username) {
     try {
-        await api.head(`/username/${username}`, {});
-        return false;
+        const response = await api.get(`/users/username/${username}/exists`);
+        
+        return response.data.exists;
     }
     catch (e) {
         return true;
@@ -12,8 +13,9 @@ export async function alreadyUsedUsername(username) {
 
 export async function alreadyUsedMail(mail) {
     try {
-        await api.head(`/email/${mail}`, {});
-        return false;
+        const response = await api.get(`/users/email/${mail}/exists`);
+        
+        return response.data.exists;
     }
     catch (e) {
         return true;
