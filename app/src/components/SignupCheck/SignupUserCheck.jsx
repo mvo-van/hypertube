@@ -2,7 +2,7 @@ import { api } from "../../common/api";
 
 export async function alreadyUsedUsername(username) {
     try {
-        await api.head(`/username${username}`, {});
+        await api.head(`/username/${username}`, {});
         return false;
     }
     catch (e) {
