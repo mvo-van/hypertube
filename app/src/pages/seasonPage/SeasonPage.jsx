@@ -19,8 +19,6 @@ function SeasonPage() {
       const resAuthConnected = await checkAuthConnected();
       if (resAuthConnected) {
         const res = await api.get(`http://localhost:3000/movies/serie/${serie_id}/season/${season_number}`);
-        console.log(res.data)
-
         setSeason(res.data.season_infos)
         setEpisodes(res.data.episodes)
         setInfo_get(true)
