@@ -4,6 +4,13 @@ import Input from "../input/Input";
 import SignupPasswordCheck from "../SignupCheck/SignupPasswordCheck";
 import Form from "../form/Form";
 import { api } from "../../common/api";
+import useErrorManager from "../../hooks/useErrorManager";
+import {
+    ERROR_INVALID_MAIL,
+    ERROR_INVALID_PASSWORD,
+    ERROR_INVALID_OTP_CODE,
+    ERROR_UNKNOWN,
+} from "../../common/messages";
 
 export default function ChangePassword() {
     const [mail, setMail] = useState("");
@@ -12,14 +19,16 @@ export default function ChangePassword() {
     const numRegex = /^[0-9]*$/;
     const [otpCode, setOtpCode] = useState("");
     const passwordIsCorrect = useRef();
-    const [validOtp, setValidOtp] = useState(true);
     const [success, setSuccess] = useState(false);
+
+    const useError = useErrorManager();
 
     const getUserProfile = async () => {
         try {
             const res = await api.get(`/users/me`);
             setMail(res.data.email);
         } catch (e) {
+            useError.addInputError(ERROR_UNKNOWN);
         }
     }
 
@@ -29,12 +38,13 @@ export default function ChangePassword() {
 
     const onClickChangePwd = async () => {
         if (isOpen == false) {
+            setSuccess(false);
             try {
                 await api.post("/auth/forgot-password", {
                     email: mail
                 });
             }
-            catch (error) { console.log(error) }
+            catch (error) { useError.addInputError(ERROR_INVALID_MAIL); }
         }
 
         setIsOpen(true);
@@ -42,19 +52,26 @@ export default function ChangePassword() {
 
     const onNewPasswordHandler = (value) => {
         setNewPassword(value);
-    }
+        if (value) useError.removeError(ERROR_INVALID_PASSWORD);
+    };
 
-    const onNewPassWordValidate = (value) => { }
+    const onNewPasswordValidate = (value) => {
+        if (!value) useError.addInputError(ERROR_INVALID_PASSWORD);
+        else useError.removeError(ERROR_INVALID_PASSWORD);
+    };
 
     const onCodeHandler = (value) => {
         let test = numRegex.test(value);
         if (test) {
             setOtpCode(value);
-            setValidOtp(true);
+            useError.removeError(ERROR_INVALID_OTP_CODE);
         }
+        else { useError.addInputError(ERROR_INVALID_OTP_CODE); }
     };
 
-    const onCodeValidate = (value) => { };
+    const onCodeValidate = (value) => {
+        if (!value || value.length < 6) useError.addInputError(ERROR_INVALID_OTP_CODE);
+    };
 
     const onPasswordCheckHandler = (value) => {
         passwordIsCorrect.current = value;
@@ -69,7 +86,7 @@ export default function ChangePassword() {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        if (passwordIsCorrect.current) {
+        if (mail && otpCode && otpCode.length == 6 && passwordIsCorrect.current) {
 
             try {
                 await api.post("/auth/reset-password", {
@@ -78,10 +95,7 @@ export default function ChangePassword() {
                     new_password: newPassword,
                 });
                 closeBox();
-            } catch (e) {
-                if (e.response.data.status == 404) setValidOtp(false);
-                console.log(e)
-            }
+            } catch (e) { useError.addInputError(ERROR_INVALID_OTP_CODE); }
         }
     };
 
@@ -89,13 +103,23 @@ export default function ChangePassword() {
         <div className={style.passwordChangeBox}>
 
             {isOpen == false && <button className={style.buttonConnexion} onClick={onClickChangePwd}>Réinitialiser le mot de passe</button>}
-            {success == true && <p>Votre mot de passe a bien ete modifie !</p>}
+            {success == true && <p className={style.success}>Votre mot de passe a bien ete modifié !</p>}
             {isOpen && <Form
                 className="reset-password-form"
                 onSubmit={onSubmitHandler}
                 label="Reinitialiser"
                 color="blue"
             >
+                {useError.hasThisError(ERROR_UNKNOWN) && (
+                    <div className={style["invalid-alert"]}>
+                        {ERROR_UNKNOWN}
+                    </div>
+                )}
+                {useError.hasThisError(ERROR_INVALID_MAIL) && (
+                    <div className={style["invalid-alert"]}>
+                        {ERROR_INVALID_MAIL}
+                    </div>
+                )}
                 <Input
                     label="code otp reçu par mail"
                     type="string"
@@ -106,17 +130,26 @@ export default function ChangePassword() {
                     color="yellow"
                     maxLength={6}
                 />
+                {useError.hasThisError(ERROR_INVALID_OTP_CODE) && (
+                    <div className={style["invalid-alert"]}>
+                        {ERROR_INVALID_OTP_CODE}
+                    </div>
+                )}
                 <Input
                     label="nouveau mot de passe"
                     type="password"
                     value={newPassword}
                     onChange={onNewPasswordHandler}
-                    onBlur={onNewPassWordValidate}
+                    onBlur={onNewPasswordValidate}
                     color="yellow"
                     maxLength={64}
                 />
+                {useError.hasThisError(ERROR_INVALID_PASSWORD) && (
+                    <div className={style["invalid-alert"]}>
+                        {ERROR_INVALID_PASSWORD}
+                    </div>
+                )}
             </Form>}
-            {validOtp == false && <p>Le code OTP n'est pas valide.</p>}
             <SignupPasswordCheck
                 password={newPassword}
                 onChange={onPasswordCheckHandler}

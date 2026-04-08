@@ -23,7 +23,6 @@ function ResetPasswordLogin() {
     const [otpCode, setCode] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const passwordIsCorrect = useRef();
-    let invalid_otp = useRef();
     const [success, setSuccess] = useState(false);
     const mailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     const numRegex = /^[0-9]*$/;
@@ -47,7 +46,6 @@ function ResetPasswordLogin() {
         let test = numRegex.test(value);
         if (test) {
             setCode(value);
-            invalid_otp.current = false;
             useError.removeError(ERROR_INVALID_OTP_CODE);
         }
         else { useError.addInputError(ERROR_INVALID_OTP_CODE); }
@@ -164,7 +162,6 @@ function ResetPasswordLogin() {
                         </div>
                     )}
                 </Form>
-                {invalid_otp == true && <p>Le code OTP n'est pas valide.</p>}
                 {success == true && <p>Votre mot de passe a bien ete modifie !</p>}
                 <SignupPasswordCheck
                     password={newPassword}
