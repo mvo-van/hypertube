@@ -53,7 +53,7 @@ function Users() {
       <div className={style.styleBox}>
         <div className={style.filter}>
           <div className={style.size_box}>
-            <input className={style.search} onChange={onChangeHeadler} type="text" />
+            <input className={style.search} id="search" onChange={onChangeHeadler} type="text" />
             <Search className={style.searchIcon} />
           </div>
         </div>

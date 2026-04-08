@@ -57,7 +57,7 @@ export class MockDataService {
       firstName: firstName,
       lastName: lastName,
     });
-    const profilePicture: string = faker.image.urlLoremFlickr({ category: 'nature' });
+    const profilePicture: string = faker.image.avatar();
 
     return {
       first_name: firstName,
