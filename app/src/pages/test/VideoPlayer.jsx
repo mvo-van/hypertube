@@ -16,10 +16,8 @@ export const VideoPlayer = () => {
         const res = await api.get(`http://localhost:3000/stream/tt0088763/subs`);
 
         setSubtitles(res.data.subtitles);
-        console.log(res);
       }
     } catch (e) {
-      console.log(e);
     }
   }
 
