@@ -12,4 +12,4 @@ export const ERROR_INVALID_OTP_CODE = "Veuillez entrer un code otp valide.";
 
 export const ERROR_UNKNOWN = "Une erreur est survenue.";
 
-export const ERROR_OTP_EXPIRED = "Le code OTP a expiré, essayez de vous reconnecter.";
+export const ERROR_OTP_EXPIRED = "Le code OTP a expiré, vous avez reçu un nouveau code par mail.";

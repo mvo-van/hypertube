@@ -40,6 +40,7 @@ function ValidateSignup() {
 		if (test) {
 			setCode(value);
 			useError.removeError(ERROR_INVALID_OTP_CODE);
+			useError.removeError(ERROR_OTP_EXPIRED);
 		}
 		else { useError.addInputError(ERROR_INVALID_OTP_CODE); }
 	};
@@ -68,6 +69,14 @@ function ValidateSignup() {
 				useError.addInputError(ERROR_OTP_EXPIRED);
 			else
 				useError.addInputError(ERROR_INVALID_OTP_CODE);
+		}
+		if (useError.hasThisError(ERROR_OTP_EXPIRED)) {
+			try {
+				await api.post("/users/activate", { // TODO non fonctionnel
+					username: pseudo,
+				});
+			}
+			catch (e) { useError.addInputError(ERROR_INVALID_NICK); }
 		}
 	};
 

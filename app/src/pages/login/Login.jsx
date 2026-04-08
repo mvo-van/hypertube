@@ -9,27 +9,44 @@ import { api } from "../../common/api";
 import { useNavigate } from "react-router";
 import Omniauth from "../../components/omniauth/Omniauth";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import useErrorManager from "../../hooks/useErrorManager";
+import {
+	ERROR_INVALID_NICK,
+	ERROR_INVALID_PASSWORD,
+	ERROR_UNKNOWN,
+} from "../../common/messages";
 
 function Login() {
 	const [pseudo, setPseudo] = useState("");
 	const [password, setPassword] = useState("");
+
+	const useError = useErrorManager();
 	const navigate = useNavigate();
 
 	const onPseudoHandler = (value) => {
 		setPseudo(value);
+		if (value.length >= 3) useError.removeError(ERROR_INVALID_NICK);
+		else useError.addInputError(ERROR_INVALID_NICK);
 	};
 
-	const onPseudoValidate = (value) => { };
+	const onPseudoValidate = (value) => {
+		if (!value || value.length < 3) useError.addInputError(ERROR_INVALID_NICK);
+		else useError.removeError(ERROR_INVALID_NICK);
+	};
 
 	const onPasswordHandler = (value) => {
 		setPassword(value);
+		if (value) useError.removeError(ERROR_INVALID_PASSWORD);
 	};
 
-	const onPassWordValidate = (value) => { };
+	const onPasswordValidate = (value) => {
+		if (!value) useError.addInputError(ERROR_INVALID_PASSWORD);
+		else useError.removeError(ERROR_INVALID_PASSWORD);
+	};
 
 	const onSubmitHandler = async (e) => {
 		e.preventDefault();
-		if (!pseudo || !password) {
+		if (useError.hasInputErrors() || !pseudo || !password) {
 			return;
 		}
 		try {
@@ -39,12 +56,14 @@ function Login() {
 			});
 			navigate(`/feed`);
 		} catch (error) {
-			if (error.response && error.response.message && error.response.message && error.response.data.message == "User is not active") {
-				navigate(`/validate-signup`); // check why it doesnt work anymore
+			if (error.response.data.message == "User is not active") {
+				navigate(`/validate-signup`);
 			}
+			else
+				useError.addInputError(ERROR_INVALID_PASSWORD);
 			console.log(error)
 		}
-	};
+	}
 
 	const goBackHandler = () => {
 		navigate("/")
@@ -71,16 +90,26 @@ function Login() {
 							color="blue"
 							maxLength={20}
 						/>
+						{useError.hasThisError(ERROR_INVALID_NICK) && (
+							<div className={style["invalid-alert"]}>
+								{ERROR_INVALID_NICK}
+							</div>
+						)}
 
 						<Input
 							label="mot de passe"
 							type="password"
 							value={password}
 							onChange={onPasswordHandler}
-							onBlur={onPassWordValidate}
+							onBlur={onPasswordValidate}
 							color="blue"
 							maxLength={72}
 						/>
+						{useError.hasThisError(ERROR_INVALID_PASSWORD) && (
+							<div className={style["invalid-alert"]}>
+								{ERROR_INVALID_PASSWORD}
+							</div>
+						)}
 						<a
 							href="/reset-password"
 							className={style.pwdlink}

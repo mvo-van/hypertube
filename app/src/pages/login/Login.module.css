@@ -68,3 +68,9 @@
     left: 5px;
     cursor: pointer;
 }
+
+.invalid-alert {
+    font-family: 'Basic';
+    color: #dd1533;
+    font-size: 15px;
+}
