@@ -11,12 +11,14 @@ import {
 } from "../../common/messages";
 import { checkAuthConnected } from "../../common/checkAuth";
 import { alreadyUsedMail } from "../SignupCheck/SignupUserCheck";
+import { useNavigate } from "react-router";
 
 export default function ChangeEmail() {
     const [newMail, setNewMail] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [success, setSuccess] = useState(false);
     const mailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,20}$/;
+    const navigate = useNavigate()
 
     const useError = useErrorManager();
 
@@ -62,6 +64,8 @@ export default function ChangeEmail() {
                         email: newMail,
                     });
                     closeBox();
+                } else {
+                    navigate("/")
                 }
             } catch (e) { useError.addInputError(ERROR_INVALID_MAIL); }
         }

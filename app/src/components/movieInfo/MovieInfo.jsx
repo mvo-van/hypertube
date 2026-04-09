@@ -37,6 +37,8 @@ function MovieInfo({ movie = {}, download = {}, onClickStart = {}, onClickDownlo
             "movie_id": movieId
           });
           setSee(true)
+        } else {
+          navigate('/')
         }
       } catch (e) {
 
@@ -62,6 +64,8 @@ function MovieInfo({ movie = {}, download = {}, onClickStart = {}, onClickDownlo
           });
         }
         setLike(!like)
+      } else {
+        navigate('/')
       }
     } catch (e) {
     }

@@ -21,6 +21,7 @@ export default function ChangePassword() {
     const [otpCode, setOtpCode] = useState("");
     const passwordIsCorrect = useRef();
     const [success, setSuccess] = useState(false);
+    const navigate = useNavigate()
 
     const useError = useErrorManager();
 
@@ -49,6 +50,8 @@ export default function ChangePassword() {
                     await api.post("/auth/forgot-password", {
                         email: mail
                     });
+                } else {
+                    navigate('/')
                 }
             }
             catch (error) { useError.addInputError(ERROR_INVALID_MAIL); }
@@ -106,6 +109,8 @@ export default function ChangePassword() {
                         new_password: newPassword,
                     });
                     closeBox();
+                } else {
+                    navigate('/')
                 }
             } catch (e) { useError.addInputError(ERROR_INVALID_OTP_CODE); }
         }

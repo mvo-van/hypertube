@@ -108,6 +108,8 @@ function Settings() {
       if (resAuthConnected) {
         await api.delete("/users/me");
         navigate(`/`);
+      } else {
+        navigate('/')
       }
     } catch (e) {
     }
@@ -119,8 +121,8 @@ function Settings() {
     if (useError.hasInputErrors())
       return;
     if (await alreadyUsedUsername(pseudo) == true && pseudo != oldPseudo) {
-        useError.addInputError(ERROR_NICKNAME);
-        return;
+      useError.addInputError(ERROR_NICKNAME);
+      return;
     }
     try {
       const resAuthConnected = await checkAuthConnected();
@@ -144,6 +146,8 @@ function Settings() {
         setNatifColor("green")
         setVisible(true);
         setTimeout(() => { setVisible(false); }, 5000);
+      } else {
+        navigate('/')
       }
     } catch (e) {
       setText("Une erreur est survenue")

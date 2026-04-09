@@ -13,6 +13,7 @@ import InputRange from "../../components/input/InputRange";
 import Button from "../../components/button/Button";
 import { isVisible } from "@testing-library/user-event/dist/utils";
 import { checkAuthConnected } from "../../common/checkAuth";
+import { useNavigate } from "react-router";
 
 function Feed() {
 	const [minYear, setMinYear] = useState(1900)
@@ -31,6 +32,7 @@ function Feed() {
 	const [resSearch, setResSearch] = useState([])
 	const [page, setPage] = useState(1)
 	const [pageToCharge, setPageToCharge] = useState(1)
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		if (!isSearchOff) {
@@ -138,6 +140,8 @@ function Feed() {
 			setPage(1)
 			setResSearch(res.data.resultSearch)
 			setPageToCharge(res.data.total_pages)
+		} else {
+			navigate('/')
 		}
 	};
 
@@ -152,6 +156,8 @@ function Feed() {
 				setPage(1)
 				setResSearch(res.data.resultSearch)
 				setPageToCharge(res.data.total_pages)
+			} else {
+				navigate('/')
 			}
 		} else {
 			setIsSearchOff(true)

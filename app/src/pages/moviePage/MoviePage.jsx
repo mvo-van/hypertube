@@ -2,7 +2,7 @@ import GenericPage from "../page/GenericPage";
 import { useEffect, useState } from "react";
 import Header from "../../components/header/Header";
 import style from "./MoviePage.module.css"
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comments from "../../components/comments/Comments";
 import MovieInfo from "../../components/movieInfo/MovieInfo";
 import { api } from "../../common/api";
@@ -19,6 +19,8 @@ function MoviePage() {
   const [clickStart, setClickStart] = useState(false)
   const [download, setDownload] = useState({})
   const [startTime, setStartTime] = useState(0);
+  const navigate = useNavigate()
+
   const sleep = ms => new Promise(r => setTimeout(r, ms));
 
   const getMovie = async () => {
@@ -68,6 +70,8 @@ function MoviePage() {
           }))
         }
       }
+    } else {
+      navigate('/')
     }
   }
 
@@ -81,6 +85,8 @@ function MoviePage() {
       setClickStart(true)
       api.post(`/media-file/watched/${movie.imdb_id}`)
         .catch(() => { });
+    } else {
+      navigate('/')
     }
   }
 
@@ -98,6 +104,8 @@ function MoviePage() {
             startValide = true
           }
         }
+      } else {
+        navigate('/')
       }
     } catch (e) { }
   }

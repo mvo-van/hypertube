@@ -2,7 +2,7 @@ import GenericPage from "../page/GenericPage";
 import { useEffect, useState } from "react";
 import Header from "../../components/header/Header";
 import style from "./EpisodePage.module.css"
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comments from "../../components/comments/Comments";
 import MovieInfo from "../../components/movieInfo/MovieInfo";
 import { api } from "../../common/api";
@@ -14,6 +14,7 @@ function EpisodePage() {
   const [message, setMessage] = useState("")
   const [episode, setEpisode] = useState({})
   const [info_get, setInfo_get] = useState(false)
+  const navigate = useNavigate()
 
   const [comments, setComments] = useState([]);
 
@@ -69,6 +70,8 @@ function EpisodePage() {
           }))
         }
       }
+    } else {
+      navigate('/')
     }
   }
 
