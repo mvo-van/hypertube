@@ -1,7 +1,14 @@
+import { WORD_LIST } from "../../common/messages";
 import styles from "./SignupPasswordCheck.module.css";
 import React, { useEffect } from "react";
 
-export default function SignupPasswordCheck ({ password, onChange = () => {}}) {
+export function checkPasswordStrong(value) {
+	const lowerPassword = value.toLowerCase();
+	const res = WORD_LIST.some(word => lowerPassword.includes(word));
+	return !res;
+}
+
+export default function SignupPasswordCheck({ password, onChange = () => { } }) {
 	if (!password)
 		return;
 	// const passwordRegexNumber = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{12,24}$/;

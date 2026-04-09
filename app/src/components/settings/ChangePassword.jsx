@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import style from "./ChangePassword.module.css";
 import Input from "../input/Input";
-import SignupPasswordCheck from "../SignupCheck/SignupPasswordCheck";
+import SignupPasswordCheck, { checkPasswordStrong } from "../SignupCheck/SignupPasswordCheck";
 import Form from "../form/Form";
 import { api } from "../../common/api";
 import useErrorManager from "../../hooks/useErrorManager";
@@ -10,6 +10,7 @@ import {
     ERROR_INVALID_PASSWORD,
     ERROR_INVALID_OTP_CODE,
     ERROR_UNKNOWN,
+    ERROR_WEAK_PASSWORD,
 } from "../../common/messages";
 import { checkAuthConnected } from "../../common/checkAuth";
 
@@ -59,7 +60,10 @@ export default function ChangePassword() {
 
     const onNewPasswordHandler = (value) => {
         setNewPassword(value);
-        if (value) useError.removeError(ERROR_INVALID_PASSWORD);
+        if (value) {
+            useError.removeError(ERROR_INVALID_PASSWORD);
+            useError.removeError(ERROR_WEAK_PASSWORD);
+        }
     };
 
     const onNewPasswordValidate = (value) => {
@@ -95,7 +99,12 @@ export default function ChangePassword() {
         e.preventDefault();
         if (useError.hasInputErrors())
             return;
+
         if (mail && otpCode && otpCode.length == 6 && passwordIsCorrect.current) {
+            if (checkPasswordStrong(newPassword) === false) {
+                useError.addInputError(ERROR_WEAK_PASSWORD);
+                return;
+            }
 
             try {
                 const resAuthConnected = await checkAuthConnected();
@@ -159,6 +168,11 @@ export default function ChangePassword() {
                 {useError.hasThisError(ERROR_INVALID_PASSWORD) && (
                     <div className={style["invalid-alert"]}>
                         {ERROR_INVALID_PASSWORD}
+                    </div>
+                )}
+                {useError.hasThisError(ERROR_WEAK_PASSWORD) && (
+                    <div className={style["invalid-alert"]}>
+                        {ERROR_WEAK_PASSWORD}
                     </div>
                 )}
             </Form>}
