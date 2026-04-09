@@ -78,7 +78,8 @@ function ProfileUser() {
         {(movies.length > 0) && <div className={style.watchlist}>
           <HorizontalScrollMovies movies={movies} label="watchlist" />
         </div>}
-        {movies.length === 0 && <div className={style.emptyMovies}>Vous n'avez pas encore regardé de film.</div>}
+        {movies.length === 0 && me && <div className={style.emptyMovies}>Vous n'avez pas encore regardé de film.</div>}
+        {movies.length === 0 && !me && <div className={style.emptyMovies}>{user.pseudo} n'a pas encore regardé de film.</div>}
         {(comments.length > 0) && <Comments
           comments={comments}
           color={user.id % 12}
