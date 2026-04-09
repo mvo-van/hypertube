@@ -8,13 +8,14 @@ import Input from "../../components/input/Input";
 import { useNavigate } from "react-router";
 import { api } from "../../common/api";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import SignupPasswordCheck from "../../components/SignupCheck/SignupPasswordCheck";
+import SignupPasswordCheck, { checkPasswordStrong } from "../../components/SignupCheck/SignupPasswordCheck";
 import useErrorManager from "../../hooks/useErrorManager";
 import {
     ERROR_INVALID_MAIL,
     ERROR_INVALID_PASSWORD,
     ERROR_INVALID_OTP_CODE,
     ERROR_UNKNOWN,
+    ERROR_WEAK_PASSWORD,
 } from "../../common/messages";
 
 function ResetPasswordLogin() {
@@ -58,7 +59,10 @@ function ResetPasswordLogin() {
 
     const onNewPasswordHandler = (value) => {
         setNewPassword(value);
-        if (value) useError.removeError(ERROR_INVALID_PASSWORD);
+        if (value) {
+            useError.removeError(ERROR_INVALID_PASSWORD);
+            useError.removeError(ERROR_WEAK_PASSWORD);
+        }
     };
 
     const onNewPasswordValidate = (value) => {
@@ -68,8 +72,9 @@ function ResetPasswordLogin() {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        if (!mail && useError.hasInputErrors())
+        if (!mail || useError.hasInputErrors()) {
             return;
+        }
         if (otpReceived == false) {
             try {
                 await api.post("/auth/forgot-password", {
@@ -82,6 +87,10 @@ function ResetPasswordLogin() {
             }
         }
         else if (otpCode && otpCode.length == 6 && passwordIsCorrect.current) {
+            if (checkPasswordStrong(newPassword) === false) {
+                useError.addInputError(ERROR_WEAK_PASSWORD);
+                return;
+            }
             try {
                 await api.post("/auth/reset-password", {
                     email: mail,
@@ -159,6 +168,11 @@ function ResetPasswordLogin() {
                     {useError.hasThisError(ERROR_INVALID_PASSWORD) && (
                         <div className={style["invalid-alert"]}>
                             {ERROR_INVALID_PASSWORD}
+                        </div>
+                    )}
+                    {useError.hasThisError(ERROR_WEAK_PASSWORD) && (
+                        <div className={style["invalid-alert"]}>
+                            {ERROR_WEAK_PASSWORD}
                         </div>
                     )}
                 </Form>

@@ -5,11 +5,12 @@ import BubbleBackground from "../../components/background/BubbleBackground";
 import { useRef, useState } from "react";
 import Form from "../../components/form/Form";
 import Input from "../../components/input/Input";
-import SignupPasswordCheck from "../../components/SignupCheck/SignupPasswordCheck";
+import SignupPasswordCheck, { checkPasswordStrong } from "../../components/SignupCheck/SignupPasswordCheck";
 import useErrorManager from "../../hooks/useErrorManager";
 import {
 	ERROR_ALREADY_USED_MAIL,
 	ERROR_NICKNAME,
+	ERROR_WEAK_PASSWORD,
 	ERROR_INVALID_CONF_PASSWORD,
 	ERROR_INVALID_FIRST_NAME,
 	ERROR_INVALID_LAST_NAME,
@@ -87,7 +88,10 @@ function Signup() {
 
 	const onPasswordHandler = (value) => {
 		setPassword(value);
-		if (value) useError.removeError(ERROR_INVALID_PASSWORD);
+		if (value) {
+			useError.removeError(ERROR_INVALID_PASSWORD);
+			useError.removeError(ERROR_WEAK_PASSWORD);
+		}
 	};
 
 	const onPasswordValidate = (value) => {
@@ -124,6 +128,17 @@ function Signup() {
 			useError.hasInputErrors()
 		)
 			return;
+
+		if (password != confPassword) {
+			onConfPasswordHandler(confPassword);
+			return;
+		}
+
+		if (checkPasswordStrong(password) === false) {
+			useError.addInputError(ERROR_WEAK_PASSWORD);
+			return;
+		}
+
 		if (await alreadyUsedMail(email) == true) {
 			useError.addInputError(ERROR_ALREADY_USED_MAIL);
 			return;
@@ -264,6 +279,11 @@ function Signup() {
 							{useError.hasThisError(ERROR_INVALID_PASSWORD) && (
 								<div className={style["invalid-alert"]}>
 									{ERROR_INVALID_PASSWORD}
+								</div>
+							)}
+							{useError.hasThisError(ERROR_WEAK_PASSWORD) && (
+								<div className={style["invalid-alert"]}>
+									{ERROR_WEAK_PASSWORD}
 								</div>
 							)}
 						</div>
