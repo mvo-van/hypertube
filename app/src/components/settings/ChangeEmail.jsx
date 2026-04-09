@@ -49,7 +49,7 @@ export default function ChangeEmail() {
         e.preventDefault();
         if (useError.hasInputErrors())
             return;
-        if (await alreadyUsedMail(mail) == true) {
+        if (await alreadyUsedMail(newMail) == true) {
             useError.addInputError(ERROR_ALREADY_USED_MAIL);
             return;
         }
