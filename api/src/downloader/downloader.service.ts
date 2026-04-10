@@ -91,6 +91,7 @@ export class DownloaderService {
     engine.on('idle', async () => {
       this.logger.log(`[${imdbID}]: download finished`);
       engine.destroy();
+      await this.mediaFileService.transcodeToMP4(imdbID);
       await this.mediaFileService.setMediaFileStatus(
         imdbID,
         MediaFileStatus.FINISHED,
@@ -115,7 +116,7 @@ export class DownloaderService {
     }
   }
 
-  async exists(imdbID: string) : Promise<boolean> {
+  async exists(imdbID: string): Promise<boolean> {
     const apiKey = this.apiKey;
 
     try {
@@ -126,7 +127,7 @@ export class DownloaderService {
           imdbid: imdbID,
         },
       });
-      
+
       const items = new TorznabParser(response.data).getItems();
       return items.length != 0;
     } catch (e) {

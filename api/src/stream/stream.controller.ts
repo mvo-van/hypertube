@@ -1,6 +1,5 @@
-import { Controller, Get, Logger, Param, Query, Req, Res } from '@nestjs/common';
+import { Controller, Get, Logger, Param, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { join } from 'node:path';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { ConfigService } from '@nestjs/config';
 import OS from 'opensubtitles.com';
@@ -14,7 +13,6 @@ import { UserParam } from 'src/auth/decorators/user-param.decorator';
 import { Lang } from 'src/lang/lang';
 import axios from 'axios';
 import fs from "node:fs";
-import srt2vtt from "srt2vtt";
 
 @Controller('stream')
 export class StreamController {
@@ -30,8 +28,8 @@ export class StreamController {
   @Get('/imdb/:imdbID')
   @Public()
   async streamFromImdb(@Req() req: Request, @Res() res: Response, @Param('imdbID') imdbID: string) {
-    this.logger.log(`[${imdbID}]: retrieving filepath`);
     let filepath = await this.mediaFileService.getMediaFilePath(imdbID);
+    this.logger.log(`[${imdbID}]: retrieving filepath [${filepath}]`);
 
     while (!filepath) {
       filepath = await this.mediaFileService.getMediaFilePath(imdbID);
@@ -72,12 +70,12 @@ export class StreamController {
           '-preset veryfast',
         ])
         .on('error', (err) => {
-          console.error('FFmpeg error:', err);
+          this.logger.error('FFmpeg error: ', err);
           if (!res.headersSent) {
             res.sendStatus(500);
           }
         })
-        .pipe(res, { end: true });
+        .stream(res);
     }
   }
 

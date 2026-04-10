@@ -6,7 +6,9 @@ import { Lang } from 'src/lang/lang';
 import { SubtitleFile } from './entities/subtitle-file.entity';
 import { MediaFileStatus } from './enum/media-file-status.enum';
 import { CreateMediaFileDto } from './dto/create-media-file.dto';
-import fs from "node:fs";
+import fs, { createReadStream } from "node:fs";
+import { changeExtension } from 'src/utils/utils.service';
+import ffmpeg from "fluent-ffmpeg";
 
 @Injectable()
 export class MediaFileService {
@@ -105,7 +107,7 @@ export class MediaFileService {
         this.logger.log(`[${imdbID}]: media file deleted`);
     }
 
-    async getOutdated(end: Date) : Promise<MediaFile[]> {
+    async getOutdated(end: Date): Promise<MediaFile[]> {
         const outdated = await this.mediaFileRepository.find({
             where: {
                 lastWatchedAt: MoreThanOrEqual(end)
@@ -118,9 +120,51 @@ export class MediaFileService {
         return outdated;
     }
 
+    async updatePath(imdbID: string, newPath: string) {
+        const mediaFile = await this.mediaFileRepository.findOneBy({ imdbID: imdbID });
+
+        if (mediaFile) {
+            mediaFile.path = newPath;
+            await this.mediaFileRepository.update(imdbID, mediaFile);
+        }
+    }
+
     async cleanOudated(end: Date) {
         const outdated = await this.getOutdated(end);
 
         outdated.forEach((mediaFile: MediaFile) => this.delete(mediaFile.imdbID));
+    }
+
+    async transcodeToMP4(imdbID: string) {
+        const filepath = await this.getMediaFilePath(imdbID);
+        if (filepath == null) {
+            return null;
+        }
+        const newfilepath: string = changeExtension(filepath, "mp4", "transcoded");
+
+        this.logger.log(`[${imdbID}]: beginning transcoding: ${newfilepath}`);
+        ffmpeg(filepath)
+            .format('mp4')
+            .outputOptions([
+                '-c:v copy',
+                '-c:a aac',
+                '-movflags +faststart',
+            ])
+            .on('progress', (progress) => {
+                if (progress.percent) {
+                    const percent = Math.round(progress.percent);
+                    if (percent % 10 == 0) {
+                        this.logger.log(`[${imdbID}]: transcoding progress ${progress.percent}% done`)
+                    }
+                }
+            })
+            .on('error', (err) => { 
+                this.logger.error('FFmpeg error: ', err) 
+            })
+            .on('end', () => { 
+                this.logger.log(`[${newfilepath}]: transcoding finished`)
+                this.updatePath(imdbID, newfilepath);
+            })
+            .save(newfilepath);
     }
 }
