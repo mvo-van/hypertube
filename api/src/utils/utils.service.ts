@@ -49,13 +49,12 @@ export class UtilsService {
   }
 }
 
-export function changeExtension(filepath: string, newExtension: string) : string {
+export function changeExtension(filepath: string, newExtension: string, suffix: string = "") : string {
   const dirname = path.dirname(filepath);
   const filename = path.basename(filepath, path.extname(filepath));
-
   if (newExtension.startsWith('.')) {
     newExtension = newExtension.slice(1);
   }
 
-  return path.join(dirname, `${filename}.${newExtension}`);
+  return path.join(dirname, `${filename}-${suffix}.${newExtension}`);
 }

@@ -1,6 +1,5 @@
-import { Controller, Get, Logger, Param, Query, Req, Res } from '@nestjs/common';
+import { Controller, Get, Logger, Param, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { join } from 'node:path';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { ConfigService } from '@nestjs/config';
 import OS from 'opensubtitles.com';
@@ -14,8 +13,6 @@ import { UserParam } from 'src/auth/decorators/user-param.decorator';
 import { Lang } from 'src/lang/lang';
 import axios from 'axios';
 import fs from "node:fs";
-import srt2vtt from "srt2vtt";
-import { changeExtension } from 'src/utils/utils.service';
 
 @Controller('stream')
 export class StreamController {
@@ -34,12 +31,11 @@ export class StreamController {
     this.logger.log(`[${imdbID}]: retrieving filepath`);
     let filepath = await this.mediaFileService.getMediaFilePath(imdbID);
 
+    console.log(filepath);
     while (!filepath) {
       filepath = await this.mediaFileService.getMediaFilePath(imdbID);
       sleep(500);
     }
-
-    console.log(changeExtension(filepath, 'mp4'));
 
     const isComplete = await this.mediaFileService.isDownloadFinished(imdbID);
     if (isComplete) {
@@ -48,7 +44,6 @@ export class StreamController {
       res.setHeader('Content-Type', 'video/mp4');
 
       const fileStream = createReadStream(filepath);
-
 
       ffmpeg(fileStream)
         .format('mp4')
@@ -64,7 +59,7 @@ export class StreamController {
             res.sendStatus(500);
           }
         })
-        .pipe(res, { end: true });
+        .stream(res);
     }
   }
 
