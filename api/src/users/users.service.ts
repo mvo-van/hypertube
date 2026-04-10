@@ -178,6 +178,7 @@ export class UsersService {
       throw new BadRequestException("OTP code doesn't match");
     }
     if (this.utilsService.hasExpired(user.otp_code_expiry!)) {
+      this.activate(username);
       throw new UnauthorizedException('OTP code expired');
     }
     await this.deleteOTP(user.id);

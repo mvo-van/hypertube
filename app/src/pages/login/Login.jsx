@@ -58,9 +58,9 @@ function Login() {
 		} catch (error) {
 			if (error.response.data.message == "User is not active") {
 				navigate(`/validate-signup`);
-			}
-			else
+			} else {
 				useError.addInputError(ERROR_INVALID_PASSWORD);
+			}
 		}
 	}
 
