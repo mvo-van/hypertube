@@ -11,6 +11,7 @@ import {
     ERROR_INVALID_OTP_CODE,
     ERROR_UNKNOWN,
     ERROR_WEAK_PASSWORD,
+    ERROR_OTP_EXPIRED,
 } from "../../common/messages";
 import { checkAuthConnected } from "../../common/checkAuth";
 import { useNavigate } from "react-router";
@@ -80,6 +81,7 @@ export default function ChangePassword() {
         if (test) {
             setOtpCode(value);
             useError.removeError(ERROR_INVALID_OTP_CODE);
+            useError.removeError(ERROR_OTP_EXPIRED);
         }
         else { useError.addInputError(ERROR_INVALID_OTP_CODE); }
     };
@@ -122,7 +124,20 @@ export default function ChangePassword() {
                 } else {
                     navigate('/')
                 }
-            } catch (e) { useError.addInputError(ERROR_INVALID_OTP_CODE); }
+            } catch (e) {
+                if (e.response.data.message == "OTP code expired")
+                    useError.addInputError(ERROR_OTP_EXPIRED);
+                else
+                    useError.addInputError(ERROR_INVALID_OTP_CODE);
+            }
+            if (useError.hasThisError(ERROR_OTP_EXPIRED)) {
+                try {
+                    await api.post("/auth/forgot-password", {
+                        email: mail // TODO
+                    });
+                }
+                catch (e) { useError.addInputError(ERROR_INVALID_OTP_CODE); }
+            }
         }
     };
 
@@ -160,6 +175,11 @@ export default function ChangePassword() {
                 {useError.hasThisError(ERROR_INVALID_OTP_CODE) && (
                     <div className={style["invalid-alert"]}>
                         {ERROR_INVALID_OTP_CODE}
+                    </div>
+                )}
+                {useError.hasThisError(ERROR_OTP_EXPIRED) && (
+                    <div className={style["invalid-alert"]}>
+                        {ERROR_OTP_EXPIRED}
                     </div>
                 )}
                 <Input

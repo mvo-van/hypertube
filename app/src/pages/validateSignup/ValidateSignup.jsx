@@ -72,7 +72,7 @@ function ValidateSignup() {
 		}
 		if (useError.hasThisError(ERROR_OTP_EXPIRED)) {
 			try {
-				await api.post("/users/activate", { // TODO non fonctionnel
+				await api.post("/users/activate", {
 					username: pseudo,
 				});
 			}
