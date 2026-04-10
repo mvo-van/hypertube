@@ -120,6 +120,15 @@ export class MediaFileService {
         return outdated;
     }
 
+    async updatePath(imdbID: string, newPath: string) {
+        const mediaFile = await this.mediaFileRepository.findOneBy({ imdbID: imdbID });
+
+        if (mediaFile) {
+            mediaFile.path = newPath;
+            await this.mediaFileRepository.update(imdbID, mediaFile);
+        }
+    }
+
     async cleanOudated(end: Date) {
         const outdated = await this.getOutdated(end);
 
@@ -128,7 +137,6 @@ export class MediaFileService {
 
     async transcodeToMP4(imdbID: string) {
         const filepath = await this.getMediaFilePath(imdbID);
-        console.log('Filepath: ', filepath);
         if (filepath == null) {
             return null;
         }
@@ -142,8 +150,21 @@ export class MediaFileService {
                 '-c:a aac',
                 '-movflags +faststart',
             ])
-            .on('error', (err) => { this.logger.error('FFmpeg error: ', err) })
-            .on('end', () => { this.logger.log(`[${newfilepath}]: transcoding finished`) })
+            .on('progress', (progress) => {
+                if (progress.percent) {
+                    const percent = Math.round(progress.percent);
+                    if (percent % 10 == 0) {
+                        this.logger.log(`[${imdbID}]: transcoding progress ${progress.percent}% done`)
+                    }
+                }
+            })
+            .on('error', (err) => { 
+                this.logger.error('FFmpeg error: ', err) 
+            })
+            .on('end', () => { 
+                this.logger.log(`[${newfilepath}]: transcoding finished`)
+                this.updatePath(imdbID, newfilepath);
+            })
             .save(newfilepath);
     }
 }

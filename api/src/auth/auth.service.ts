@@ -77,6 +77,13 @@ export class AuthService {
         status: 404,
       });
     }
+    if (this.utilsService.hasExpired(user.otp_code_expiry!)) {
+      throw new BadRequestException({
+        error: 'OTP has expired',
+        message: 'OTP has expired',
+        status: 400,
+      })
+    }
     await this.usersService.update(user.id, {
       password: await this.utilsService.cipherPassword(newPassword),
     });

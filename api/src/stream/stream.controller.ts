@@ -28,10 +28,9 @@ export class StreamController {
   @Get('/imdb/:imdbID')
   @Public()
   async streamFromImdb(@Req() req: Request, @Res() res: Response, @Param('imdbID') imdbID: string) {
-    this.logger.log(`[${imdbID}]: retrieving filepath`);
     let filepath = await this.mediaFileService.getMediaFilePath(imdbID);
+    this.logger.log(`[${imdbID}]: retrieving filepath [${filepath}]`);
 
-    console.log(filepath);
     while (!filepath) {
       filepath = await this.mediaFileService.getMediaFilePath(imdbID);
       sleep(500);
