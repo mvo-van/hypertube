@@ -114,7 +114,6 @@ function Settings() {
       }
     } catch (e) {
     }
-    //TODO
   }
 
   const onClickSaveProfil = async (e) => {

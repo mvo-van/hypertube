@@ -70,14 +70,6 @@ function ValidateSignup() {
 			else
 				useError.addInputError(ERROR_INVALID_OTP_CODE);
 		}
-		if (useError.hasThisError(ERROR_OTP_EXPIRED)) {
-			try {
-				await api.post("/users/activate", {
-					username: pseudo,
-				});
-			}
-			catch (e) { useError.addInputError(ERROR_INVALID_NICK); }
-		}
 	};
 
 	return (

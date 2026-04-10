@@ -45,6 +45,7 @@ export default function ChangeEmail() {
         setIsOpen(false);
         setSuccess(true);
         setNewMail("");
+        window.location.reload();
     }
 
     const onSubmitHandler = async (e) => {

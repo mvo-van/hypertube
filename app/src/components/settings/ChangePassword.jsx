@@ -125,18 +125,18 @@ export default function ChangePassword() {
                     navigate('/')
                 }
             } catch (e) {
-                if (e.response.data.message == "OTP code expired")
+                if (e.response.data.message == "OTP has expired") {
                     useError.addInputError(ERROR_OTP_EXPIRED);
+
+                    try {
+                        await api.post("/auth/forgot-password", {
+                            email: mail
+                        });
+                    }
+                    catch (e) { useError.addInputError(ERROR_INVALID_OTP_CODE); }
+                }
                 else
                     useError.addInputError(ERROR_INVALID_OTP_CODE);
-            }
-            if (useError.hasThisError(ERROR_OTP_EXPIRED)) {
-                try {
-                    await api.post("/auth/forgot-password", {
-                        email: mail // TODO
-                    });
-                }
-                catch (e) { useError.addInputError(ERROR_INVALID_OTP_CODE); }
             }
         }
     };
