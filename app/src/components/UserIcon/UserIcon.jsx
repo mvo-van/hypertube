@@ -1,9 +1,9 @@
 import style from "./UserIcon.module.css";
-import imageSee from "../../assets/images/see.png"
 import { useNavigate } from "react-router";
+import userImage from "../../assets/images/userImage.png"
 
 
-function UserIcon({ user, color=0 }) {
+function UserIcon({ user, color = 0 }) {
   const navigate = useNavigate()
 
   const onClickHandlerUser = () => {
@@ -12,9 +12,9 @@ function UserIcon({ user, color=0 }) {
 
   return (
     <div className={`${style.userIcon}`} onClick={onClickHandlerUser}>
-        {user.urlImg && <img className={style.imgUser} src={user.urlImg}/>}
-        {!user.urlImg && <img className={style.imgUser} src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"/>}
-        <p className={style.userName}>{user.name}</p>
+      {user.urlImg && <img className={style.imgUser} src={user.urlImg} />}
+      {!user.urlImg && <img className={style.imgUser} src={userImage} />}
+      <p className={style.userName}>{user.name}</p>
     </div>
   );
 }

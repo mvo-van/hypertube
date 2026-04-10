@@ -12,6 +12,7 @@ import useErrorManager from "../../hooks/useErrorManager";
 import { ERROR_INVALID_FIRST_NAME, ERROR_INVALID_LAST_NAME, ERROR_INVALID_NICK, ERROR_NICKNAME } from "../../common/messages";
 import { alreadyUsedUsername } from "../../components/SignupCheck/SignupUserCheck";
 import { useNavigate } from "react-router";
+import userImage from "../../assets/images/userImage.png"
 
 function Settings() {
   const [strategy, setStrategy] = useState("");
@@ -185,7 +186,7 @@ function Settings() {
                   <label htmlFor="photo" className={style.boxPhoto}>
                     <BorderColorIcon className={style.icone} />
                     {photo && <img className={style.photo} src={photo} />}
-                    {(!photo) && <img className={style.photo} src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png" />}
+                    {(!photo) && <img className={style.photo} src={userImage} />}
                   </label>
                   <input className={style.displayFalse} type="file" id="photo" onChange={onImageHandler} accept="image/png, image/jpeg" />
                 </div>

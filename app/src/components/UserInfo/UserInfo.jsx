@@ -2,6 +2,7 @@ import style from "./UserInfo.module.css";
 import imageSee from "../../assets/images/see.png"
 import { useNavigate } from "react-router";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import userImage from "../../assets/images/userImage.png";
 
 function UserInfo({ user = {}, me = false }) {
   const navigate = useNavigate()
@@ -13,7 +14,7 @@ function UserInfo({ user = {}, me = false }) {
   return (
     <div className={`${style.userInfo} ${style[`userIcon__color_${user.id % 12}`]}`}>
       <div className={style.divAllInfo}>
-        <img className={style.imgUser} src={user.urlImg} />
+        <img className={style.imgUser} src={user.urlImg ? user.urlImg : userImage} />
         <div className={style.infosDiv}>
           <div className={style.pseudo}>{user.pseudo} {me && <BorderColorIcon onClick={onClickHandlerModify} className={style.modify} />}</div>
           <div className={style.subDivInfo}>

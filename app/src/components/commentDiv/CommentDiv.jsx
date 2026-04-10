@@ -1,6 +1,7 @@
 import style from "./CommentDiv.module.css";
 import imageSee from "../../assets/images/see.png"
 import { useNavigate } from "react-router";
+import userImage from "../../assets/images/userImage.png";
 
 
 function CommentDiv({ comment, movieIcon = true, color = 0 }) {
@@ -20,7 +21,7 @@ function CommentDiv({ comment, movieIcon = true, color = 0 }) {
     <div className={`${style.divComment}`} >
       <div className={`${style[`movieIcon_${movieIcon}`]} `}>
         {movieIcon && <img onClick={onClickHandlerIconMovie} className={style.imgMovie} src={comment.urlImg} />}
-        {!movieIcon && <img onClick={onClickHandlerIconUser} className={style.imgUser} src={comment.imgUser} />}
+        {!movieIcon && <img onClick={onClickHandlerIconUser} className={style.imgUser} src={comment.imgUser ? comment.imgUser : userImage} />}
       </div>
 
       <div className={`${style.divMessage}`}>
