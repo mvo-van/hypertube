@@ -13,6 +13,7 @@ import {
     ERROR_WEAK_PASSWORD,
 } from "../../common/messages";
 import { checkAuthConnected } from "../../common/checkAuth";
+import { useNavigate } from "react-router";
 
 export default function ChangePassword() {
     const [mail, setMail] = useState("");
@@ -22,7 +23,7 @@ export default function ChangePassword() {
     const [otpCode, setOtpCode] = useState("");
     const passwordIsCorrect = useRef();
     const [success, setSuccess] = useState(false);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const useError = useErrorManager();
 
