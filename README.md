@@ -3,8 +3,8 @@
 Hypertube is a web project originated from the 42 School, the goal is to be able
 to watch any movie available on differents torrent sources.
 
-When selecting a movie, if the torrent download has sufficient data to send to the front-end,
-it'll be automatically transcoded in a compatible format and streamed to the end user.
+When selecting a movie, while the torrent is downloading, if it has enough data to stream to the front-end,
+it'll be automatically transcoded with ffmpeg in a compatible format and streamed to the end user.
 
 ## Authentification
 
@@ -58,7 +58,7 @@ efficient in terms of download time.
 We score each torrent with the number of **seeders** and the torrent **quality**.
 
 
-## Credits
+## Credits ™️
 
 This project has been made by :
 - [tbellavia](https://github.com/tbellavia) (**back**) :
@@ -78,3 +78,8 @@ This project has been made by :
   - profile
   - settings
   - error management
+
+
+## Resources
+
+- [Everything to learn about video compression formats](https://github.com/leandromoreira/digital_video_introduction)
