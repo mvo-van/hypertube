@@ -24,8 +24,10 @@ We provide six differents OAuth strategies :
 
 ## Catalog
 
-The catalog provide an incredible amount of contents from diverse sources like OMDB and TMDD.\
-With that information, we then 
+The catalog provide an incredible amount of contents from diverse sources like OMDB and TMDB.\
+With that information, we then build a catalog of movies.
+
+All of the movies listed by OMDB will then be checked against jackett so we can display only available contents.
 
 
 ## Tech Stack
