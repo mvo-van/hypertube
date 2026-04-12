@@ -1,4 +1,4 @@
-# hypertube
+# hypertube 🎬
 
 Hypertube is a web project originated from the 42 School, the goal is to be able
 to watch any movie available on differents torrent sources.
